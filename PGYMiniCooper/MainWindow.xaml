@@ -1,0 +1,1132 @@
+﻿<Window x:Class="PGYMiniCooper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:avalonDock="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:local="clr-namespace:PGYMiniCooper"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        xmlns:vm="clr-namespace:PGYMiniCooper.CoreModule.ViewModel;assembly=PGYMiniCooper.CoreModule"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:view="clr-namespace:PGYMiniCooper.CoreModule.View;assembly=PGYMiniCooper.CoreModule" d:DataContext="{d:DesignInstance Type=vm:AnalyzerViewModel}"
+        mc:Ignorable="d" WindowState="Maximized" x:Name="main"
+        Title="{Binding HeaderVM.Title}"  Height="350" Width="525"
+       
+        >
+    <Window.Resources>
+        <Storyboard x:Key="FadeStoryboard">
+            <DoubleAnimation Storyboard.TargetProperty="(TextBlock.Opacity)" 
+                                From="0" To="1" Duration="0:0:0.5" Storyboard.TargetName="TitleTextBlock"
+                                RepeatBehavior="Forever" AutoReverse="True"/>
+        </Storyboard>
+        <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+                <Border
+                  x:Name="Border" 
+                  Grid.ColumnSpan="2"
+                  CornerRadius="2"
+                  Background="#03a9f4"
+                  BorderBrush="#03a9f4"
+                  BorderThickness="1" />
+                <Border 
+                  Grid.Column="0"
+                  CornerRadius="2" 
+                  Margin="1" 
+                  Background="#03a9f4" 
+                  BorderBrush="#03a9f4"
+                  BorderThickness="0,0,1,0" />
+                <Path 
+                  x:Name="Arrow"
+                  Grid.Column="1"     
+                  Fill="White"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  Data="M0,0 L0,2 L4,6 L8,2 L8,0 L4,4 z"
+                />
+            </Grid>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="ComboBoxTextBox" TargetType="{x:Type TextBox}">
+            <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
+        </ControlTemplate>
+
+        <Style x:Key="{x:Type ComboBox}" TargetType="{x:Type ComboBox}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+            <Setter Property="MinWidth" Value="50"/>
+            <Setter Property="MinHeight" Value="20"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBox}">
+                        <Grid>
+                            <ToggleButton 
+                            Name="ToggleButton" 
+                            Template="{StaticResource ComboBoxToggleButton}" 
+                            Grid.Column="2" 
+                            Focusable="false"
+                            IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                            ClickMode="Press">
+                            </ToggleButton>
+                            <ContentPresenter Name="ContentSite" IsHitTestVisible="False"  Content="{TemplateBinding SelectionBoxItem}"
+                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                            ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                            Margin="3,3,23,3"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center" />
+                            <TextBox x:Name="PART_EditableTextBox"
+                            Style="{x:Null}" 
+                            Template="{StaticResource ComboBoxTextBox}" 
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Center" 
+                            Margin="3,3,23,3"
+                            Focusable="True" 
+                            Background="#03a9f4"
+                            Foreground="Green"
+                            Visibility="Hidden"
+                            IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            <Popup 
+                            Name="Popup"
+                            Placement="Bottom"
+                            IsOpen="{TemplateBinding IsDropDownOpen}"
+                            AllowsTransparency="True" 
+                            Focusable="False"
+                            PopupAnimation="Slide">
+
+                                <Grid Name="DropDown"
+                              SnapsToDevicePixels="True"                
+                              MinWidth="{TemplateBinding ActualWidth}"
+                              MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border 
+                                x:Name="DropDownBorder"
+                                Background="#03a9f4"
+
+                                BorderThickness="1"
+                                BorderBrush="#888888"/>
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="HasItems" Value="false">
+                                <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#888888"/>
+                            </Trigger>
+                            <Trigger Property="IsGrouping" Value="true">
+                                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                            </Trigger>
+                            <Trigger SourceName="Popup" Property="Popup.AllowsTransparency" Value="true">
+                                <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="0"/>
+                                <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0"/>
+                            </Trigger>
+                            <Trigger Property="IsEditable"  Value="true">
+                                <Setter Property="IsTabStop" Value="false"/>
+                                <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="ContentSite" Property="Visibility" Value="Hidden"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+            </Style.Triggers>
+        </Style>
+
+        <!-- SimpleStyles: ComboBoxItem -->
+        <Style x:Key="{x:Type ComboBoxItem}" TargetType="{x:Type ComboBoxItem}">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ComboBoxItem}">
+                        <Border Name="Border"
+                              Padding="2"
+                              SnapsToDevicePixels="true">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsHighlighted" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="#0277bd"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="#888888"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="MenuItem">
+            <Setter Property="Background" Value="#29b6f6"/>
+        </Style>
+
+        <Style x:Key="IconMouseOver" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#03a9f4"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#2196f3"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="IconMouseOverToggle" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Background" Value="#03a9f4"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <!--<Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#2196f3"/>
+                </Trigger>-->
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect BlurRadius="3" ShadowDepth="2"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="False">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect BlurRadius="0" ShadowDepth="0"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="Foreground" Value="#29b6f6" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="BorderThickness" Value="0"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="4" Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#ff8f00" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="OrangeRed" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ButtonStyle1" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#03a9f4" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="BorderThickness" Value="0"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="4" Background="{TemplateBinding Background}">
+                            <Grid>
+                                <ContentPresenter x:Name="MyContentPresenter" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" />
+                            </Grid>
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#1e88e5" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="#039be5" />
+                                <Setter Property="Foreground" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <materialDesign:DialogHost Identifier="RootDialog">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition  Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Menu Grid.Row="0" Grid.ColumnSpan="2" Background="#03a9f4" Foreground="White" Style="{StaticResource StandardMenu}">
+                <MenuItem>
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Vertical">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">File</TextBlock>
+                                <Button Style="{StaticResource IconMouseOver}" Command="{Binding HeaderVM.LoadCommand}" ToolTip="Open" Margin="5,2,5,2" Height="20" Width="20" Grid.Row="1" BorderThickness="0">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Copy.png"></Image>
+                                </Button>
+                                <!--<Button Style="{StaticResource IconMouseOver}" ToolTip="Print" Margin="5,2,5,2" Height="20" Width="20" Grid.Row="1" Grid.Column="1" BorderThickness="0">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Print.png"></Image>
+                                </Button>-->
+                                <GridSplitter Width="1" Height="17" VerticalAlignment="Center" HorizontalAlignment="Right" Background="White" Foreground="White" Grid.Row="1" Grid.Column="2"/>
+                            </Grid>
+                        </StackPanel>
+                    </MenuItem.Header>
+                    <!--<MenuItem Header="New"/>
+                    <MenuItem Header="Save Default Configuration" Command="{Binding HeaderVM.SaveCommand}"/>
+                    <MenuItem Header="Load Default Configuration" Command="{Binding HeaderVM.LoadDefaultCommand}"/>
+                    <MenuItem Header="Save Capture" Command="{Binding HeaderVM.SaveCapture}" IsEnabled="{Binding HeaderVM.IsSaveCaptureEnable}"/>
+                    <MenuItem Header="Save As" Command="{Binding HeaderVM.SaveAsCapture}" IsEnabled="{Binding HeaderVM.IsSaveAsCaptureEnable}"/>
+                    <MenuItem Header="Save Configuration" Command="{Binding HeaderVM.SaveAsCommand}"/>
+                    <MenuItem Header="Load Configuration" Command="{Binding HeaderVM.LoadCommand}"/>-->
+                    <!--<MenuItem Header="New" Command="{Binding HeaderVM.LoadDefaultCommand}"/>-->
+                    <MenuItem Header="Open" >
+                        <MenuItem Header="Setup (Default)" Command="{Binding HeaderVM.LoadDefaultCommand}" />
+                        <MenuItem Header="Setup" Command="{Binding HeaderVM.LoadCommand}" />
+                        <MenuItem Header="Offline Trace" Command="{Binding HeaderVM.LoadOfflineCommand}" />
+                    </MenuItem>
+                    <MenuItem Header="Save">
+                        <MenuItem Header="Setup (Default)" Command="{Binding HeaderVM.SaveCommand}" IsEnabled="{Binding HeaderVM.IsSaveSetupEnable}"/>
+                        <MenuItem Header="Trace Setup" Command="{Binding HeaderVM.SaveCapture}" IsEnabled="{Binding HeaderVM.IsSaveCaptureEnable}"/>
+                    </MenuItem>
+                    <MenuItem Header="Save As">
+                        <MenuItem Header="Setup" Command="{Binding HeaderVM.SaveAsCommand}" IsEnabled="{Binding HeaderVM.IsSaveAsSetupEnable}"/>
+                        <MenuItem Header="Trace Setup (Updates folder for live capture)" Command="{Binding HeaderVM.SaveAsCapture}" IsEnabled="{Binding HeaderVM.IsSaveAsCaptureEnable}"/>
+                    </MenuItem>
+                    <!--<MenuItem Header="Load " Command="{Binding HeaderVM.LoadCommand}"/>-->
+                    <!--<MenuItem Header="Print"/>-->
+                    <!--<MenuItem Header="Export"/>-->
+                    <MenuItem Header="Exit" Command="{Binding HeaderVM.CloseAppCommand}"/>
+                </MenuItem>
+                <MenuItem Name="Config_Menu_Item">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Vertical">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Configuration</TextBlock>
+                                <Button Style="{StaticResource IconMouseOver}" ToolTip="Setup View" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="Setup View" Margin="5,2,5,2" Grid.Row="1" Height="20" Width="20" HorizontalAlignment="Center" BorderThickness="0">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Settings.png"></Image>
+                                </Button>
+                                <GridSplitter Width="1" Height="17" VerticalAlignment="Center" HorizontalAlignment="Right" Background="White" Foreground="White" Grid.Row="1" Grid.Column="1"/>
+                            </Grid>
+                        </StackPanel>
+                    </MenuItem.Header>
+                    <MenuItem Header="Connect to Host" Command="{Binding HeaderVM.TestConnectionCommand}"/>
+                    <MenuItem Header="Setup" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="Setup View"/>
+                    <MenuItem Header="Acquire" Command="{Binding HeaderVM.StartCaptureCommand}" />
+                    <MenuItem Header="Stop" Command="{Binding HeaderVM.StopCaptureCommand}" />
+                    <!--<MenuItem Header="Filter">
+                        <StackPanel Width="Auto">
+                            <CheckBox Content="I2C" Foreground="White" HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Margin="5"/>
+                            <CheckBox Content="SPI" Foreground="White" HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Margin="5"/>
+                            <CheckBox Content="UART" Foreground="White" HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Margin="5"/>
+                            <CheckBox Content="Errors" Foreground="White" HorizontalAlignment="Left" HorizontalContentAlignment="Left" VerticalContentAlignment="Bottom" Margin="5"/>
+                        </StackPanel>
+                    </MenuItem>-->
+                    <!--<MenuItem Header="Channel Color" />-->
+                </MenuItem>
+                <MenuItem>
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Vertical">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">Trigger</TextBlock>
+                                <Button Style="{StaticResource IconMouseOver}" ToolTip="Trigger View" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="Trigger View" Margin="5,2,5,2" Grid.Row="1" Height="20" Width="20" BorderThickness="0">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Trigger1.png"></Image>
+                                </Button>
+                                <GridSplitter Width="1" Height="17" VerticalAlignment="Center" HorizontalAlignment="Right" Background="White" Foreground="White" Grid.Row="1" Grid.Column="1"/>
+                            </Grid>
+                        </StackPanel>
+                    </MenuItem.Header>
+                    <MenuItem Header="Auto" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="Trigger View" IsCheckable="True" IsChecked="{Binding Path = ConfigVM.Trigger.TriggerType, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='Auto', Mode=TwoWay}"/>
+                    <MenuItem Header="Pattern" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="Trigger View" IsCheckable="True" IsChecked="{Binding Path =ConfigVM.Trigger.TriggerType, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='Pattern', Mode=TwoWay}"/>
+                    <MenuItem Header="Protocol Aware" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="Trigger View" IsCheckable="True" IsChecked="{Binding Path = ConfigVM.Trigger.TriggerType, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='Protocol', Mode=TwoWay}">
+                        <MenuItem.Style>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="IsEnabled" Value="True"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ConfigVM.ConfigurationMode}" Value="LA_Mode">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </MenuItem.Style>
+                    </MenuItem>
+                    <MenuItem Header="Timing" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="Trigger View" IsCheckable="True" IsChecked="{Binding Path= ConfigVM.Trigger.TriggerModel.TimingMenuSelected}"/>
+                    <!--<MenuItem Header="Advanced"/>-->
+                </MenuItem>
+                <MenuItem>
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Vertical">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">View</TextBlock>
+                                <Button ToolTip="P-View"  Command="{Binding HeaderVM.WindowSelection}" CommandParameter="P-View" Margin="5,2,5,2" Height="20" Width="20" Grid.Row="1" BorderThickness="0">
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource IconMouseOver}">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ConfigVM.ConfigurationMode}" Value="LA_Mode">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Group 518.png"></Image>
+                                </Button>
+                                <Button ToolTip="T-View" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="T-View" Margin="5,2,5,2" Height="20" Width="20" Grid.Row="1" Grid.Column="1" BorderThickness="0">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Clock.png"></Image>
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource IconMouseOver}">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ConfigVM.ConfigurationMode}" Value="PA_Mode">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                                <!--<DataTrigger Binding="{Binding ConfigVM.Config.ConfigurationMode}" Value="Both">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>-->
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                                <Button Style="{StaticResource IconMouseOver}" ToolTip="L-View" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="L-View" Margin="5,2,5,2" Height="20" Width="20" Grid.Row="1" Grid.Column="2" BorderThickness="0">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Group 520.png"></Image>
+                                </Button>
+                                <GridSplitter Width="1" Height="17" VerticalAlignment="Center" HorizontalAlignment="Right" Background="White" Foreground="White" Grid.Row="1" Grid.Column="3"/>
+                            </Grid>
+                        </StackPanel>
+                    </MenuItem.Header>
+                    <MenuItem Header="Protocol View" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="P-View">
+                        <MenuItem.Style>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="IsEnabled" Value="True"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ConfigVM.ConfigurationMode}" Value="LA_Mode">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </MenuItem.Style>
+                    </MenuItem>
+                    <MenuItem Header="Timing View" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="T-View" >
+                        <MenuItem.Style>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="IsEnabled" Value="True"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ConfigVM.ConfigurationMode}" Value="PA_Mode">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                    <!--<DataTrigger Binding="{Binding ConfigVM.Config.ConfigurationMode}" Value="Both">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>-->
+                                </Style.Triggers>
+                            </Style>
+                        </MenuItem.Style>
+                    </MenuItem>
+                    <MenuItem Header="Logic View" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="L-View"/>
+
+                    <!--<MenuItem Header="Multi View" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="Multi-View"/>-->
+                    <!--<MenuItem Header="Sys-View" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="Sys-View"/>-->
+                </MenuItem>
+                <MenuItem>
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Vertical">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">Analytics</TextBlock>
+                                <Button Command="{Binding HeaderVM.WindowSelection}" CommandParameter="Analytics View" ToolTip="Analytics" Margin="5,2,5,2" Grid.Row="1" Height="20" Width="20" BorderThickness="0">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Analytics.png"></Image>
+                                    <Button.Style>
+                                        <Style TargetType="Button" BasedOn="{StaticResource IconMouseOver}">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding ConfigVM.ConfigurationMode}" Value="LA_Mode">
+                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Style>
+                                </Button>
+                                <GridSplitter Width="1" Height="17" VerticalAlignment="Center" HorizontalAlignment="Right" Background="White" Foreground="White" Grid.Row="1" Grid.Column="1"/>
+                            </Grid>
+                        </StackPanel>
+                    </MenuItem.Header>
+                    <MenuItem Header="Analytics View" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="Analytics View">
+                        <MenuItem.Style>
+                            <Style TargetType="MenuItem">
+                                <Setter Property="IsEnabled" Value="True"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ConfigVM.ConfigurationMode}" Value="LA_Mode">
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </MenuItem.Style>
+                    </MenuItem>
+                    <!--<MenuItem Header="I2C Statistics"/>
+                    <MenuItem Header="SPI Statistics"/>
+                    <MenuItem Header="UART Statistics"/>-->
+                </MenuItem>
+                <MenuItem>
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Vertical">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">Report</TextBlock>
+                                <Button Style="{StaticResource IconMouseOver}" Command="{Binding ReportVM.GenerateReportCommand}" ToolTip="Report" Margin="5,2,5,2" Grid.Row="1" Height="20" Width="20" BorderThickness="0">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Report_Icon (1).png"></Image>
+                                </Button>
+                                <GridSplitter Width="1" Height="17" VerticalAlignment="Center" HorizontalAlignment="Right" Background="White" Foreground="White" Grid.Row="1" Grid.Column="1"/>
+                            </Grid>
+                        </StackPanel>
+                       
+                    </MenuItem.Header>
+                    <MenuItem Header="Standard">
+                    <!--<MenuItem Header="PDF" Command="{Binding ReportVM.GenerateReportCommand}" CommandParameter="Standard"/>-->
+                    <MenuItem Header="CSV" Command="{Binding ReportVM.GenerateReportCsvCommand}"/>
+                    <MenuItem Header="HTML" Command="{Binding ReportVM.GenerateReportHtmCommand}"/>
+                    </MenuItem>
+                    <MenuItem Header="Advanced" Name="ReportAdvancedMenuItem">
+                        <Border>
+                            <StackPanel>
+                                <Label Foreground="White" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,5,5,5">Company Name</Label>
+                                <TextBox Margin="15,5,30,5" FontSize="12" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" BorderBrush="White" BorderThickness="0,0,0,1" Background="Transparent" Foreground="White">
+                                    <TextBox.Text>
+                                        <Binding Path="ReportVM.OrganisationName" UpdateSourceTrigger="PropertyChanged"/>
+                                    </TextBox.Text>
+                                </TextBox>
+                                <Label Foreground="White" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,5,5,5">Company Logo</Label>
+                                <WrapPanel>
+                                    <TextBox Margin="15,5,30,5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="12" MinWidth="100" BorderBrush="White" BorderThickness="0,0,0,1" Background="Transparent" Foreground="White">
+                                        <TextBox.Text>
+                                            <Binding Path="ReportVM.LogoFilePath" UpdateSourceTrigger="PropertyChanged"/>
+                                        </TextBox.Text>
+                                    </TextBox>
+                                    <Button BorderThickness="0" Name="LogoFilePickerButton" Click="LogoFilePickerButton_Click" Content="Select Logo File" Style="{StaticResource ButtonStyle1}" VerticalAlignment="Bottom" HorizontalAlignment="Center" Width="150" Height="25" Margin="5"/>
+                                </WrapPanel>
+                                <Label Foreground="White" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,5,5,5">Project Name</Label>
+                                <TextBox Margin="15,5,30,5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="12" BorderBrush="White" BorderThickness="0,0,0,1" Background="Transparent" Foreground="White">
+                                    <TextBox.Text>
+                                        <Binding Path="ReportVM.ProjectName" UpdateSourceTrigger="PropertyChanged"/>
+                                    </TextBox.Text>
+                                </TextBox>
+                                <Label Foreground="White" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,5,5,5">Engineer Name</Label>
+                                <TextBox Margin="15,5,30,5" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="12" BorderBrush="White" BorderThickness="0,0,0,1" Background="Transparent" Foreground="White">
+                                    <TextBox.Text>
+                                        <Binding Path="ReportVM.DesignerName" UpdateSourceTrigger="PropertyChanged"/>
+                                    </TextBox.Text>
+                                </TextBox>
+                                <CheckBox Content="Use the above information in Standard report" IsChecked="{Binding ReportVM.UseInfo}" Foreground="White" Margin="15,5,30,5"/>
+                                <Label Foreground="White" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Left" Grid.Row="2" Margin="10,5,5,5">Select Views</Label>
+                                <Grid Margin="10,5,5,5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <!--<RowDefinition/>
+                                        <RowDefinition/>-->
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <!--<CheckBox Content="All" Margin="5" Foreground="White" IsChecked="{Binding ReportVM.IsAllSelected}"/>-->
+                                    <!--<CheckBox Content="Multi View" Grid.Column="1" Margin="5" Foreground="White" IsChecked="{Binding ReportVM.IsMultiSelected}"/>-->
+                                    <CheckBox Content="Protocol View" Grid.Row="0" Margin="5" Foreground="White" IsChecked="{Binding ReportVM.IsProtocolSelected}"/>
+                                    <CheckBox Content="Logic View" Grid.Row="0" Grid.Column="1" Margin="5" Foreground="White" IsChecked="{Binding ReportVM.IsLogicSelected}"/>
+                                    <!--<CheckBox Content="Timing View" Grid.Row="2" Margin="5" Foreground="White" IsChecked="{Binding ReportVM.IsTimingSelected}"/>
+                                    <CheckBox Content="Analytics" Grid.Row="2" Grid.Column="1" Margin="5" Foreground="White" IsChecked="{Binding ReportVM.IsAnalyticsSelected}"/>-->
+                                </Grid>
+                                <!--<Label Foreground="Black" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,5,5,5">Description</Label>
+                                <TextBox Margin="0 6 0 0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="12" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto">
+                                    <TextBox.Text>
+                                        <Binding Path="ReportVM.Description" UpdateSourceTrigger="PropertyChanged"/>
+                                    </TextBox.Text>
+                                </TextBox>
+                                <Label Foreground="Black" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,5,5,5">Remarks</Label>
+                                <TextBox Margin="0 6 0 0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="12" TextWrapping="Wrap" AcceptsReturn="True" VerticalScrollBarVisibility="Auto">
+                                    <TextBox.Text>
+                                        <Binding Path="ReportVM.Remarks" UpdateSourceTrigger="PropertyChanged"/>
+                                    </TextBox.Text>
+                                </TextBox>-->
+                                <!--<Border BorderBrush="DodgerBlue" BorderThickness="0" Margin="5">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <CheckBox Content="I2C" IsChecked="{Binding ReportVM.IsI2CSelected}" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                        <CheckBox Content="SPI" IsChecked="{Binding ReportVM.IsSPISelected}" Grid.Column="1" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                        <CheckBox Content="UART" IsChecked="{Binding ReportVM.IsUARTSelected}" Grid.Column="2" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                        <CheckBox Content="ALL" IsChecked="{Binding ReportVM.IsALLSelected}" Grid.Column="3" Margin="5" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                                    </Grid>
+                                </Border>-->
+                                <CheckBox Content="Select Range" IsChecked="{Binding ReportVM.SelRange}" Margin="15,5,30,5" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="White">
+                                </CheckBox>
+                                <!--<CheckBox Content="Saved Images" Visibility="Collapsed" IsChecked="{Binding SaveImg}" Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="150,0,0,0" Height="60" VerticalContentAlignment="Center" VerticalAlignment="Center"/>-->
+                                <Border BorderBrush="DodgerBlue" BorderThickness="0" Margin=" 3 0 50 0" IsEnabled="{Binding ReportVM.SelRange}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Margin="10,10,20,10" Grid.Column="0" FontSize="12" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding ReportVM.StartIndex}">
+                                            <!--<TextBox.Text>
+                                                    <Binding Path="StartIndexReport" UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding.ValidationRules>
+                                                            <valid:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>-->
+                                        </TextBox>
+                                        <TextBox Margin="10,10,20,10" FontSize="12" Grid.Column="1" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding ReportVM.StopIndex}">
+                                            <!--<TextBox.Text>
+                                                    <Binding Path="EndIndexReport" UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding.ValidationRules>
+                                                            <valid:NotEmptyValidationRule ValidatesOnTargetUpdated="True" />
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox.Text>-->
+                                        </TextBox>
+                                    </Grid>
+                                </Border>
+
+                                <StackPanel Orientation="Horizontal" Grid.Row="10" Grid.ColumnSpan="3" Margin="5" HorizontalAlignment="Center">
+                                    <Button IsCancel="True" Width="80" Height="30" Margin="20,5,5,0" Style="{StaticResource ButtonStyle1}" Click="Button_Click">
+                                        CANCEL
+                                    </Button>
+                                    <Button IsDefault="True" Command="{Binding ReportVM.GenerateReportCommand}" CommandParameter="Advanced" Style="{StaticResource ButtonStyle}" Width="100" Height="30" Margin="5,5,5,0">
+                                        GENERATE
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </MenuItem>
+                    <!--<MenuItem Header="Open"/>
+                    <MenuItem Header="Save" Command="{Binding ReportVM.GenerateReportCommand}"/>
+                    <MenuItem Header="Save As"/>-->
+                    <!--<MenuItem Header="Append"/>-->
+                    <!--<MenuItem Header="Export"/>-->
+                    <!--<MenuItem Header="Print"/>-->
+                </MenuItem>
+                <MenuItem>
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Vertical">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">About</TextBlock>
+                                <Button Style="{StaticResource IconMouseOver}" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="AboutView" ToolTip="Help" Margin="5,2,5,2" Grid.Row="1" Height="20" Width="20" BorderThickness="0">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Help.png"></Image>
+                                </Button>
+                                <GridSplitter Width="1" Height="17" VerticalAlignment="Center" HorizontalAlignment="Right" Background="White" Foreground="White" Grid.Row="1" Grid.Column="1"/>
+                            </Grid>
+                        </StackPanel>
+                    </MenuItem.Header>
+                    <MenuItem Header="View Help"/>
+                    <Separator/>
+                    <MenuItem Header= "About"  Command="{Binding HeaderVM.WindowSelection}" CommandParameter="AboutView"/>
+                </MenuItem>
+                <Separator Width="3" Foreground="White" BorderThickness="1" BorderBrush="White"/>
+                <MenuItem>
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Vertical">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+                                <Button Style="{StaticResource IconMouseOver}" ToolTip="Connect" Command="{Binding HeaderVM.TestConnectionCommand}" Margin="5,2,10,2" Grid.Row="1" Height="20" Width="20" BorderThickness="0">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/USB.png"></Image>
+                                </Button>
+                                <Button Style="{StaticResource IconMouseOver}" ToolTip="Acquire" Command="{Binding HeaderVM.StartCaptureCommand}" Margin="10,2,10,2" Grid.Row="1" Grid.Column="1" Height="20" Width="20" BorderThickness="0">
+                                    <Image>
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Setter Property="Source" Value="/PGYMiniCooper.CoreModule;component/Resources/Icons/Standing_Man.png"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding HeaderVM.IsCapturing}" Value="true">
+                                                        <Setter Property="gif:ImageBehavior.AnimatedSource" Value="/PGYMiniCooper.CoreModule;component/Resources/Icons/RUN_Newicon.gif"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding HeaderVM.IsCapturing}" Value="false">
+                                                        <Setter Property="gif:ImageBehavior.AnimatedSource" Value="/PGYMiniCooper.CoreModule;component/Resources/Icons/Standing_Man.png"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                </Button>
+                                <Button Style="{StaticResource IconMouseOver}" ToolTip="Stop Acquisition" Command="{Binding HeaderVM.StopCaptureCommand}" Margin="10,2,10,2" Grid.Row="1" Grid.Column="2" Height="20" Width="20" BorderThickness="0">
+                                    <Image>
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Setter Property="Source" Value="/PGYMiniCooper.CoreModule;component/Resources/Icons/Live_Red_Stop.png"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding HeaderVM.IsCapturing}" Value="true">
+                                                        <Setter Property="Source" Value="/PGYMiniCooper.CoreModule;component/Resources/Icons/stop_live.png"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                </Button>
+                                <Button Style="{StaticResource IconMouseOver}" ToolTip="Stop Decode" Command="{Binding HeaderVM.StopDecodeCommand}" Margin="10,2,10,2" Grid.Row="1" Grid.Column="3" Height="20" Width="20" BorderThickness="0">
+                                    <!--<Image>
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Setter Property="Source" Value="/PGYMiniCooper.CoreModule;component/Resources/Icons/Stop.png"/>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>-->
+
+                                    <Image>
+                                        <Image.Style>
+                                            <Style TargetType="Image">
+                                                <Setter Property="Source" Value="/PGYMiniCooper.CoreModule;component/Resources/Icons/Analysis_red_stop_button.png"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding HeaderVM.IsDecoding}" Value="true">
+                                                        <Setter Property="Source" Value="/PGYMiniCooper.CoreModule;component/Resources/Icons/Analysis_stop_G.png"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                </Button>
+                                <!--<Button Style="{StaticResource IconMouseOver}" IsEnabled="{Binding HeaderVM.IsStartEnable}" ToolTip="Reset HW" Command="{Binding HeaderVM.ResetHardwareCommand}" Margin="10,2,10,2" Grid.Row="1" Grid.Column="3" Height="20" Width="20" BorderThickness="0">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Reset.png"></Image>
+                                </Button>-->
+                                <Button Style="{StaticResource IconMouseOver}" ToolTip="Decode Offline" Command="{Binding HeaderVM.LoadOfflineCommand}" Margin="10,2,10,2" Grid.Row="1" Grid.Column="4" Height="20" Width="20" BorderThickness="0">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Wifi.png"></Image>
+                                </Button>
+                                <!--<Button Style="{StaticResource IconMouseOver}" ToolTip="" Margin="10,2,10,2" Grid.Row="1" Grid.Column="4" Height="20" Width="20" BorderThickness="0">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Group 527.png"></Image>
+                                </Button>
+                                <Button Style="{StaticResource IconMouseOver}" ToolTip="" Margin="10,2,10,2" Grid.Row="1" Grid.Column="5" Height="20" Width="20" BorderThickness="0">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Group 528.png"></Image>
+                                </Button>-->
+
+                                <ToggleButton CommandParameter="0" ToolTip="Zoom In" Margin="10,2,10,2" Grid.Row="1" Grid.Column="6" Height="20" Width="20" BorderThickness="0">
+                                    <ToggleButton.Style>
+                                        <Style TargetType="ToggleButton" BasedOn="{StaticResource IconMouseOverToggle}">
+                                            <Setter Property="Command" Value="{Binding DcTimingPlotView.InfoTrend.Trend.PlotEventChangedCommand}"/>
+                                            <Setter Property="IsChecked" Value="{Binding DcTimingPlotView.InfoTrend.Trend.PlotEvent,Converter={StaticResource toggleButtonEnumToBooleanConverter}
+                                              ,ConverterParameter=ZOOM_IN,Mode=TwoWay}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HeaderVM.ActiveWindow}" Value="P-View">
+                                                    <Setter Property="Command" Value="{Binding DcProdigyPlotView.InfoTrend.Trend.PlotEventChangedCommand}"/>
+                                                    <Setter Property="IsChecked" Value="{Binding DcProdigyPlotView.InfoTrend.Trend.PlotEvent,Converter={StaticResource toggleButtonEnumToBooleanConverter}
+                                              ,ConverterParameter=ZOOM_IN,Mode=TwoWay}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ToggleButton.Style>
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Zoom In.png"></Image>
+                                </ToggleButton>
+
+                                <ToggleButton CommandParameter="1" ToolTip="Zoom Out" Margin="10,2,10,2" Grid.Row="1" Grid.Column="7" Height="20" Width="20" BorderThickness="0">
+                                    <ToggleButton.Style>
+                                        <Style TargetType="ToggleButton" BasedOn="{StaticResource IconMouseOverToggle}">
+                                            <Setter Property="Command" Value="{Binding DcTimingPlotView.InfoTrend.Trend.PlotEventChangedCommand}"/>
+                                            <Setter Property="IsChecked" Value="{Binding DcTimingPlotView.InfoTrend.Trend.PlotEvent,Converter={StaticResource toggleButtonEnumToBooleanConverter}
+                                              ,ConverterParameter=ZOOM_OUT,Mode=TwoWay}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HeaderVM.ActiveWindow}" Value="P-View">
+                                                    <Setter Property="Command" Value="{Binding DcProdigyPlotView.InfoTrend.Trend.PlotEventChangedCommand}"/>
+                                                    <Setter Property="IsChecked" Value="{Binding DcProdigyPlotView.InfoTrend.Trend.PlotEvent,Converter={StaticResource toggleButtonEnumToBooleanConverter}
+                                              ,ConverterParameter=ZOOM_OUT,Mode=TwoWay}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ToggleButton.Style>
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Zoom Out.png"></Image>
+                                </ToggleButton>
+                                <ToggleButton CommandParameter="3" ToolTip="Pan" Margin="10,2,10,2" Grid.Row="1" Grid.Column="8" Height="20" Width="20" BorderThickness="0">
+                                    <ToggleButton.Style>
+                                        <Style TargetType="ToggleButton" BasedOn="{StaticResource IconMouseOverToggle}">
+                                            <Setter Property="Command" Value="{Binding DcTimingPlotView.InfoTrend.Trend.PlotEventChangedCommand}"/>
+                                            <Setter Property="IsChecked" Value="{Binding DcTimingPlotView.InfoTrend.Trend.PlotEvent,Converter={StaticResource toggleButtonEnumToBooleanConverter}
+                                              ,ConverterParameter=PAN,Mode=TwoWay}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HeaderVM.ActiveWindow}" Value="P-View">
+                                                    <Setter Property="Command" Value="{Binding DcProdigyPlotView.InfoTrend.Trend.PlotEventChangedCommand}"/>
+                                                    <Setter Property="IsChecked" Value="{Binding DcProdigyPlotView.InfoTrend.Trend.PlotEvent,Converter={StaticResource toggleButtonEnumToBooleanConverter}
+                                              ,ConverterParameter=PAN,Mode=TwoWay}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ToggleButton.Style>
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Swipe Up.png"></Image>
+                                </ToggleButton>
+                                <ToggleButton CommandParameter="4" ToolTip="Fit" Margin="10,2,10,2" Grid.Row="1" Grid.Column="9" Height="20" Width="20" BorderThickness="0">
+                                    <ToggleButton.Style>
+                                        <Style TargetType="ToggleButton" BasedOn="{StaticResource IconMouseOverToggle}">
+                                            <Setter Property="Command" Value="{Binding DcTimingPlotView.InfoTrend.Trend.PlotEventChangedCommand}"/>
+                                            <Setter Property="IsChecked" Value="{Binding DcTimingPlotView.InfoTrend.Trend.PlotEvent,Converter={StaticResource toggleButtonEnumToBooleanConverter}
+                                              ,ConverterParameter=FIT,Mode=TwoWay}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HeaderVM.ActiveWindow}" Value="P-View">
+                                                    <Setter Property="Command" Value="{Binding DcProdigyPlotView.InfoTrend.Trend.PlotEventChangedCommand}"/>
+                                                    <Setter Property="IsChecked" Value="{Binding DcProdigyPlotView.InfoTrend.Trend.PlotEvent,Converter={StaticResource toggleButtonEnumToBooleanConverter}
+                                              ,ConverterParameter=FIT,Mode=TwoWay}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ToggleButton.Style>
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Expand.png"></Image>
+                                </ToggleButton>
+                                <ToggleButton CommandParameter="4" ToolTip="Undo" Margin="10,2,10,2" Grid.Row="1" Grid.Column="10" Height="20" Width="20" BorderThickness="0">
+                                    <ToggleButton.Style>
+                                        <Style TargetType="ToggleButton" BasedOn="{StaticResource IconMouseOverToggle}">
+                                            <Setter Property="Command" Value="{Binding DcTimingPlotView.InfoTrend.Trend.PlotEventChangedCommand}"/>
+                                            <Setter Property="IsChecked" Value="{Binding DcTimingPlotView.InfoTrend.Trend.PlotEvent,Converter={StaticResource toggleButtonEnumToBooleanConverter}
+                                              ,ConverterParameter=UNDO,Mode=TwoWay}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HeaderVM.ActiveWindow}" Value="P-View">
+                                                    <Setter Property="Command" Value="{Binding DcProdigyPlotView.InfoTrend.Trend.PlotEventChangedCommand}"/>
+                                                    <Setter Property="IsChecked" Value="{Binding DcProdigyPlotView.InfoTrend.Trend.PlotEvent,Converter={StaticResource toggleButtonEnumToBooleanConverter}
+                                              ,ConverterParameter=UNDO,Mode=TwoWay}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ToggleButton.Style>
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Undo.png"></Image>
+                                </ToggleButton>
+                                <!--<ToggleButton CommandParameter="0" ToolTip="H-Cursors" Margin="10,2,10,2" Grid.Row="1" Grid.Column="10" Height="20" Width="20" BorderThickness="0">
+                                    <ToggleButton.Style>
+                                        <Style TargetType="ToggleButton" BasedOn="{StaticResource IconMouseOverToggle}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HeaderVM.ActiveWindow}" Value="">
+                                                    <Setter Property="Command" Value="{Binding DcProdigyPlotView.InfoTrend.Trend.PlotEventChangedCommand}"/>
+                                                    <Setter Property="IsChecked" Value="{Binding DcProdigyPlotView.InfoTrend.Trend.PlotEvent,Converter={StaticResource EnumToBooleanConverter}
+                                              ,ConverterParameter=FIT,Mode=TwoWay}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ToggleButton.Style>
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Group 533.png"></Image>
+                                </ToggleButton>-->
+                                <ToggleButton ToolTip="V-Cursors" Margin="10,2,10,2" Grid.Row="1" Grid.Column="11" Height="20" Width="20" BorderThickness="0">
+                                    <ToggleButton.Style>
+                                        <Style TargetType="ToggleButton" BasedOn="{StaticResource IconMouseOverToggle}">
+                                            <Setter Property="Command" Value="{Binding DcTimingPlotView.InfoTrend.Trend.PlotEventChangedCommand}"/>
+                                            <Setter Property="IsChecked" Value="{Binding DcTimingPlotView.InfoTrend.Trend.VCursorON,Mode=TwoWay}"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding HeaderVM.ActiveWindow}" Value="P-View">
+                                                    <Setter Property="Command" Value="{Binding DcProdigyPlotView.InfoTrend.Trend.PlotEventChangedCommand}"/>
+                                                    <Setter Property="IsChecked" Value="{Binding DcProdigyPlotView.InfoTrend.Trend.VCursorON,Mode=TwoWay}"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ToggleButton.Style>
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Group 534.png"></Image>
+                                </ToggleButton>
+                                <!--<Button Grid.Row="1" Grid.Column="12" Width="20" Margin="10,0,0,0"  Style="{StaticResource IconMouseOver}" Command="{Binding serachCommand}" ToolTip="search">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Find In.png"></Image>
+
+                                </Button>-->
+                                <!--<Button Style="{StaticResource IconMouseOver}" ToolTip="Find In" Margin="10,2,10,2" Grid.Row="1" Grid.Column="12" Height="17" Width="17" BorderThickness="0">
+                                <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Find In.png"></Image>
+                            </Button>-->
+                                <!--<Button Style="{StaticResource IconMouseOver}" ToolTip="Filter" Margin="10,2,10,2" Grid.Row="1" Grid.Column="12" Height="20" Width="20" BorderThickness="0">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Filter.png"></Image>
+                                </Button>-->
+                                <GridSplitter Width="1" Height="17" VerticalAlignment="Center" HorizontalAlignment="Right" Background="White" Foreground="White" Grid.Row="1" Grid.Column="12"/>
+                            </Grid>
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
+                <Separator Width="3" Foreground="White" BorderThickness="1" Visibility="Collapsed" BorderBrush="White"/>
+                <MenuItem Visibility="Collapsed">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Vertical">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="5"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center">Search / Filter</TextBlock>
+                                <Button Style="{StaticResource IconMouseOver}" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="SearchView" ToolTip="Search View" Margin="5,2,5,2" Grid.Row="1" Height="20" Width="20" BorderThickness="0">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Binocular.png"></Image>
+                                </Button>
+                                <Button Style="{StaticResource IconMouseOver}" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="FilterInView" ToolTip="Filter View" Margin="5,2,5,2" Grid.Row="1" Grid.Column="1" Height="20" Width="20" BorderThickness="0">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/funnel.png"></Image>
+                                </Button>
+                                <GridSplitter Width="1" Height="17" VerticalAlignment="Center" HorizontalAlignment="Right" Background="White" Foreground="White" Grid.Row="1" Grid.Column="2"/>
+                            </Grid>
+                        </StackPanel>
+                    </MenuItem.Header>
+                    <MenuItem Header="Search" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="SearchView"/>
+                    <MenuItem Header= "Filter In" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="FilterInView"/>
+                    <MenuItem Header= "Filter Out" Command="{Binding HeaderVM.WindowSelection}" CommandParameter="FilterOutView"/>
+                </MenuItem>
+                <Separator Width="3" Foreground="White" BorderThickness="1" BorderBrush="White"/>
+            </Menu>
+
+            <Border Padding="0"
+                  BorderThickness="2"
+                  BorderBrush="{StaticResource Foreground}"                 
+                  Name="Bd"
+                  Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                  SnapsToDevicePixels="True">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="325*"/>
+                        <ColumnDefinition Width="176*"/>
+                    </Grid.ColumnDefinitions>
+                    <view:DeviceConfiguration DataContext="{Binding ConfigVM}" Grid.ColumnSpan="3">
+                        <view:DeviceConfiguration.Style>
+                            <Style TargetType="{x:Type UserControl}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=DataContext.HeaderVM.ActiveWindow,ElementName=main}" Value="Setup View">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </view:DeviceConfiguration.Style>
+                    </view:DeviceConfiguration>
+                    <view:TriggerView Grid.ColumnSpan="3">
+                        <view:TriggerView.Style>
+                            <Style TargetType="{x:Type UserControl}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=DataContext.HeaderVM.ActiveWindow,ElementName=main}" Value="Trigger View">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </view:TriggerView.Style>
+                    </view:TriggerView>
+                    <view:L_View Grid.ColumnSpan="3">
+                        <view:L_View.Style>
+                            <Style TargetType="{x:Type UserControl}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=DataContext.HeaderVM.ActiveWindow,ElementName=main}" Value="L-View">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </view:L_View.Style>
+                    </view:L_View>
+                    <view:P_View Grid.ColumnSpan="3">
+                        <view:P_View.Style>
+                            <Style TargetType="{x:Type UserControl}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=DataContext.HeaderVM.ActiveWindow,ElementName=main}" Value="P-View">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </view:P_View.Style>
+                    </view:P_View>
+                    <view:T_View Grid.ColumnSpan="3">
+                        <view:T_View.Style>
+                            <Style TargetType="{x:Type UserControl}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=DataContext.HeaderVM.ActiveWindow,ElementName=main}" Value="T-View">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </view:T_View.Style>
+                    </view:T_View>
+                    <!--<view:MultiView>
+                        <view:MultiView.Style>
+                            <Style TargetType="{x:Type UserControl}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=DataContext.HeaderVM.ActiveWindow,ElementName=main}" Value="Multi-View">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </view:MultiView.Style>
+                    </view:MultiView>-->
+                    <view:Sys_View Grid.ColumnSpan="3">
+                        <view:Sys_View.Style>
+                            <Style TargetType="{x:Type UserControl}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=DataContext.HeaderVM.ActiveWindow,ElementName=main}" Value="Sys-View">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </view:Sys_View.Style>
+                    </view:Sys_View>
+                    <view:AnalyticsView DataContext="{Binding Analytics}" Grid.ColumnSpan="3">
+                        <view:AnalyticsView.Style>
+                            <Style TargetType="{x:Type UserControl}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=DataContext.HeaderVM.ActiveWindow,ElementName=main}" Value="Analytics View">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </view:AnalyticsView.Style>
+                    </view:AnalyticsView>
+                    <view:SearchFilterView DataContext="{Binding SearchFilterVM}" Grid.ColumnSpan="3">
+                        <view:SearchFilterView.Style>
+                            <Style TargetType="{x:Type UserControl}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=DataContext.HeaderVM.ActiveWindow,ElementName=main}" Value="SearchFilterView">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </view:SearchFilterView.Style>
+                    </view:SearchFilterView>
+                    <view:AboutView DataContext="{Binding HeaderVM}" Grid.ColumnSpan="3">
+                        <view:AboutView.Style>
+                            <Style TargetType="{x:Type UserControl}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=DataContext.HeaderVM.ActiveWindow,ElementName=main}" Value="AboutView">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </view:AboutView.Style>
+                    </view:AboutView>
+                </Grid>
+
+
+            </Border>
+            <StatusBar Grid.Row="3" Grid.ColumnSpan="2" Background="{StaticResource BackgroundSelected}" HorizontalAlignment="Stretch">
+                <StatusBarItem Content="{Binding HeaderVM.Version}" Foreground="White" FontSize="14" FontFamily="Roboto" FontWeight="SemiBold"  HorizontalContentAlignment="Left"/>
+
+                <StatusBarItem FontSize="14" FontFamily="Roboto" FontWeight="SemiBold" Foreground="White"  HorizontalContentAlignment="Right">
+                    <TextBlock Text="{Binding Status}" FontFamily="OCR-A II" Background="#323232" FontSize="14" FontWeight="SemiBold" Foreground="LightGreen"  x:Name="TitleTextBlock"/>
+                </StatusBarItem>
+            </StatusBar>
+        </Grid>
+    </materialDesign:DialogHost>
+</Window>

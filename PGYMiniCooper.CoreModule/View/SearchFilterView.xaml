@@ -1,0 +1,184 @@
+﻿<UserControl x:Class="PGYMiniCooper.CoreModule.View.SearchFilterView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PGYMiniCooper.CoreModule.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <GroupBox BorderBrush="Orange" BorderThickness="2" HorizontalAlignment="Stretch" Margin="10,0,10,0">
+            <GroupBox.Header>
+                <Label Content="Search / Filter"  Style="{StaticResource blueLabel}" HorizontalAlignment="Left" FontWeight="SemiBold" Foreground="{StaticResource LinkButtonForeground}"/>
+            </GroupBox.Header>
+            <StackPanel>
+                <WrapPanel Margin="30,20,30,10">
+                    <RadioButton Content="Search" IsChecked="{Binding SearchSelected}" Style="{StaticResource radiobuttonstyle}" MinWidth="100" Margin="5" GroupName="SearchFilterRB"/>
+                    <RadioButton Content="Filter In" IsChecked="{Binding FilterInSelected}" Style="{StaticResource radiobuttonstyle}" MinWidth="100" Margin="5" GroupName="SearchFilterRB"/>
+                    <RadioButton Content="Filter Out" IsChecked="{Binding FilterOutSelected}" Style="{StaticResource radiobuttonstyle}" MinWidth="100" Margin="5" GroupName="SearchFilterRB"/>
+                </WrapPanel>
+                <Separator Margin="30,10,30,20" Background="Orange"/>
+                <WrapPanel x:Name="Search" Margin="30,0,0,0">
+                    <WrapPanel.Style>
+                        <Style TargetType="{x:Type WrapPanel}">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=SearchSelected}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </WrapPanel.Style>
+                    <!--<WrapPanel Margin="30,10,10,10">
+                        
+                        
+                        
+                    </WrapPanel>-->
+                    <StackPanel x:Name="I2C">
+                        <!--<StackPanel.Style>
+                            <Style TargetType="{x:Type StackPanel}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=I2CSelected}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>-->
+                        <CheckBox Content="I2C" IsChecked="{Binding I2CSelected}" MinWidth="100" Margin="13,10,10,10"/>
+                        <WrapPanel Margin="10">
+                            <WrapPanel.Style>
+                                <Style TargetType="{x:Type WrapPanel}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=I2CSelected}" Value="True">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </WrapPanel.Style>
+                            <Label Content="I2C Search For" Margin="0,5,5,5" MinWidth="100"/>
+                            <ComboBox ItemsSource="{Binding I2CSearchList}" SelectedItem="{Binding I2CSearchSelected}" Margin="50,10,10,10">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </WrapPanel>
+                    </StackPanel>
+                    <Rectangle VerticalAlignment="Stretch" Width="0.5" Margin="2" Stroke="LightGray" />
+                    <StackPanel x:Name="SPI">
+                        <!--<StackPanel.Style>
+                            <Style TargetType="{x:Type StackPanel}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=SPISelected}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>-->
+                        <CheckBox Content="SPI" IsChecked="{Binding SPISelected}" MinWidth="100" Margin="10"/>
+                        <StackPanel>
+                            <StackPanel.Style>
+                                <Style TargetType="{x:Type StackPanel}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=SPISelected}" Value="True">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <WrapPanel x:Name="MOSI_Panel" Margin="10">
+                                <CheckBox Content="MOSI Data" IsChecked="{Binding MOSIDataSelected}" Margin="0,5,5,5" VerticalAlignment="Center" MinWidth="100"/>
+                                <WrapPanel>
+                                    <WrapPanel.Style>
+                                        <Style TargetType="{x:Type WrapPanel}">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=MOSIDataSelected}" Value="True">
+                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </WrapPanel.Style>
+                                    <ComboBox ItemsSource="{Binding ComparisonList}" SelectedItem="{Binding MOSIComparison}" Margin="50,10,10,10">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <TextBox Text="{Binding MOSISearchData}" MinWidth="100" Margin="30,10,10,10"/>
+                                    <ComboBox ItemsSource="{Binding PatternList}" SelectedItem="{Binding MOSIPattern}" Margin="30,10,10,10"/>
+                                </WrapPanel>
+                            </WrapPanel>
+                            <WrapPanel x:Name="MISO_Panel" Margin="10">
+                                <CheckBox Content="MISO Data" IsChecked="{Binding MISODataSelected}" Margin="0,5,5,5" VerticalAlignment="Center" MinWidth="100"/>
+                                <WrapPanel>
+                                    <WrapPanel.Style>
+                                        <Style TargetType="{x:Type WrapPanel}">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Path=MISODataSelected}" Value="True">
+                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </WrapPanel.Style>
+                                    <ComboBox ItemsSource="{Binding ComparisonList}" SelectedItem="{Binding MISOComparison}" Margin="50,10,10,10">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                    </ComboBox>
+                                    <TextBox Text="{Binding MISOSearchData}" MinWidth="100" Margin="30,10,10,10"/>
+                                    <ComboBox ItemsSource="{Binding PatternList}" SelectedItem="{Binding MISOPattern}" Margin="30,10,10,10"/>
+                                </WrapPanel>
+                            </WrapPanel>
+                        </StackPanel>
+                    </StackPanel>
+                    <Rectangle VerticalAlignment="Stretch" Width="0.5" Margin="2" Stroke="LightGray" />
+                    <StackPanel x:Name="UART">
+                        <!--<StackPanel.Style>
+                            <Style TargetType="{x:Type StackPanel}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=UARTSelected}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>-->
+                        <CheckBox Content="UART" IsChecked="{Binding UARTSelected}" MinWidth="100" Margin="13,10,10,10"/>
+                        <WrapPanel Margin="10">
+                            <WrapPanel.Style>
+                                <Style TargetType="{x:Type WrapPanel}">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=UARTSelected}" Value="True">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </WrapPanel.Style>
+                            <Label Content="Data" Margin="0,5,5,5" VerticalAlignment="Center" MinWidth="100"/>
+                            <ComboBox ItemsSource="{Binding ComparisonList}" SelectedItem="{Binding UARTComparison}" Margin="30,10,10,10">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <TextBox Text="{Binding UARTSearchData}" MinWidth="100" Margin="30,10,10,10"/>
+                            <ComboBox ItemsSource="{Binding UARTTypeList}" SelectedItem="{Binding UARTType}" Margin="30,10,10,10"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </WrapPanel>
+            </StackPanel>
+        </GroupBox>
+    </Grid>
+</UserControl>

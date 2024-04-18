@@ -1,0 +1,13 @@
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\Prodigy.Interfaces-v4.8\bin\Debug\net48\Prodigy.Interfaces.dll
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\Prodigy.Interfaces-v4.8\bin\Debug\net48\Prodigy.Interfaces.pdb
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\Prodigy.Interfaces-v4.8\bin\Debug\net48\Google.Protobuf.dll
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\Prodigy.Interfaces-v4.8\bin\Debug\net48\System.Buffers.dll
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\Prodigy.Interfaces-v4.8\bin\Debug\net48\System.Memory.dll
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\Prodigy.Interfaces-v4.8\bin\Debug\net48\System.Numerics.Vectors.dll
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\Prodigy.Interfaces-v4.8\bin\Debug\net48\System.Runtime.CompilerServices.Unsafe.dll
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\Prodigy.Interfaces-v4.8\obj\Debug\net48\Prodigy.Interfaces-v4.8.csproj.AssemblyReference.cache
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\Prodigy.Interfaces-v4.8\obj\Debug\net48\Prodigy.Interfaces-v4.8.GeneratedMSBuildEditorConfig.editorconfig
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\Prodigy.Interfaces-v4.8\obj\Debug\net48\Prodigy.Interfaces-v4.8.csproj.CoreCompileInputs.cache
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\Prodigy.Interfaces-v4.8\obj\Debug\net48\Prodigy.Interfaces-v4.8.csproj.CopyComplete
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\Prodigy.Interfaces-v4.8\obj\Debug\net48\Prodigy.Interfaces.dll
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\Prodigy.Interfaces-v4.8\obj\Debug\net48\Prodigy.Interfaces.pdb

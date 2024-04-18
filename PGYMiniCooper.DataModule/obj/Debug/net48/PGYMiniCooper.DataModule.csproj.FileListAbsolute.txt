@@ -1,0 +1,9 @@
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\Output\net48\PGYMiniCooper.DataModule.dll.config
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\Output\net48\PGYMiniCooper.DataModule.dll
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\Output\net48\PGYMiniCooper.DataModule.pdb
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\PGYMiniCooper.DataModule\obj\Debug\net48\PGYMiniCooper.DataModule.csproj.AssemblyReference.cache
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\PGYMiniCooper.DataModule\obj\Debug\net48\PGYMiniCooper.DataModule.GeneratedMSBuildEditorConfig.editorconfig
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\PGYMiniCooper.DataModule\obj\Debug\net48\PGYMiniCooper.DataModule.csproj.CoreCompileInputs.cache
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\PGYMiniCooper.DataModule\obj\Debug\net48\PGYMiniCooper.DataModule.csproj.CopyComplete
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\PGYMiniCooper.DataModule\obj\Debug\net48\PGYMiniCooper.DataModule.dll
+C:\users\shreyank\source\repos\Prodigy.UI.Monolith.Analyzer\src\PGYMiniCooper.DataModule\obj\Debug\net48\PGYMiniCooper.DataModule.pdb

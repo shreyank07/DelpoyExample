@@ -1,0 +1,125 @@
+﻿<UserControl x:Class="PGYMiniCooper.CoreModule.View.Protocols.ProtocolActivityView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
+             xmlns:local="clr-namespace:PGYMiniCooper.CoreModule.View.Protocols"
+             xmlns:conv="clr-namespace:PGYMiniCooper.CoreModule.View.Converters" 
+             xmlns:behavior="clr-namespace:ProdigyFramework.Behavior;assembly=ProdigyFramework"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="450">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Background" Value="#03a9f4" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="{x:Type DataGridRow}">
+            <Setter Property="Background" Value="#FFEDF9FD" />
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Orange"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#FF3F66EC"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <conv:TriggerIndexComparerConverter x:Key="triggerIndexComparerConverter"/>
+    </UserControl.Resources>
+    <Grid>
+
+        <DataGrid ItemsSource="{Binding ProtocolActivity.ProtocolCollection,IsAsync=True}"
+                  IsSynchronizedWithCurrentItem="True"
+                  SelectedIndex="{Binding ProtocolActivity.SelectedIndex,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                  SelectedItem="{Binding SelectedFrame,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                  SelectionMode="Single"
+                  CanUserSortColumns="False"
+                  CanUserDeleteRows="False"
+                  FontStyle="Normal" FontWeight="Medium"
+                  RowDetailsVisibilityMode="Collapsed"
+                  CanUserAddRows="False" 
+                  IsReadOnly="True"
+                  AutoGenerateColumns="False" 
+                  RowHeaderWidth="25" HorizontalGridLinesBrush="#E9E3E3" VerticalGridLinesBrush="#E9E3E3"
+                  HeadersVisibility="All" HorizontalAlignment="Stretch"
+                  VirtualizingStackPanel.VirtualizationMode="Recycling"
+                  VirtualizingStackPanel.IsVirtualizing="True"
+                  VirtualizingStackPanel.ScrollUnit="Item"
+                  VirtualizingStackPanel.CacheLengthUnit="Item"
+                  VirtualizingStackPanel.CacheLength="10,10"
+                  ScrollViewer.IsDeferredScrollingEnabled="True"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  Width="Auto"  behavior:DataGridBehavior.AutoScrollIntoView="True">
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#2A74D1"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White"/>
+                <Style TargetType="DataGridRowHeader">
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Value="True">
+                                    <Condition.Binding>
+                                        <MultiBinding Converter="{StaticResource triggerIndexComparerConverter}">
+                                            <Binding Path="DataContext.ProtocolActivity.TriggerPacket" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}"/>
+                                            <Binding Path="Sample"/>
+                                            <Binding Path="Protocol"/>
+                                        </MultiBinding>
+                                    </Condition.Binding>
+                                </Condition>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Content" Value="T"/>
+                            <Setter Property="Foreground" Value="#256B0E"/>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Time" MinWidth="50"  Width="2*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    
+                            <MultiBinding Converter="{StaticResource timestampConverter}">
+                                <Binding Path="Timestamp" />
+                                <Binding Path="DataContext.ProtocolActivity.TriggerTime" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}" />
+                            </MultiBinding>
+                           
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ToolTip" Value="{Binding Timestamp}" />
+                        </Style>
+                    </DataGridTemplateColumn.CellStyle>
+                </DataGridTemplateColumn>
+                <!--<DataGridTextColumn MinWidth="80" Header="Time">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource timestampConverter}">
+                            <Binding Path="Timestamp" />
+                            <Binding Path="DataContext.ProtocolActivity.TriggerTime" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ToolTip" Value="{Binding Timestamp}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>-->
+                <DataGridTextColumn MinWidth="70" Header="Frame" Binding="{Binding Protocol}"/>
+                <DataGridTextColumn MinWidth="70" Header="Error" Binding="{Binding Error}">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

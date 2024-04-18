@@ -1,0 +1,19 @@
+﻿<Window x:Class="PGYMiniCooper.CoreModule.View.Detailed_QSPIViewWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PGYMiniCooper.CoreModule.View" 
+         xmlns:vm1="clr-namespace:PGYMiniCooper.CoreModule.ViewModel.ProtocolViewModel"
+        xmlns:vm="clr-namespace:PGYMiniCooper.CoreModule.ViewModel"
+        mc:Ignorable="d"
+        WindowStyle="ToolWindow"
+        SizeToContent="WidthAndHeight"
+        Topmost="True"
+        d:DesignHeight="450" d:DesignWidth="340"
+         d:DataContext="{d:DesignInstance vm1:ResultViewModel_QSPI}"
+        Title="Detail View">
+    <Grid>
+        <local:Detailed_QSPIView DataContext="{Binding}"  />
+    </Grid>
+</Window>

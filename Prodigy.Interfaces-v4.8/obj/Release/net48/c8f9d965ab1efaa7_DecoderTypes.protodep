@@ -1,0 +1,7 @@
+obj\Release\net48/DecoderTypes.cs: C:/Users/Shreyank/.nuget/packages/grpc.tools/2.50.0/build/native/include/google/protobuf/empty.proto\
+ C:/Users/Shreyank/.nuget/packages/grpc.tools/2.50.0/build/native/include/google/protobuf/any.proto\
+ C:/Users/Shreyank/.nuget/packages/grpc.tools/2.50.0/build/native/include/google/protobuf/descriptor.proto\
+ ../../submoduleslink/Prodigy.Common/src/Prodigy.Interfaces/CommonTypes.proto\
+ ../../submoduleslink/Prodigy.Common/src/Prodigy.Interfaces/WaveformTypes.proto\
+ ../../submoduleslink/Prodigy.Common/src/Prodigy.Interfaces/I3CFrame.proto\
+ ../../submoduleslink/Prodigy.Common/src/Prodigy.Interfaces/DecoderTypes.proto

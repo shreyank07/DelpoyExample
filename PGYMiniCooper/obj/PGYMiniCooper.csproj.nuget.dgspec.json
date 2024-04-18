@@ -1,0 +1,489 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper\\PGYMiniCooper.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper.CoreModule\\PGYMiniCooper.CoreModule.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper.CoreModule\\PGYMiniCooper.CoreModule.csproj",
+        "projectName": "PGYMiniCooper.CoreModule",
+        "projectPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper.CoreModule\\PGYMiniCooper.CoreModule.csproj",
+        "packagesPath": "C:\\Users\\Shreyank\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper.CoreModule\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Shreyank\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net48"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net48": {
+            "targetAlias": "net48",
+            "projectReferences": {
+              "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper.DataModule\\PGYMiniCooper.DataModule.csproj": {
+                "projectPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper.DataModule\\PGYMiniCooper.DataModule.csproj"
+              },
+              "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\ProdigyFramework\\ProdigyFramework.csproj": {
+                "projectPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\ProdigyFramework\\ProdigyFramework.csproj"
+              },
+              "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\Prodigy\\Prodigy.WaveformControls\\Prodigy.WaveformControls.csproj": {
+                "projectPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\Prodigy\\Prodigy.WaveformControls\\Prodigy.WaveformControls.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net48": {
+          "targetAlias": "net48",
+          "dependencies": {
+            "CommunityToolkit.Mvvm": {
+              "target": "Package",
+              "version": "[8.2.2, )"
+            },
+            "Extended.Wpf.Toolkit": {
+              "target": "Package",
+              "version": "[4.5.1, )"
+            },
+            "ExtendedXmlSerializer": {
+              "target": "Package",
+              "version": "[3.7.11, )"
+            },
+            "MaterialDesignColors": {
+              "target": "Package",
+              "version": "[1.1.1, )"
+            },
+            "MaterialDesignThemes.Wpf": {
+              "target": "Package",
+              "version": "[1.0.1, )"
+            },
+            "Microsoft.CSharp": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "Prism.Wpf": {
+              "target": "Package",
+              "version": "[8.1.97, )"
+            },
+            "System.ComponentModel.Annotations": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "System.Data.DataSetExtensions": {
+              "target": "Package",
+              "version": "[4.6.0-preview3.19128.7, )"
+            },
+            "System.Resources.Extensions": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "WpfAnimatedGif": {
+              "target": "Package",
+              "version": "[2.0.2, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper.DataModule\\PGYMiniCooper.DataModule.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper.DataModule\\PGYMiniCooper.DataModule.csproj",
+        "projectName": "PGYMiniCooper.DataModule",
+        "projectPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper.DataModule\\PGYMiniCooper.DataModule.csproj",
+        "packagesPath": "C:\\Users\\Shreyank\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper.DataModule\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Shreyank\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net48"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net48": {
+            "targetAlias": "net48",
+            "projectReferences": {
+              "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\Prodigy.Interfaces-v4.8\\Prodigy.Interfaces-v4.8.csproj": {
+                "projectPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\Prodigy.Interfaces-v4.8\\Prodigy.Interfaces-v4.8.csproj"
+              },
+              "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\ProdigyFramework\\ProdigyFramework.csproj": {
+                "projectPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\ProdigyFramework\\ProdigyFramework.csproj"
+              },
+              "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\Prodigy\\Prodigy.WaveformControls\\Prodigy.WaveformControls.csproj": {
+                "projectPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\Prodigy\\Prodigy.WaveformControls\\Prodigy.WaveformControls.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net48": {
+          "targetAlias": "net48",
+          "dependencies": {
+            "CommonServiceLocator": {
+              "target": "Package",
+              "version": "[2.0.2, )"
+            },
+            "CommunityToolkit.Mvvm": {
+              "target": "Package",
+              "version": "[8.2.2, )"
+            },
+            "Google.Protobuf": {
+              "target": "Package",
+              "version": "[3.24.3, )"
+            },
+            "Grpc.Net.ClientFactory": {
+              "target": "Package",
+              "version": "[2.60.0, )"
+            },
+            "Grpc.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.50.0, )"
+            },
+            "JetBrains.Annotations": {
+              "target": "Package",
+              "version": "[2021.2.0, )"
+            },
+            "Microsoft.CSharp": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Json": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Microsoft.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[7.0.0, )"
+            },
+            "Microsoft.VisualBasic": {
+              "target": "Package",
+              "version": "[10.3.0, )"
+            },
+            "ParallelExtensionsExtras": {
+              "target": "Package",
+              "version": "[1.2.0, )"
+            },
+            "System.ComponentModel.Annotations": {
+              "target": "Package",
+              "version": "[5.0.0, )"
+            },
+            "System.ComponentModel.Composition": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "System.Data.DataSetExtensions": {
+              "target": "Package",
+              "version": "[4.6.0-preview3.19128.7, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper\\PGYMiniCooper.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper\\PGYMiniCooper.csproj",
+        "projectName": "PGYMiniCooper",
+        "projectPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper\\PGYMiniCooper.csproj",
+        "packagesPath": "C:\\Users\\Shreyank\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Shreyank\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net48"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net48": {
+            "targetAlias": "net48",
+            "projectReferences": {
+              "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper.CoreModule\\PGYMiniCooper.CoreModule.csproj": {
+                "projectPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper.CoreModule\\PGYMiniCooper.CoreModule.csproj"
+              },
+              "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper.DataModule\\PGYMiniCooper.DataModule.csproj": {
+                "projectPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\PGYMiniCooper.DataModule\\PGYMiniCooper.DataModule.csproj"
+              },
+              "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\ProdigyFramework\\ProdigyFramework.csproj": {
+                "projectPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\ProdigyFramework\\ProdigyFramework.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net48": {
+          "targetAlias": "net48",
+          "dependencies": {
+            "Extended.Wpf.Toolkit": {
+              "target": "Package",
+              "version": "[4.5.1, )"
+            },
+            "ExtendedXmlSerializer": {
+              "target": "Package",
+              "version": "[3.7.11, )"
+            },
+            "Microsoft.CSharp": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "Microsoft.VisualBasic": {
+              "target": "Package",
+              "version": "[10.3.0, )"
+            },
+            "System.Data.DataSetExtensions": {
+              "target": "Package",
+              "version": "[4.6.0-preview3.19128.7, )"
+            },
+            "WpfAnimatedGif": {
+              "target": "Package",
+              "version": "[2.0.2, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win7-x86": {
+          "#import": []
+        }
+      }
+    },
+    "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\Prodigy.Interfaces-v4.8\\Prodigy.Interfaces-v4.8.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\Prodigy.Interfaces-v4.8\\Prodigy.Interfaces-v4.8.csproj",
+        "projectName": "Prodigy.Interfaces",
+        "projectPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\Prodigy.Interfaces-v4.8\\Prodigy.Interfaces-v4.8.csproj",
+        "packagesPath": "C:\\Users\\Shreyank\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\Prodigy.Interfaces-v4.8\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Shreyank\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net48"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net48": {
+            "targetAlias": "net48",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net48": {
+          "targetAlias": "net48",
+          "dependencies": {
+            "Google.Protobuf": {
+              "target": "Package",
+              "version": "[3.24.3, )"
+            },
+            "Grpc.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.50.0, )"
+            },
+            "Microsoft.CSharp": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "System.Buffers": {
+              "target": "Package",
+              "version": "[4.5.1, )"
+            },
+            "System.Data.DataSetExtensions": {
+              "target": "Package",
+              "version": "[4.6.0-preview3.19128.7, )"
+            },
+            "System.Memory": {
+              "target": "Package",
+              "version": "[4.5.5, )"
+            },
+            "System.Numerics.Vectors": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            },
+            "System.Runtime.CompilerServices.Unsafe": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\ProdigyFramework\\ProdigyFramework.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\ProdigyFramework\\ProdigyFramework.csproj",
+        "projectName": "ProdigyFramework",
+        "projectPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\ProdigyFramework\\ProdigyFramework.csproj",
+        "packagesPath": "C:\\Users\\Shreyank\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\ProdigyFramework\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Shreyank\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net48"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net48": {
+            "targetAlias": "net48",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net48": {
+          "targetAlias": "net48",
+          "dependencies": {
+            "Microsoft.CSharp": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "System.Data.DataSetExtensions": {
+              "target": "Package",
+              "version": "[4.6.0-preview3.19128.7, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\Prodigy\\Prodigy.WaveformControls\\Prodigy.WaveformControls.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\Prodigy\\Prodigy.WaveformControls\\Prodigy.WaveformControls.csproj",
+        "projectName": "Prodigy.WaveformControls",
+        "projectPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\Prodigy\\Prodigy.WaveformControls\\Prodigy.WaveformControls.csproj",
+        "packagesPath": "C:\\Users\\Shreyank\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\Prodigy\\Prodigy.WaveformControls\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\Shreyank\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net48"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net48": {
+            "targetAlias": "net48",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net48": {
+          "targetAlias": "net48",
+          "dependencies": {
+            "Microsoft.CSharp": {
+              "target": "Package",
+              "version": "[4.7.0, )"
+            },
+            "System.Resources.Extensions": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

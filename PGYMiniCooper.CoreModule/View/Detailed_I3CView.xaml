@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="PGYMiniCooper.CoreModule.View.Detailed_I3CView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PGYMiniCooper.CoreModule.View"
+              xmlns:conv="clr-namespace:PGYMiniCooper.CoreModule.View.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="350" d:DesignWidth="320" 
+    >
+    <UserControl.Resources>
+        <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Background" Value="#03a9f4" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="{x:Type DataGridRow}">
+            <Setter Property="Background" Value="#FFEDF9FD" />
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Orange"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#3F66EC"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+                <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
+                    <Setter Property="Background" Value="Yellow"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <FrameworkElement x:Name="mainWindowDataContext" Visibility="Collapsed" />
+        <Border BorderThickness="0" Background="#FFF2FAFF"  >
+                <ScrollViewer VerticalScrollBarVisibility="Auto" CanContentScroll="True">
+                <DataGrid Grid.Row="1" Grid.Column="0" RowHeaderWidth="20"  HorizontalGridLinesBrush="Transparent" VerticalGridLinesBrush="Transparent"
+                                                  AutoGenerateColumns="False"
+                                                  ItemsSource="{Binding SelectedFrame.PacketCollection}" 
+                                SelectedValuePath="Frame"
+                                                   CanUserSortColumns="False" SelectionMode="Single" HeadersVisibility="Column"
+                                                   CanUserAddRows="False"  HorizontalAlignment="Left" SelectedItem="{Binding DataContext.WareHouse.SelectedItem,ElementName=parent,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                   IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Time" >
+                            <DataGridTextColumn.Binding>
+                                <MultiBinding Converter="{StaticResource timestampConverter}">
+                                    <Binding Path="TimeStamp" />
+
+                                    <Binding Path="DataContext.WareHouse.TriggerTime" ElementName="parent"/>
+                                </MultiBinding>
+                            </DataGridTextColumn.Binding>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Packet Type" Binding="{Binding PacketType}"/>
+                        <DataGridTextColumn Header="Value" Binding="{Binding Value, Converter={StaticResource decimalToHexConverter}}"/>
+                        <DataGridTextColumn Header="Host" Binding="{Binding HostDevice}"/>
+                        <DataGridTextColumn Header="Frequency" Binding="{Binding Frequency, Converter={StaticResource frequencyConverter}}"/>
+                        <DataGridTextColumn Header="Protocol" Binding="{Binding ProtocolMode}"/>
+                        <DataGridTextColumn Header="Error" Binding="{Binding ErrorType}" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </ScrollViewer>
+            </Border>
+     
+    </Grid>
+</UserControl>

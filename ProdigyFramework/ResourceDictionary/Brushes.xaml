@@ -1,0 +1,1471 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="Cursor1_BackColor" Color="Blue"/>
+    <SolidColorBrush x:Key="Cursor2_BackColor" Color="#FFF57687"/>
+    <SolidColorBrush x:Key="Cursor2_ForeColor" Color="White"/>
+    <SolidColorBrush x:Key="Cursor1_ForeColor" Color="White"/>
+    <SolidColorBrush x:Key="CH1" Color="DarkGreen" />
+    <SolidColorBrush x:Key="CH2" Color="DarkOrchid"/>
+    <SolidColorBrush x:Key="CH3" Color="DarkGoldenrod" />
+    <SolidColorBrush x:Key="CH4" Color="DodgerBlue"/>
+    <SolidColorBrush x:Key="CH5" Color="DarkCyan"/>
+    <SolidColorBrush x:Key="CH6" Color="CornflowerBlue"/>
+    <SolidColorBrush x:Key="CH7" Color="DeepPink"/>
+    <SolidColorBrush x:Key="CH8" Color="#5454c5"/>
+    <SolidColorBrush x:Key="CH9" Color="#598234" />
+    <SolidColorBrush x:Key="CH10" Color="#f638dc"/>
+    <SolidColorBrush x:Key="CH11" Color="#05328e" />
+    <SolidColorBrush x:Key="CH12" Color="#d50b53"/>
+    <SolidColorBrush x:Key="CH13" Color="#824ca7"/>
+    <SolidColorBrush x:Key="CH14" Color="#d75404"/>
+    <SolidColorBrush x:Key="CH15" Color="#bd3e85"/>
+    <SolidColorBrush x:Key="CH16" Color="#118c8b"/>
+    <SolidColorBrush x:Key="CH17" Color="#5454c5"/>
+    <SolidColorBrush x:Key="CH18" Color="#598234" />
+    <SolidColorBrush x:Key="CH19" Color="#f638dc"/>
+    <SolidColorBrush x:Key="CH20" Color="#05328e" />
+    <SolidColorBrush x:Key="CH21" Color="#d50b53"/>
+    <SolidColorBrush x:Key="CH22" Color="#824ca7"/>
+    <SolidColorBrush x:Key="CH23" Color="#d75404"/>
+    <SolidColorBrush x:Key="CH24" Color="#bd3e85"/>
+    <SolidColorBrush x:Key="GridLine" Color="BlanchedAlmond"/>
+    <SolidColorBrush x:Key="Marker1_BackColor" Color="DarkGreen"/>
+    <SolidColorBrush x:Key="Marker2_BackColor" Color="DarkOrchid"/>
+    <SolidColorBrush x:Key="Marker3_BackColor" Color="DeepPink"/>
+    <SolidColorBrush x:Key="Marker4_BackColor" Color="DodgerBlue"/>
+    <!--<SolidColorBrush x:Key="PlotBackground" Color="Black" />-->
+    <!--<ImageBrush x:Key="PlotBackground" ImageSource="pack://siteoforigin:,,,/Resources/screen.jpg">
+
+    </ImageBrush>-->
+    <ImageBrush x:Key="prodigyIcon" ImageSource="pack://siteoforigin:,,,/Resources/Images/ProdigyIcon.ico">
+
+    </ImageBrush>
+    <SolidColorBrush x:Key="windowBackground" Color="AliceBlue"/>
+    <!--Cursers-->
+    <FrameworkElement x:Key="zoomInCursor" Cursor="pack://siteoforigin:,,,/Resources/zoomcursor.cur" />
+    <FrameworkElement x:Key="zoomOutCursor" Cursor="pack://siteoforigin:,,,/Resources/zoomoutcursor.cur" />
+    <FrameworkElement x:Key="panCursor" Cursor="Hand" />
+    <FrameworkElement x:Key="undoCursor" Cursor="pack://siteoforigin:,,,/Resources/UndoNew.cur" />
+    <FrameworkElement x:Key="fitCursor" Cursor="SizeAll" />
+
+    <!--<SolidColorBrush x:Key="NONE" Color="Black"/>
+    <SolidColorBrush x:Key="BOOT" Color="#170606"/>
+    <SolidColorBrush x:Key="IDENTIFICATION" Color="#101402"/>
+    <SolidColorBrush x:Key="INTERRUPT" Color="#020B0C"/>
+    <SolidColorBrush x:Key="DATATRANSFER" Color="#1A0607"/>
+    <SolidColorBrush x:Key="INACTIVE" Color="#110612"/>-->
+    <SolidColorBrush x:Key="NONE" Color="#FF000000"/>
+    <SolidColorBrush x:Key="BOOT" Color="#B7D1E9"/>
+    <SolidColorBrush x:Key="IDENTIFICATION" Color="#FFDFDF"/>
+    <SolidColorBrush x:Key="INTERRUPT" Color="#B7E9BD"/>
+    <SolidColorBrush x:Key="DATATRANSFER" Color="#CFB7E9"/>
+    <SolidColorBrush x:Key="INACTIVE" Color="#E9DFB7"/>
+    <Style x:Key="fontStyling" TargetType="{x:Type Control}">
+        <!--<Setter Property="OverridesDefaultStyle" Value="True"/>-->
+
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+
+        <Setter Property="Background" Value="AliceBlue"/>
+    </Style>
+    <!--Menu-->
+    <!--Styles-->
+    <LinearGradientBrush x:Key="ClickGradient">
+        <GradientStop Color="#FF5C2014"/>
+        <GradientStop Color="#FFB0452C"/>
+    </LinearGradientBrush>
+
+
+    <Style x:Key="MyFocusVisualStyte" >
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle x:Name="FocusStyle" StrokeDashArray="4 4" RadiusX="5" RadiusY="5" Fill="Transparent" 
+                               Stroke="#81d2eb" StrokeThickness="1" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="cursorInfoViewStyle" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontFamily" Value="Roboto"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="cursorInfoViewStyle1" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="Blue"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontFamily" Value="Roboto"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="cursorInfoViewStyle2" TargetType="{x:Type Label}">
+        <Setter Property="Foreground" Value="#FFF57687"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontFamily" Value="Roboto"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
+    <Style TargetType="Path" x:Key="basePath">
+        <Setter Property="OverridesDefaultStyle" Value="True"/>
+        <Setter Property="Stroke" Value="Gray"/>
+        <Setter Property="StrokeThickness" Value="0.8"/>
+        <Setter Property="Stretch" Value="Fill"/>
+        <Setter Property="Data">
+            <Setter.Value>
+                <PathGeometry>
+                    <PathGeometry.Figures>
+                        <PathFigureCollection>
+
+                            <PathFigure IsClosed="false" StartPoint="0,150">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,150" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                            <PathFigure IsClosed="false" StartPoint="150,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="150,300"/>
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                            <PathFigure IsClosed="false" StartPoint="148,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="152,0" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,5">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,5" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,10">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,10" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,15">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,15" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,20">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,20" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,25">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,25" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="148,30">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="152,30" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,35">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,35" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,40">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,40" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,45">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,45" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,50">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,50" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,55">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,55" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="148,60">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="152,60" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,65">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,65" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,70">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,70" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,75">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,75" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,80">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,80" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,85">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,85" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="148,90">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="152,90" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,95">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,95" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,100">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,100" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,105">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,105" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,110">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,110" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,115">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,115" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="148,120">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="152,120" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,125">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,125" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,130">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,130" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,135">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,135" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,140">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,140" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,145">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,145" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="148,150">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="152,150" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                            <PathFigure IsClosed="false" StartPoint="149,155">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,155" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,160">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,160" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,165">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,165" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,170">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,170" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,175">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,175" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="148,180">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="152,180" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,185">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,185" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,190">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,190" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,195">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,195" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,200">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,200" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,205">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,205" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="148,210">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="152,210" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,215">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,215" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,220">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,220" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,225">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,225" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,230">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,230" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,235">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,235" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="148,240">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="152,240" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,245">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,245" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,250">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,250" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,255">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,255" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,260">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,260" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,265">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,265" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="148,270">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="152,270" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,275">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,275" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,280">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,280" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,285">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,285" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,290">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,290" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="149,295">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="151,295" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="148,300">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="152,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                            <PathFigure IsClosed="false" StartPoint="0,147">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="0,153" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="5,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="5,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="10,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="10,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="15,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="15,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="20,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="20,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="25,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="25,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="30,147">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="30,153" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="35,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="35,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="40,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="40,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="45,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="45,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="50,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="50,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="55,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="55,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="60,147">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="60,153" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="65,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="65,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="70,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="70,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="75,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="75,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="80,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="80,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="85,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="85,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="90,147">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="90,153" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="95,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="95,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="100,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="100,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="105,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="105,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="110,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="110,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="115,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="115,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="120,147">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="120,153" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="125,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="125,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="130,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="130,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="135,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="135,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="140,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="140,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="145,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="145,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="150,147">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="150,153" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                            <PathFigure IsClosed="false" StartPoint="155,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="155,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="160,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="160,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="165,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="165,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="170,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="170,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="175,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="175,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="180,147">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="180,153" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="185,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="185,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="190,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="190,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="195,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="195,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="200,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="200,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="205,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="205,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="210,147">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="210,153" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="215,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="215,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="220,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="220,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="225,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="225,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="230,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="230,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="235,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="235,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="240,147">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="240,153" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="245,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="245,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="250,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="250,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="255,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="255,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="260,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="260,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="265,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="265,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="270,147">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="270,153" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="275,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="275,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="280,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="280,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="285,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="285,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="290,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="290,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="295,148">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="295,152" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="300,147">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,153" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                        </PathFigureCollection>
+                    </PathGeometry.Figures>
+                </PathGeometry>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="Path"           
+           x:Key="solidGrid">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Stroke" Value="Gray"/>
+        <Setter Property="StrokeThickness" Value="0.3"/>
+        <Setter Property="Stretch" Value="Fill"/>
+        <Setter Property="Data">
+            <Setter.Value>
+                <PathGeometry>
+                    <PathGeometry.Figures>
+                        <PathFigureCollection>
+                            <PathFigure IsClosed="false" StartPoint="0,30">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,30"/>
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,60">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,60" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,90">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,90" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                            <PathFigure IsClosed="false" StartPoint="0,120">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,120" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,150">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,150" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,180">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,180" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                            <PathFigure IsClosed="false" StartPoint="0,210">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,210" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,240">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,240" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,270">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,270" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,300">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                            <PathFigure IsClosed="false" StartPoint="30,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="30,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="60,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="60,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="90,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="90,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                            <PathFigure IsClosed="false" StartPoint="120,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="120,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="150,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="150,300"/>
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="180,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="180,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                            <PathFigure IsClosed="false" StartPoint="210,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="210,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="240,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="240,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="270,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="270,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="300,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                        </PathFigureCollection>
+                    </PathGeometry.Figures>
+                </PathGeometry>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="Path"           
+           x:Key="verticalPath">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Stroke" Value="DarkGray"/>
+        <Setter Property="StrokeThickness" Value="1"/>
+        <Setter Property="Stretch" Value="Fill"/>
+        <Setter Property="StrokeDashArray" Value="1 2 3"/>
+        <Setter Property="Data">
+            <Setter.Value>
+                <PathGeometry>
+                    <PathGeometry.Figures>
+                        <PathFigureCollection>
+                            <!--<PathFigure IsClosed="false" StartPoint="0,30">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,30"/>
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,60">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,60" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,90">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,90" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                            <PathFigure IsClosed="false" StartPoint="0,120">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,120" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,150">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,150" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,180">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,180" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                            <PathFigure IsClosed="false" StartPoint="0,210">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,210" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,240">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,240" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,270">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,270" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,300">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>-->
+                            <PathFigure IsClosed="false" StartPoint="0,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="0,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                            <PathFigure IsClosed="false" StartPoint="30,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="30,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="60,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="60,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="90,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="90,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                            <PathFigure IsClosed="false" StartPoint="120,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="120,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="150,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="150,300"/>
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="180,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="180,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                            <PathFigure IsClosed="false" StartPoint="210,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="210,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="240,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="240,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="270,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="270,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="300,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                        </PathFigureCollection>
+                    </PathGeometry.Figures>
+                </PathGeometry>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="Path"           
+           x:Key="horizontalPath">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Stroke" Value="Gray"/>
+        <Setter Property="StrokeThickness" Value="0.3"/>
+        <Setter Property="Stretch" Value="Fill"/>
+        <Setter Property="StrokeDashArray" Value="1 2 3"/>
+        <Setter Property="Data">
+            <Setter.Value>
+                <PathGeometry>
+                    <PathGeometry.Figures>
+                        <PathFigureCollection>
+                            <PathFigure IsClosed="false" StartPoint="0,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,0"/>
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,0">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="0,300"/>
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,300">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,300"/>
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="300,300">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,0"/>
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,285">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,285"/>
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,270">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,270" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,255">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,255" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                            <PathFigure IsClosed="false" StartPoint="0,240">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,240" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,225">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,225" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,150">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,150" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,180">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,180" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                            <PathFigure IsClosed="false" StartPoint="0,210">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,210" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,240">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,240" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,270">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,270" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+                            <PathFigure IsClosed="false" StartPoint="0,300">
+                                <PathFigure.Segments>
+                                    <PathSegmentCollection>
+                                        <LineSegment Point="300,300" />
+                                    </PathSegmentCollection>
+                                </PathFigure.Segments>
+                            </PathFigure>
+
+                        </PathFigureCollection>
+                    </PathGeometry.Figures>
+                </PathGeometry>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="Path" x:Key="dashGrid" BasedOn="{StaticResource solidGrid}">
+        <Setter Property="StrokeDashArray" Value="1 2 3"/>
+    </Style>
+
+</ResourceDictionary>
+<!---->

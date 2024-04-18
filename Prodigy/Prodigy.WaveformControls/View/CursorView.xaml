@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="Prodigy.WaveformControls.View.CursorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Shapes="clr-namespace:Prodigy.WaveformControls.View"
+             mc:Ignorable="d"
+             SizeChanged="CustomCursor_SizeChanged"
+             IsVisibleChanged="CustomCursor_IsVisibleChanged"             
+             Name="CustomCursor" >
+    <Grid Name="grid" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0">
+        <Path MouseMove="Path_MouseMove" MouseEnter="Path_MouseEnter" MouseLeave="Path_MouseLeave"
+              MouseDown="Path_MouseDown" MouseUp="Path_MouseUp" Name="path" >
+        </Path>
+        <TextBlock Padding="2" x:Name="lbl" Foreground="{Binding ForeColor, ElementName=CustomCursor}" 
+                   MouseMove="Path_MouseMove" MouseEnter="Path_MouseEnter" MouseLeave="Path_MouseLeave"
+                   MouseDown="Path_MouseDown" MouseUp="Path_MouseUp" Text="{Binding Caption, ElementName=CustomCursor}" 
+                   HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="0,0" FontSize="10" FontWeight="SemiBold" />
+    </Grid>
+</UserControl>

@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="PGYMiniCooper.CoreModule.View.CustomView.TestMultiCheck"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PGYMiniCooper.CoreModule.View.CustomView"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <DataTemplate x:Key="ListBoxItemTemplate" >
+            <WrapPanel>
+                <CheckBox Focusable="False" IsChecked="{Binding IsSelected}" VerticalAlignment="Center"  />
+                <ContentPresenter Content="{Binding Element.Name, Mode=OneTime}"  Margin="0" Visibility="Collapsed"/>
+            </WrapPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <ListBox x:Name="myList" Grid.Row="1" Margin="5" ItemTemplate="{DynamicResource ListBoxItemTemplate}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal"></WrapPanel>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+    </Grid>
+</UserControl>

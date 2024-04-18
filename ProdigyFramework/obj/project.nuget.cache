@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "scNbNtplofzE5tJOfORtFMjYz7RcLraNmRuGHOYCN//dx00REPwwEzxtdbBYSNZO/z3VTG+0LG7cpePXgWDvUg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\ProdigyFramework\\ProdigyFramework.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Shreyank\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\Shreyank\\.nuget\\packages\\system.data.datasetextensions\\4.6.0-preview3.19128.7\\system.data.datasetextensions.4.6.0-preview3.19128.7.nupkg.sha512"
+  ],
+  "logs": []
+}

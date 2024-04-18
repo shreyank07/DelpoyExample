@@ -1,0 +1,412 @@
+﻿<UserControl x:Class="PGYMiniCooper.CoreModule.View.Protocols.SPMIProtocolView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PGYMiniCooper.CoreModule.View.Protocols"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"    
+             xmlns:behavior="clr-namespace:ProdigyFramework.Behavior;assembly=ProdigyFramework"
+                  xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:conv="clr-namespace:PGYMiniCooper.CoreModule.View.Converters"
+        xmlns:vm1="clr-namespace:PGYMiniCooper.CoreModule.ViewModel.ProtocolViewModel"
+             xmlns:pvmi="clr-namespace:PGYMiniCooper.CoreModule.ViewModel.Interfaces"
+             d:DataContext="{d:DesignInstance vm1:ResultViewModel_SPMI}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <conv:CustomSPMIDataConveter x:Key="customSPMIDataConveter"/>
+        <conv:ErrorValueConverter x:Key="errorValueConverter"/>
+        <conv:ErrorDescriptionConverter x:Key="errorDescriptionConverter"/>
+        <conv:SlaveMIDConverter x:Key="slaveMIDConverter"/>
+        <ControlTemplate x:Key="validationErrorTemplate">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                    <Grid Width="12" Height="12">
+                        <Ellipse Width="12" Height="12"  Fill="Red" HorizontalAlignment="Center"   VerticalAlignment="Center" ></Ellipse>
+                        <TextBlock Foreground="White" FontWeight="Heavy"  FontSize="8" HorizontalAlignment="Center"  VerticalAlignment="Center" TextAlignment="Center" 
+                                   ToolTip="{Binding ElementName=ErrorAdorner,Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">X</TextBlock>
+                    </Grid>
+                    <TextBlock Foreground="Red" FontWeight="SemiBold" Margin="2,0,0,0" 
+                   Text="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"></TextBlock>
+                </StackPanel>
+                <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
+            </DockPanel> 
+        </ControlTemplate>
+        <DataTemplate x:Key="spmidatatemplate" DataType="{x:Type vm1:ResultViewModel_SPMI}">
+            <Border BorderThickness="0" Background="#FFF2FAFF" Padding="10"  >
+                <ScrollViewer VerticalScrollBarVisibility="Auto" CanContentScroll="True">
+                    <UniformGrid>
+                        <TextBox Style="{x:Null}" FontSize="14" IsReadOnly="True" MaxHeight="140" FontFamily="Courier New" Foreground="DarkBlue" MaxWidth="900" TextWrapping="Wrap" Text="{Binding Data,Converter={StaticResource customSPMIDataConveter}}" VerticalAlignment="Center" />
+                    </UniformGrid>
+                </ScrollViewer>
+            </Border>
+        </DataTemplate>
+        <Style TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Background" Value="#03a9f4" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="{x:Type DataGridRow}">
+            <Setter Property="Background" Value="#FFEDF9FD" />
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Orange"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="#3F66EC"/>
+                    <Setter Property="Foreground" Value="White"/>
+                </Trigger>
+                <DataTrigger Binding="{Binding IsHighlighted}" Value="True">
+                    <Setter Property="Background" Value="Yellow"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.Resources>
+        </Grid.Resources>
+
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <!--<RowDefinition Height="{Binding Height2}"></RowDefinition>-->
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Border x:Name="serachfilter"   Background="#59ABE3" BorderThickness="1" Grid.Row="0"  Margin="1"
+             Visibility="{Binding BorderVisibility,Converter={StaticResource BoolToVisibilityConverter},ConverterParameter=Collapsed}"
+         >
+            <ScrollViewer
+              VerticalScrollBarVisibility="Auto"
+              HorizontalScrollBarVisibility="Auto"
+              DataContext="{Binding SearchParameter}" >
+
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+
+                    <WrapPanel  Grid.Column="0" Grid.Row="0" Margin="2,5,2,5">
+                        <StackPanel Orientation="Horizontal" x:Name="wrap" >
+                            <RadioButton Content="Search"   x:Name="searchinbtn1" IsChecked="{Binding SearchMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static pvmi:SearchMode.Search}}" Margin="2" GroupName="x"></RadioButton>
+                            <RadioButton Content="Filterin"  x:Name="filterinbtn1"  IsChecked="{Binding SearchMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static pvmi:SearchMode.Filter_In}}" Margin="2"  GroupName="x"></RadioButton>
+                            <RadioButton Content="Filterout"   x:Name="filteroutbtn1"  IsChecked="{Binding SearchMode, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static pvmi:SearchMode.Filter_Out}}" Margin="2"  GroupName="x"></RadioButton>
+                            <StackPanel.Style>
+                                <Style TargetType="{x:Type StackPanel}">
+                                    <Setter Property="IsEnabled" Value="True" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSearchActive}" Value="True">
+                                            <Setter Property="IsEnabled" Value="False"  />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsFilterActive}" Value="True">
+                                            <Setter Property="IsEnabled" Value="False"  />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                        </StackPanel>
+                        <!--search-->
+                        <Button    BorderThickness="0" Background="#59ABE3" Margin="30,2,2,2" Command="{Binding SearchCommand}" ToolTip="Search Button to Search, FilterIn or FilterOut">
+
+                            <materialDesign:PackIcon Kind="DatabaseSearch" Foreground="Black" FontWeight="ExtraBlack"  Height="20" Width="20"/>
+
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="3"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+
+                        <!--Reset-->
+                        <Button   Margin="5,2,5,2" Background="#59ABE3" BorderThickness="0" ToolTip="Reset" Command="{Binding ResetCommand}" Height="22" Width=" 20">
+
+                            <materialDesign:PackIcon Kind="Restart" Foreground="Black" FontWeight="Bold" Height="20" Width=" 20"  />
+
+
+                        </Button>
+
+
+                        <!--previous-->
+                        <Button ToolTip="Search Previous" BorderThickness="0"  Background="#59ABE3" Command="{Binding PreviousCommand}" Margin="4,1,0,0" 
+                            IsEnabled="{Binding IsSearchActive}">
+                            <materialDesign:PackIcon Kind="SkipPreviousCircle" Height="20" Width=" 20" FontWeight="Medium" />
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="9"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+
+
+
+
+                        <!--next-->
+                        <Button ToolTip="Search Next" BorderThickness="0"    Background="#59ABE3" Command="{Binding NextCommand}" Margin="0,1,0,0" 
+                            IsEnabled="{Binding IsSearchActive}">
+                            <materialDesign:PackIcon Kind="SkipNextCircle" Height="20" Width=" 20"  FontWeight="Medium"/>
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="9"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+
+                    </WrapPanel>
+
+                    <!--border2-->
+                    <Border x:Name="enable" Grid.Row="1" Background="AliceBlue"  BorderThickness="1" BorderBrush="#eab676">
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="IsEnabled" Value="True" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSearchActive}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False"  />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsFilterActive}" Value="True">
+                                        <Setter Property="IsEnabled" Value="False"  />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <StackPanel Orientation="Vertical" Margin="3">
+                            <WrapPanel >
+                                <Label Content="Slave/MID" Margin="5,8,3,0" ></Label>
+                                <TextBox Text="{Binding SlaveID,UpdateSourceTrigger=PropertyChanged}" MaxLength="30" MinWidth="80" Height="20" Margin="2,8,0,5"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+
+                         >
+                           
+                                </TextBox>
+                                <Label Content="Command" Margin="5,8,3,0" ></Label>
+                                <ComboBox x:Name="CommandSPMI" MinWidth="100"  Height="20" Margin="2,8,0,5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  SelectedItem="{Binding CommandType}"/>
+
+                            </WrapPanel>
+
+                            <WrapPanel>
+                                 <!--Address-->
+                                <Label Content="RegAddress" Margin="6,8,3,0"></Label>
+                                <TextBox Text="{Binding RegAddress,UpdateSourceTrigger=PropertyChanged}" MaxLength="30" MinWidth="80" Height="20" Margin="2,8,0,5"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  
+                                    
+                            >
+                          
+                                </TextBox>
+
+                                 <!--Data-->
+                                <Label Content="Data" Margin="8,8,3,0" ></Label>
+                                <TextBox   MaxLength="30" Width="100" Height="20" Margin="29,8,0,5"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  
+                            >
+                                    <Binding Path="Data" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    </Binding>
+                                </TextBox>
+                            </WrapPanel>
+                            <WrapPanel>
+                                <Label Content="Byte Count" Margin="6,8,3,0"></Label>
+                                <TextBox Text="{Binding ByteCount,UpdateSourceTrigger=PropertyChanged}" MaxLength="30" MinWidth="80" Height="20" Margin="2,8,0,5"  HorizontalContentAlignment="Center" VerticalContentAlignment="Center"  
+                                    
+                            >
+                                </TextBox>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Border>
+
+                </Grid>
+            </ScrollViewer>
+        </Border>
+        <DataGrid Grid.Row="2"
+                  ItemsSource="{Binding SearchParameter.ResultView.View, IsAsync=True}"
+                  IsSynchronizedWithCurrentItem="True"
+                  SelectedIndex="0" 
+                  SelectedItem="{Binding WareHouse.SelectedFrame,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                  SelectionMode="Single"
+                  CanUserSortColumns="False" HorizontalAlignment="Stretch"
+                  CanUserDeleteRows="False"
+                  RowDetailsVisibilityMode="Collapsed"
+                  conv:DataGridExtension.RowLoadedCommand="{Binding RowLoadedCommand}"
+                  CanUserAddRows="False" HorizontalGridLinesBrush="#E9E3E3" VerticalGridLinesBrush="#E9E3E3"
+                  IsReadOnly="True"
+                  x:Name="spmigrid"
+                  AutoGenerateColumns="False" 
+                  RowHeaderWidth="25"
+                  HeadersVisibility="All"
+                  VirtualizingPanel.VirtualizationMode="Recycling"
+                  VirtualizingPanel.IsVirtualizing="True"
+                  VirtualizingPanel.ScrollUnit="Item"
+                  VirtualizingPanel.CacheLengthUnit="Item"
+                  VirtualizingPanel.CacheLength="10,10" 
+                  ScrollViewer.IsDeferredScrollingEnabled="True"
+            ScrollViewer.HorizontalScrollBarVisibility="Auto"
+            Width="Auto"
+            behavior:DataGridBehavior.AutoScrollIntoView="True">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectionCommand, Mode=OneWay}" CommandParameter="spmi"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#2A74D1"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White"/>
+                <Style TargetType="DataGridRowHeader">
+                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                    <Style.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Value="True">
+                                    <Condition.Binding>
+                                        <MultiBinding Converter="{StaticResource objectComparerConverter}">
+                                            <Binding Path="DataContext.WareHouse.TriggerPacket" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}"/>
+                                            <Binding Path="FrameIndex"/>
+                                        </MultiBinding>
+                                    </Condition.Binding>
+                                </Condition>
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Content" Value="T"/>
+                            <Setter Property="Foreground" Value="#256B0E"/>
+                        </MultiDataTrigger>
+
+                      
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding HasOwnershipTranfer}" Value="True" />
+                               
+                            </MultiDataTrigger.Conditions>
+
+                            <Setter Property="Content" Value="*" />
+                            <Setter Property="FontSize" Value="15"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                            <Setter Property="Foreground" Value="Red"/>
+                            <Setter Property="ToolTip" Value="Bus_Ownership_Transfer"/>
+                        </MultiDataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <!--<DataGridTextColumn Header="Index" Binding="{Binding FrameIndex}" />-->
+                <DataGridTextColumn Header="Time" MinWidth="60" Width="3*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource timestampConverter}">
+                            <Binding Path="StartTime" />
+                            <Binding Path="DataContext.WareHouse.TriggerTime" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ToolTip" Value="{Binding StartTime}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+
+
+                <DataGridTextColumn x:Name="Abit" Width="2*" Header="A Bit" Binding="{Binding HasA_bit}" Visibility="Collapsed"/>
+                <DataGridTextColumn  x:Name="Srbit" Width="2*" Header="Sr Bit" Binding="{Binding HasSr_bit}" Visibility="Collapsed" />
+
+                <DataGridTextColumn Header="Slave"  Width="2*" Binding="{Binding SlaveIdBind, Converter={StaticResource slaveMIDConverter}}"/>
+                <DataGridTextColumn Header="MID" Width="2*" Binding="{Binding MIDBind, Converter={StaticResource slaveMIDConverter}}"/>
+
+                <!--<DataGridTextColumn Header="Slave/MID"  Width="2*" Binding="{Binding SlaveId,StringFormat={}0x{0:X}}"/>-->
+
+                <DataGridTextColumn Header="Command"  Width="3*" Binding="{Binding Command.CmdType}"/>
+                <DataGridTextColumn Header="Reg Address"  Width="2*" Binding="{Binding IntAddress,StringFormat={}0x{0:X}}"/>
+                <DataGridTemplateColumn Header="Data"  Width="3*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Expander Template="{StaticResource StretchyExpanderTemp}"  Expanded="Expander_Expanded" Collapsed="Expander_Collapsed">
+                                    <Expander.Style>
+                                        <Style TargetType="{x:Type Expander}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Data.Count}" Value="{x:Null}">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Expander.Style>
+                                    <Expander.Header>
+                                        <TextBlock x:Name="header" Text="{Binding Data[0].Value,Converter={StaticResource decimalToHexConverter}}">
+                                            <!--<TextBlock.Style>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding TrasnsferType}" Value="NA">
+                                                            <Setter Property="Foreground" Value="MediumVioletRed" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=DataGridRow}}" Value="True">
+                                                            <Setter Property="Foreground" Value="White"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>-->
+                                        </TextBlock>
+                                    </Expander.Header>
+                                </Expander>
+                                <TextBlock Text="-" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                    <TextBlock.Style>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Data.Count}" Value="0">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="ByteCount"  Width="1*" Binding="{Binding ByteCount,Converter={StaticResource bytecountConverter}}"/>
+                <DataGridTextColumn Header="Frequency"  Width="2*" Binding="{Binding Frequency, Converter={StaticResource frequencyConverter}}"/>
+                <!--<DataGridTextColumn Header="Error"  Width="2*" Binding="{Binding ErrorType}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ToolTip" Value="{Binding ErrorType,Converter={StaticResource enumToDescriptionConverter}}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+
+                </DataGridTextColumn>-->
+
+                <DataGridTemplateColumn Header="Error" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding SPMIErrorType,Converter={StaticResource errorValueConverter}}" ToolTip="{Binding SPMIErrorType,Converter={StaticResource errorDescriptionConverter}}">
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Foreground" Value="Green"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding SPMIErrorType,Converter={StaticResource errorValueConverter}}" Value="Error">
+                                                <Setter Property="Foreground" Value="Red"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType=DataGridRow}}" Value="True">
+                                                <Setter Property="Foreground" Value="White"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <DataGrid.ContextMenu>
+                <ContextMenu Name="MarkerPlacement" StaysOpen="True" >
+                    <MenuItem Header="Columns List" >
+
+                        <CheckBox x:Name="AbitCheckbox" Content="A Bit"  IsChecked="False" Click="Checked"></CheckBox>
+                        <CheckBox Content="Sr Bit" x:Name="Srbitcheckbox"  IsChecked="False" Click="Srbitcheckbox_Click"></CheckBox>
+
+
+                    </MenuItem>
+                    <MenuItem Header="Goto Trigger position" Command="{Binding GotoTrigger}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+    </Grid>
+</UserControl>

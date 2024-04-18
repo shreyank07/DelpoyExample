@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="PGYMiniCooper.CoreModule.View.CustomView.StateGroupControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PGYMiniCooper.CoreModule.View.CustomView"
+             mc:Ignorable="d" x:Name="statecontrol"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="35"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="40"/>
+        </Grid.ColumnDefinitions>
+        <Label Margin="5,0,0,0" Grid.Column="0" Content="{Binding ClockName}" VerticalAlignment="Center" />
+        <ComboBox Margin="5,0,0,0" Grid.Column="1" SelectedItem="{Binding SelectedClock}" ItemsSource="{Binding ChannelList,UpdateSourceTrigger=PropertyChanged}">
+            
+        </ComboBox>
+        <Label Margin="5,0,0,0"  Grid.Column="2" Content="And" VerticalAlignment="Center" />
+        <Label  Grid.Column="3" Content="{Binding GroupName}" VerticalAlignment="Center" />
+        <ComboBox Margin="5,0,0,0" Grid.Column="4"  ItemsSource="{Binding MultiChannelList,UpdateSourceTrigger=PropertyChanged}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox IsChecked="{Binding IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Tag="{RelativeSource AncestorType={x:Type ComboBox}}">
+                        <TextBlock Text="{Binding Description}" />
+                    </CheckBox>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+        <Button Margin="5,0,0,0" Content="Add" Command="{Binding DataContext.AddCommand, ElementName=statecontrol,UpdateSourceTrigger=PropertyChanged}" Grid.Column="5"/>
+        <Button Margin="5,0,0,0" Content="Remove" Command="{Binding DataContext.DeleteCommand, ElementName=statecontrol,UpdateSourceTrigger=PropertyChanged}" Grid.Column="6"/>
+
+    </Grid>
+</UserControl>

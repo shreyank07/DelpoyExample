@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="Prodigy.WaveformControls.View.CursorInfoView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
+             Name="cusorInfo"
+             d:DesignHeight="38.346" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <!--<RowDefinition Height="14" />-->
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Column="0" >
+            <Label Grid.Row="0" FontFamily="Roboto" FontSize="12" FontWeight="SemiBold" HorizontalContentAlignment="Center" Foreground="{Binding Cursor1LabelForeColor,ElementName=cusorInfo}"
+               Grid.Column="0" VerticalAlignment="Center"
+               Content="{Binding Cursor1Label,ElementName=cusorInfo}" ContentStringFormat=" {0} ="
+               Padding="0" />
+            <Label Grid.Row="1" FontFamily="Roboto" FontSize="12" FontWeight="SemiBold" HorizontalContentAlignment="Center" Foreground="{Binding Cursor1LabelForeColor,ElementName=cusorInfo}"
+               Margin="5,0,0,0" VerticalAlignment="Center"
+               Grid.Column="0"
+               DataContext="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}"
+               Padding="0" >
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=CursorType}" Value="V_Bar">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <MultiBinding
+                                        Converter="{StaticResource doubleToTimeConverter}">
+                                            <Binding Path="Cursor1Position" />
+                                            <Binding Path="TriggerPosition" />
+                                            <Binding Path="SampleRate"  />
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=CursorType}" Value="H_Bar">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Cursor1Position,Converter={StaticResource doubleToNumberConverter}}" />
+                                            <TextBlock Text="{Binding HUnitLabel}" />
+                                        </StackPanel>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Column="1">
+            <Label Grid.Row="0" VerticalAlignment="Center"
+              FontFamily="Roboto" FontSize="12" FontWeight="SemiBold" HorizontalContentAlignment="Center" Foreground="{Binding Cursor2LabelForeColor,ElementName=cusorInfo}"
+               Grid.Column="1" 
+               Content="{Binding Cursor2Label,ElementName=cusorInfo}" ContentStringFormat=" {0} ="
+               Padding="0" />
+            <Label Grid.Row="1"
+               Grid.Column="1"
+               Margin="5,0,0,0" VerticalAlignment="Center" FontFamily="Roboto" FontSize="12" FontWeight="SemiBold" HorizontalContentAlignment="Center" Foreground="{Binding Cursor2LabelForeColor,ElementName=cusorInfo}"
+               DataContext="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}"
+               Padding="0">
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=CursorType}" Value="V_Bar">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <MultiBinding
+                                        Converter="{StaticResource doubleToTimeConverter}">
+                                            <Binding Path="Cursor2Position" />
+                                            <Binding Path="TriggerPosition" />
+                                            <Binding Path="SampleRate"  />
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=CursorType}" Value="H_Bar">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Cursor2Position,Converter={StaticResource doubleToNumberConverter}}" />
+                                            <TextBlock Text="{Binding HUnitLabel}" />
+                                        </StackPanel>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Column="2">
+            <Label Grid.Row="0" VerticalAlignment="Center"
+               Grid.Column="2" FontFamily="Roboto" FontSize="12" FontWeight="SemiBold" HorizontalContentAlignment="Center" Foreground="{Binding CursorDeltaLabelForeColor,ElementName=cusorInfo}"
+               Content="{Binding CursorDeltaLabel,ElementName=cusorInfo}" ContentStringFormat=" {0} ="
+               Padding="0" />
+            <Label Grid.Row="1"
+               Grid.Column="2" FontFamily="Roboto" FontSize="12" FontWeight="SemiBold" HorizontalContentAlignment="Center" Foreground="{Binding CursorDeltaLabelForeColor,ElementName=cusorInfo}"
+               Margin="5,0,0,0" VerticalAlignment="Center"
+               DataContext="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType=UserControl}}"
+               Padding="0" >
+                <Label.Style>
+                    <Style TargetType="Label">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=CursorType}" Value="V_Bar">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <MultiBinding
+                                        Converter="{StaticResource doubleToTimeConverter}">
+                                            <Binding Path="CursorDelta" />
+                                            <Binding Path="SampleRate"  />
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Path=CursorType}" Value="H_Bar">
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding CursorDelta,Converter={StaticResource doubleToNumberConverter}}" />
+                                            <TextBlock Text="{Binding HUnitLabel}" />
+                                        </StackPanel>
+                                    </Setter.Value>
+                                </Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Label.Style>
+            </Label>
+        </StackPanel>
+    </Grid>
+</UserControl>

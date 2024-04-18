@@ -1,0 +1,22 @@
+﻿<Application x:Class="PGYMiniCooper.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:PGYMiniCooper"
+             Startup="Application_Startup" DispatcherUnhandledException="Application_DispatcherUnhandledException"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/ProdigyFramework;component/ResourceDictionary/MergedDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="{x:Type TextBlock}">
+                <Setter Property="FontFamily" Value="Roboto" />
+                <!--<Setter Property="FontSize" Value="14" />-->
+            </Style>
+            <Style TargetType="{x:Type Control}">
+                <Setter Property="FontFamily" Value="Roboto" />
+                <!--<Setter Property="FontSize" Value="12" />-->
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

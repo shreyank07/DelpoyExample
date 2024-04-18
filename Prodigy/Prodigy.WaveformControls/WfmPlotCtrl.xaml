@@ -1,0 +1,828 @@
+﻿<UserControl x:Class="Prodigy.WaveformControls.WfmPlotCtrl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WPF4"
+             xmlns:View="clr-namespace:Prodigy.WaveformControls.View" 
+             xmlns:local="clr-namespace:Prodigy.WaveformControls" 
+             x:Name="userControl" 
+             xmlns:converters="clr-namespace:Prodigy.WaveformControls.Converters"
+             AllowDrop="True" 
+             DragOver="userControl_DragOver" 
+             mc:Ignorable="d" 
+             MinHeight="200" MinWidth="200"     
+             Foreground="{x:Null}"     
+             ClipToBounds="True">
+    <UserControl.Resources>
+        <converters:DoubleComparerConverter x:Key="doubleComparerConverter"/>
+        <converters:DefaultConverter x:Key="defaultConverter" />
+    </UserControl.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Drop">
+            <cmd:EventToCommand Command="{Binding DropCommand, Mode=OneWay}"
+                                PassEventArgsToCommand="True" />
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Loaded">
+            <cmd:EventToCommand Command="{Binding InitializeCommand, Mode=OneWay}"
+                                PassEventArgsToCommand="False" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <DockPanel LastChildFill="True">
+        <!--Below grid is for the Unzoomed Plot-->
+        <Grid Height="100" DockPanel.Dock="Top" Margin="0,2,0,2">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Setter Property="Visibility">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource doubleComparerConverter}">
+                                <Binding Path="WfmShowingStartIndex"/>
+                                <Binding Path="WfmShowingStopIndex"/>
+                                <Binding Path="MaximumIndex" />
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Grid.Style>            
+            <Grid Grid.Column="1" Margin="25,0,25,0" Background="Black">
+                <!--UnZoom Waveform Control-->
+                <View:PlotterView DataContext="{Binding}"                                   
+                                  x:Name="fullPlotter"
+                                  IsOptimized="True"
+                                  PointsDataSource="WfmCompletePoints"
+                                  PlotEvent="NONE"
+                                  StartIndex="0"
+                                  PlotCollection="{Binding PlotCollection}"
+                                  SelectedChart="{Binding SelectedPlot,Mode=TwoWay}"                                  
+                                  MaxIndex="{Binding MaximumIndex}"
+                                  BusDataSourceString="BusFullData">
+                    <View:PlotterView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="On/Off" ItemsSource="{Binding PlotCollection}" >
+                                <MenuItem.ItemContainerStyle>
+                                    <Style TargetType="MenuItem">
+                                        <Setter Property="Header" Value="{Binding Import.Tag}" />
+                                        <Setter Property="IsChecked" Value="{Binding IsShowing}"/>
+                                        <Setter Property="Command" Value="{Binding DataContext.EnableCommand,
+                                                RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type MenuItem}}}"/>
+                                        <Setter Property="CommandParameter" Value="{Binding}" />
+                                    </Style>
+                                </MenuItem.ItemContainerStyle>
+                            </MenuItem>
+                            <MenuItem Header="Remove"
+                                      ItemsSource="{Binding PlotCollection}" >
+                                <MenuItem.ItemContainerStyle>
+                                    <Style TargetType="MenuItem">
+                                        <Setter Property="Icon" >
+                                            <Setter.Value>
+                                                <Image Width="16" Height="16" Source="pack://siteoforigin:,,,/Resources/delete.png"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Header" Value="{Binding Import.Tag}" />
+                                        <Setter Property="Command" 
+                                                Value="{Binding DataContext.RemoveCommand,
+                                                RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type MenuItem}}}"/>
+                                        <Setter Property="CommandParameter" Value="{Binding}" />
+                                    </Style>
+                                </MenuItem.ItemContainerStyle>
+                            </MenuItem>
+                            <MenuItem Header="Cursors">
+                                <MenuItem Header="H Bar" 
+                                          IsCheckable="True"
+                                          IsChecked="{Binding HCursorON}">
+                                </MenuItem>
+                                <MenuItem Header="V Bar" 
+                                          IsCheckable="True"
+                                          IsChecked="{Binding VCursorON}">
+                                </MenuItem>
+                                <MenuItem Header="OFF" Command="{Binding CursorSelectionCommand}" CommandParameter="OFF">
+                                    <MenuItem.Style>
+                                        <Style TargetType="MenuItem">
+                                            <Style.Triggers>
+                                                <MultiDataTrigger>
+                                                    <MultiDataTrigger.Conditions>
+                                                        <Condition Binding="{Binding HCursorON}" Value="false" />
+                                                        <Condition Binding="{Binding VCursorON}" Value="false" />
+                                                    </MultiDataTrigger.Conditions>
+                                                    <MultiDataTrigger.Setters>
+                                                        <Setter Property="IsChecked" Value="true"/>
+                                                    </MultiDataTrigger.Setters>
+                                                </MultiDataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </MenuItem.Style>
+                                </MenuItem>
+                            </MenuItem>
+                            <MenuItem Header="Markers">
+                                <MenuItem Header="Marker1ON"
+                                          IsCheckable="True"
+                                          IsChecked="{Binding MCursor1ON}"
+                                          Command="{Binding MarkerSelectionCommand}"
+                                          CommandParameter="{Binding PlotCollection[0]}" />
+                                <MenuItem Header="Marker2ON" 
+                                          IsCheckable="True"
+                                          IsChecked="{Binding MCursor2ON}" 
+                                          Command="{Binding MarkerSelectionCommand}"
+                                          CommandParameter="{Binding PlotCollection[0]}" />
+                                <MenuItem Header="Marker3ON" 
+                                          IsCheckable="True"
+                                          IsChecked="{Binding MCursor3ON}" 
+                                          Command="{Binding MarkerSelectionCommand}"
+                                          CommandParameter="{Binding PlotCollection[0]}" />
+                                <MenuItem Header="Marker4ON" 
+                                          IsCheckable="True"
+                                          IsChecked="{Binding MCursor4ON}" 
+                                          Command="{Binding MarkerSelectionCommand}"
+                                          CommandParameter="{Binding PlotCollection[0]}" />
+                            </MenuItem>
+                            <MenuItem Header="ZoomOff" Click="menu_ZoomOff_Click" />
+                        </ContextMenu>
+                    </View:PlotterView.ContextMenu>
+                </View:PlotterView>
+                <!--Grid Lines-->
+                <View:BaseGridLines PlotView="{Binding SelectedPlotView,ElementName=fullPlotter}" 
+                                    x:Name="fullPlotter_gridlines"
+                                    IsDirty="{Binding IsDirty,ElementName=fullPlotter,Mode=TwoWay}">
+                    <Path Style="{StaticResource dashGrid}" Height="{Binding ActualHeight,ElementName=fullPlotter_gridlines}" Width="{Binding ActualWidth,ElementName=fullPlotter_gridlines}" />
+                    <Path Style="{StaticResource basePath}" Height="{Binding ActualHeight,ElementName=fullPlotter_gridlines}" Width="{Binding ActualWidth,ElementName=fullPlotter_gridlines}"/>
+                </View:BaseGridLines>
+                <!--Trigger Marker to Show Trigger Position-->
+                <View:TriggerMarkerView TriggerIndex="{Binding SelectedPlotView.DataContext.TriggerPosition,ElementName=fullPlotter}"
+                                        SelectedPlotView="{Binding SelectedPlotView,ElementName=fullPlotter}"
+                                        MarkerHeight="5"
+                                        MarkerWidth="5"/>
+                <!--Marker to show the currsor position of zoom window-->
+                <View:AdornMarker SelectedPlotView="{Binding SelectedPlotView,ElementName=plotter,Mode=TwoWay}"
+                                  MouseNavigation="{Binding MouseNavigation,ElementName=plotter}"
+                                  PlotView="{Binding SelectedPlotView,ElementName=fullPlotter,Mode=TwoWay}"
+                                  />
+                <!--Cursors Added here See the Bindings-->
+                <Grid SizeChanged="Grid_SizeChanged" >
+                    <View:CursorView Caption="V2" 
+                                     ForeColor="{DynamicResource Cursor2_ForeColor}" 
+                                     x:Name="full_HCursor2" 
+                                     HorizontalAlignment="Left" 
+                                     VerticalAlignment="Top" 
+                                     Visibility="{Binding HCursorON,Converter={StaticResource boolToVisibilityConverter},
+                                     ConverterParameter=Collapsed}"
+                                     Position="0.6"
+                                     SelectedPlotView="{Binding SelectedPlotView,ElementName=fullPlotter}"
+                                     CursorPosition="{Binding HCursor2Position,Mode=TwoWay}"
+                                     CursorType="H_BAR"
+                                     BackColor="{DynamicResource Cursor2_BackColor}" Panel.ZIndex="1"/>
+                    <View:CursorView Caption="V1" 
+                                     ForeColor="{DynamicResource Cursor1_ForeColor}" 
+                                     BackColor="{DynamicResource Cursor1_BackColor}" 
+                                     x:Name="full_HCursor1"
+                                     Position="0.4"
+                                     SelectedPlotView="{Binding SelectedPlotView,ElementName=fullPlotter}"
+                                     Visibility="{Binding HCursorON,Converter={StaticResource boolToVisibilityConverter},
+                                     ConverterParameter=Collapsed}"
+                                     CursorPosition="{Binding HCursor1Position,Mode=TwoWay}"
+                                     CursorType="H_BAR"
+                                     HorizontalAlignment="Left" 
+                                     VerticalAlignment="Top" 
+                                     Panel.ZIndex="1" />
+                    <View:CursorView Caption="T2" 
+                                     SelectedPlotView="{Binding SelectedPlotView,ElementName=fullPlotter}"
+                                     ForeColor="{DynamicResource Cursor2_ForeColor}" 
+                                     x:Name="full_VCursor2"                       
+                                     HorizontalAlignment="Left" 
+                                     VerticalAlignment="Top" 
+                                     Height="366" 
+                                     Position="0.6"
+                                     Visibility="{Binding VCursorON,Converter={StaticResource boolToVisibilityConverter}
+                                     ,ConverterParameter=Collapsed}"
+                                     CursorPosition="{Binding VCursor2Position,Mode=TwoWay}"
+                                     CursorType="V_BAR"
+                                     BackColor="{DynamicResource Cursor2_BackColor}" Panel.ZIndex="2"/>
+                    <View:CursorView Caption="T1" 
+                                     ForeColor="{DynamicResource Cursor1_ForeColor}" 
+                                     BackColor="{DynamicResource Cursor1_BackColor}" 
+                                     x:Name="full_VCursor1"
+                                     Position="0.4"
+                                     SelectedPlotView="{Binding SelectedPlotView,ElementName=fullPlotter}"
+                                     Visibility="{Binding VCursorON,Converter={StaticResource boolToVisibilityConverter}
+                                     ,ConverterParameter=Collapsed}"
+                                     CursorPosition="{Binding VCursor1Position,Mode=TwoWay}"
+                                     CursorType="V_BAR"
+                                     HorizontalAlignment="Left" 
+                                     VerticalAlignment="Top" 
+                                     Panel.ZIndex="2" />
+                </Grid>
+                <!--Marker Container-->
+                <Grid SizeChanged="Grid_SizeChanged" >
+                    <View:CursorView Caption="M1" 
+                                     ForeColor="Black" 
+                                     HorizontalAlignment="Left" 
+                                     VerticalAlignment="Top" 
+                                     Visibility="{Binding MCursor1ON,Converter={StaticResource boolToVisibilityConverter},
+                                     ConverterParameter=Collapsed}"
+                                     Position="0.2"
+                                     SelectedPlotView="{Binding SelectedPlotView,ElementName=fullPlotter}"
+                                     CursorPosition="{Binding MCursor1Position,Mode=TwoWay}"
+                                     CursorType="V_BAR"
+                                     BackColor="White" Panel.ZIndex="1"/>
+                    <View:CursorView Caption="M2" 
+                                     ForeColor="Black" 
+                                     BackColor="White" 
+                                     Position="0.4"
+                                     SelectedPlotView="{Binding SelectedPlotView,ElementName=fullPlotter}"
+                                     Visibility="{Binding MCursor2ON,Converter={StaticResource boolToVisibilityConverter},
+                                     ConverterParameter=Collapsed}"
+                                     CursorPosition="{Binding MCursor2Position,Mode=TwoWay}"
+                                     CursorType="V_BAR"
+                                     HorizontalAlignment="Left" 
+                                     VerticalAlignment="Top" 
+                                     Panel.ZIndex="1" />
+                    <View:CursorView Caption="M3" 
+                                     SelectedPlotView="{Binding SelectedPlotView,ElementName=fullPlotter}"
+                                     ForeColor="Black"                   
+                                     HorizontalAlignment="Left" 
+                                     VerticalAlignment="Top"  
+                                     Position="0.6"
+                                     Visibility="{Binding MCursor3ON,Converter={StaticResource boolToVisibilityConverter}
+                                     ,ConverterParameter=Collapsed}"
+                                     CursorPosition="{Binding MCursor3Position,Mode=TwoWay}"
+                                     CursorType="V_BAR"
+                                     BackColor="White" Panel.ZIndex="1"/>
+                    <View:CursorView Caption="M4" 
+                                     ForeColor="Black" 
+                                     BackColor="White" 
+                                     Position="0.8"
+                                     SelectedPlotView="{Binding SelectedPlotView,ElementName=fullPlotter}"
+                                     Visibility="{Binding MCursor4ON,Converter={StaticResource boolToVisibilityConverter}
+                                     ,ConverterParameter=Collapsed}"
+                                     CursorPosition="{Binding MCursor4Position,Mode=TwoWay}"
+                                     CursorType="V_BAR"
+                                     HorizontalAlignment="Left" 
+                                     VerticalAlignment="Top" 
+                                     Panel.ZIndex="1" />
+                </Grid>
+            </Grid>
+            <View:PositionerGrid Plotter="{Binding ElementName=fullPlotter}"
+                                 Grid.Column="0"
+                                 DisplayMemberPath="Import.Tag" 
+                                 ClipToBounds="False"
+                                 Width="25"
+                                 HorizontalAlignment="Left"/>
+        </Grid>
+        <Grid Name="parent" DockPanel.Dock="Top" MinHeight="150" MinWidth="50" >
+            <Grid.RowDefinitions>
+                <RowDefinition MinHeight="50"/>
+                <RowDefinition Height="Auto" MinHeight="0"/>
+            </Grid.RowDefinitions>
+            <!--Below ItemsControl containes the Trend Plots-->
+            <ItemsControl Grid.Row="1"                      
+                          Name="list" 
+                          ItemsSource="{Binding TrendPlotCollection}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,2,0,2" Height="100">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="25" />
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="25" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Grid.Column="1">
+                                <View:BaseGridLines PlotView="{Binding SelectedPlotView,ElementName=t_plotter}" 
+                                                    Background="Black"
+                                                    x:Name="t_plotter_gridlines"
+                                                    VerticalDivisionCount="5"
+                                                    IsDirty="{Binding IsDirty,ElementName=t_plotter,Mode=TwoWay}">
+                                    <Path Style="{StaticResource dashGrid}" Height="{Binding ActualHeight,ElementName=t_plotter_gridlines}" Width="{Binding ActualWidth,ElementName=t_plotter_gridlines}" />
+                                    <Path Style="{StaticResource basePath}" Height="{Binding ActualHeight,ElementName=t_plotter_gridlines}" Width="{Binding ActualWidth,ElementName=t_plotter_gridlines}"/>
+                                </View:BaseGridLines>
+                                <View:PlotterView  x:Name="t_plotter"
+                                                   Plot="{Binding Converter={StaticResource defaultConverter}}"    
+                                                   MultiZoomDisabled="True"
+                                                   PointsDataSource="Point"
+                                                   IsMouseEnabled="True"
+                                                   PlotEvent="{Binding PlotEvent,Mode=TwoWay}"
+                                                   MaxIndex="{Binding WfmLength}">
+                                    <View:PlotterView.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="ZoomIn" 
+                                                      IsCheckable="True" 
+                                                      IsChecked="{Binding PlotEvent,Converter={StaticResource enumToBooleanConverter},ConverterParameter=ZOOM_IN,Mode=TwoWay}"
+                                                      >
+                                            </MenuItem>
+                                            <MenuItem Header="ZoomOut" IsCheckable="True" 
+                                                      IsChecked="{Binding PlotEvent,Converter={StaticResource enumToBooleanConverter},ConverterParameter=ZOOM_OUT,Mode=TwoWay}"
+                                                      >
+                                            </MenuItem>
+                                            <MenuItem Header="Pan" IsCheckable="True" 
+                                                      IsChecked="{Binding PlotEvent,Converter={StaticResource enumToBooleanConverter},ConverterParameter=PAN,Mode=TwoWay}"
+                                                      >
+                                            </MenuItem>
+                                            <MenuItem Header="Fit" IsCheckable="True" 
+                                                      IsChecked="{Binding PlotEvent,Converter={StaticResource enumToBooleanConverter},ConverterParameter=FIT,Mode=TwoWay}"
+                                                      >
+                                            </MenuItem>
+                                            <MenuItem Header="Cursors">
+                                                <MenuItem Header="H Bar" 
+                                                          Command="{Binding CursorSelectionCommand}" 
+                                                          CommandParameter="H_BAR"
+                                                          IsChecked="{Binding HCursorON}">
+                                                </MenuItem>
+                                                <MenuItem Header="V Bar" 
+                                                          Command="{Binding CursorSelectionCommand}" 
+                                                          CommandParameter="V_BAR"
+                                                          IsChecked="{Binding VCursorON}">
+                                                </MenuItem>
+                                                <MenuItem Header="OFF" Command="{Binding CursorSelectionCommand}" CommandParameter="OFF">
+                                                    <MenuItem.Style>
+                                                        <Style TargetType="MenuItem">
+                                                            <Style.Triggers>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding HCursorON}" Value="false" />
+                                                                        <Condition Binding="{Binding VCursorON}" Value="false" />
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <MultiDataTrigger.Setters>
+                                                                        <Setter Property="IsChecked" Value="true"/>
+                                                                    </MultiDataTrigger.Setters>
+                                                                </MultiDataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </MenuItem.Style>
+                                                </MenuItem>
+                                            </MenuItem>
+                                            <MenuItem Header="Markers">
+                                                <MenuItem Header="Marker1ON"
+                                                          IsCheckable="True"
+                                                          IsChecked="{Binding DataContext.MCursor1ON,Source={x:Reference list},Mode=TwoWay}"
+                                                          Command="{Binding DataContext.MarkerSelectionCommand,Source={x:Reference list}}"
+                                                          CommandParameter="{Binding}"/>
+                                                <MenuItem Header="Marker2ON" 
+                                                          IsCheckable="True"
+                                                          IsChecked="{Binding DataContext.MCursor2ON,Source={x:Reference list},Mode=TwoWay}"
+                                                          Command="{Binding DataContext.MarkerSelectionCommand,Source={x:Reference list}}"
+                                                          CommandParameter="{Binding}" />
+                                                <MenuItem Header="Marker3ON" 
+                                                          IsCheckable="True"
+                                                          IsChecked="{Binding DataContext.MCursor3ON,Source={x:Reference list},Mode=TwoWay}"
+                                                          Command="{Binding DataContext.MarkerSelectionCommand,Source={x:Reference list}}"
+                                                          CommandParameter="{Binding}" />
+                                                <MenuItem Header="Marker4ON" 
+                                                          IsCheckable="True"
+                                                          IsChecked="{Binding DataContext.MCursor4ON,Source={x:Reference list},Mode=TwoWay}"
+                                                          Command="{Binding DataContext.MarkerSelectionCommand,Source={x:Reference list}}"
+                                                          CommandParameter="{Binding}" />
+                                            </MenuItem>
+                                        </ContextMenu>
+                                    </View:PlotterView.ContextMenu>
+                                </View:PlotterView>
+                                <!--Label Max and Min-->
+                                <DockPanel>
+                                    <StackPanel DockPanel.Dock="Top"
+                                                Orientation="Horizontal">
+                                        <TextBlock Text="Max: " 
+                                                   Foreground="White"/>
+                                        <TextBlock Foreground="White" >
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text">
+                                                        <Setter.Value>
+                                                            <MultiBinding Converter="{StaticResource measurementValueToStringConverter}">
+                                                                <Binding  Path="Max" />
+                                                                <Binding Path="MeasurementType" />
+                                                            </MultiBinding>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                    <StackPanel DockPanel.Dock="Bottom"
+                                                Orientation="Horizontal">
+                                        <TextBlock Text="Min: " 
+                                                   VerticalAlignment="Bottom"
+                                                   Foreground="White"/>
+                                        <TextBlock VerticalAlignment="Bottom" 
+                                                   Foreground="White">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text">
+                                                        <Setter.Value>
+                                                            <MultiBinding Converter="{StaticResource measurementValueToStringConverter}">
+                                                                <Binding  Path="Min" />
+                                                                <Binding Path="MeasurementType" />
+                                                            </MultiBinding>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DockPanel>
+                                <!--Cursor Container-->
+                                <Grid SizeChanged="Grid_SizeChanged">
+                                    <View:CursorView Caption="C2" 
+                                                     ForeColor="{DynamicResource Cursor2_ForeColor}" 
+                                                     HorizontalAlignment="Left" 
+                                                     VerticalAlignment="Top" 
+                                                     Visibility="{Binding VCursorON,Converter={StaticResource boolToVisibilityConverter},
+                                                     ConverterParameter=Collapsed}"
+                                                     Position="0.5"
+                                                     SelectedPlotView="{Binding SelectedPlotView,ElementName=t_plotter}"
+                                                     CursorPosition="{Binding VCursor2Position,Mode=TwoWay}"
+                                                     CursorType="V_BAR"
+                                                     BackColor="{DynamicResource Cursor2_BackColor}" Panel.ZIndex="0"/>
+                                    <View:CursorView Caption="C1" 
+                                                     ForeColor="{DynamicResource Cursor1_ForeColor}" 
+                                                     BackColor="{DynamicResource Cursor1_BackColor}" 
+                                                     Position="0.4"
+                                                     SelectedPlotView="{Binding SelectedPlotView,ElementName=t_plotter}"
+                                                     Visibility="{Binding VCursorON,Converter={StaticResource boolToVisibilityConverter},
+                                                     ConverterParameter=Collapsed}"
+                                                     CursorPosition="{Binding VCursor1Position,Mode=TwoWay}"
+                                                     CursorType="V_BAR"
+                                                     HorizontalAlignment="Left" 
+                                                     VerticalAlignment="Top" 
+                                                     Panel.ZIndex="0" />
+                                    <View:CursorView Caption="C2" 
+                                                     ForeColor="{DynamicResource Cursor2_ForeColor}" 
+                                                     HorizontalAlignment="Left" 
+                                                     VerticalAlignment="Top" 
+                                                     Visibility="{Binding HCursorON,Converter={StaticResource boolToVisibilityConverter},
+                                                     ConverterParameter=Collapsed}"
+                                                     Position="0.5"
+                                                     SelectedPlotView="{Binding SelectedPlotView,ElementName=t_plotter}"
+                                                     CursorPosition="{Binding HCursor2Position,Mode=TwoWay}"
+                                                     CursorType="H_BAR"
+                                                     BackColor="{DynamicResource Cursor2_BackColor}" Panel.ZIndex="1"/>
+                                    <View:CursorView Caption="C1" 
+                                                     ForeColor="{DynamicResource Cursor1_ForeColor}" 
+                                                     BackColor="{DynamicResource Cursor1_BackColor}" 
+                                                     Position="0.4"
+                                                     SelectedPlotView="{Binding SelectedPlotView,ElementName=t_plotter}"
+                                                     Visibility="{Binding HCursorON,Converter={StaticResource boolToVisibilityConverter},
+                                                     ConverterParameter=Collapsed}"
+                                                     CursorPosition="{Binding HCursor1Position,Mode=TwoWay}"
+                                                     CursorType="H_BAR"
+                                                     HorizontalAlignment="Left" 
+                                                     VerticalAlignment="Top" 
+                                                     Panel.ZIndex="1" />
+                                </Grid>
+                                <!--Marker Container-->
+                                <Grid SizeChanged="Grid_SizeChanged" >
+                                    <View:CursorView Caption="M1" 
+                                                     ForeColor="Black" 
+                                                     HorizontalAlignment="Left" 
+                                                     VerticalAlignment="Top" 
+                                                     Visibility="{Binding DataContext.MCursor1ON,ElementName=list,Mode=TwoWay,Converter={StaticResource boolToVisibilityConverter},
+                                                     ConverterParameter=Collapsed}"
+                                                     Position="0.2"
+                                                     SelectedPlotView="{Binding SelectedPlotView,ElementName=t_plotter}"
+                                                     CursorPosition="{Binding DataContext.MCursor1Position,ElementName=list,Mode=TwoWay}"
+                                                     CursorType="V_BAR"
+                                                     BackColor="White" Panel.ZIndex="1"/>
+                                    <View:CursorView Caption="M2" 
+                                                     ForeColor="Black" 
+                                                     BackColor="White" 
+                                                     Position="0.4"
+                                                     SelectedPlotView="{Binding SelectedPlotView,ElementName=t_plotter}"
+                                                     Visibility="{Binding DataContext.MCursor2ON,ElementName=list,Mode=TwoWay,Converter={StaticResource boolToVisibilityConverter},
+                                                     ConverterParameter=Collapsed}"
+                                                     CursorPosition="{Binding DataContext.MCursor2Position,ElementName=list,Mode=TwoWay}"
+                                                     CursorType="V_BAR"
+                                                     HorizontalAlignment="Left" 
+                                                     VerticalAlignment="Top" 
+                                                     Panel.ZIndex="1" />
+                                    <View:CursorView Caption="M3" 
+                                                     SelectedPlotView="{Binding SelectedPlotView,ElementName=t_plotter}"
+                                                     ForeColor="Black"                   
+                                                     HorizontalAlignment="Left" 
+                                                     VerticalAlignment="Top"  
+                                                     Position="0.6"
+                                                     Visibility="{Binding DataContext.MCursor3ON,ElementName=list,Mode=TwoWay,Converter={StaticResource boolToVisibilityConverter}
+                                                     ,ConverterParameter=Collapsed}"
+                                                     CursorPosition="{Binding DataContext.MCursor3Position,ElementName=list,Mode=TwoWay}"
+                                                     CursorType="V_BAR"
+                                                     BackColor="White" Panel.ZIndex="1"/>
+                                    <View:CursorView Caption="M4" 
+                                                     ForeColor="Black" 
+                                                     BackColor="White" 
+                                                     Position="0.8"
+                                                     SelectedPlotView="{Binding SelectedPlotView,ElementName=t_plotter}"
+                                                     Visibility="{Binding DataContext.MCursor4ON,ElementName=list,Mode=TwoWay,Converter={StaticResource boolToVisibilityConverter}
+                                                     ,ConverterParameter=Collapsed}"
+                                                     CursorPosition="{Binding DataContext.MCursor4Position,ElementName=list,Mode=TwoWay}"
+                                                     CursorType="V_BAR"
+                                                     HorizontalAlignment="Left" 
+                                                     VerticalAlignment="Top" 
+                                                     Panel.ZIndex="1" />
+                                </Grid>
+                            </Grid>
+                            <Grid Grid.Column="0" >
+                                <TextBlock Text="{Binding Measurement.Tag}" Foreground="Black">
+                                    <TextBlock.LayoutTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="90" />
+                                            <ScaleTransform ScaleX="-1" ScaleY="-1"/>
+                                        </TransformGroup>
+                                    </TextBlock.LayoutTransform>
+                                </TextBlock>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <!--Below grid is for the Zoomed Plot-->
+            <Grid x:Name="panPlot" ClipToBounds="True" Grid.Row="0">              
+                <Grid Grid.Column="1" Background="Black" Margin="25,0,25,0">
+                    <View:BaseGridLines PlotView="{Binding SelectedPlotView,ElementName=plotter}"
+                                        x:Name="plotter_gridlines"
+                                        IsDirty="{Binding IsDirty,ElementName=plotter,Mode=TwoWay}">
+                        <Path Style="{StaticResource dashGrid}" Height="{Binding ActualHeight,ElementName=plotter_gridlines}" Width="{Binding ActualWidth,ElementName=plotter_gridlines}" />
+                        <Path Style="{StaticResource basePath}" Height="{Binding ActualHeight,ElementName=plotter_gridlines}" Width="{Binding ActualWidth,ElementName=plotter_gridlines}"/>
+                    </View:BaseGridLines>
+                    <View:PlotterView DataContext="{Binding}" 
+                                      x:Name="plotter" 
+                                      IsOptimized="True"
+                                      PlotCollection="{Binding PlotCollection}"
+                                      PointsDataSource="Point"
+                                      IsMouseEnabled="True"
+                                      MultiZoomDisabled="False"
+                                      SelectedChart="{Binding SelectedPlot,Mode=TwoWay}"
+                                      PlotEvent="{Binding PlotEvent,Mode=TwoWay}"
+                                      StartIndex="{Binding WfmShowingStartIndex,Mode=TwoWay}"
+                                      StopIndex="{Binding WfmShowingStopIndex,Mode=TwoWay}"
+                                      MaxIndex="{Binding MaximumIndex}"
+                                      BusDataSourceString="BusData"
+                                      DockPanel.Dock="Top">
+                        <View:PlotterView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="On/Off" ItemsSource="{Binding PlotCollection}"  >
+                                    <MenuItem.ItemContainerStyle>
+                                        <Style TargetType="MenuItem">
+                                            <Setter Property="Header" Value="{Binding Import.Tag}" />
+                                            <Setter Property="IsChecked" Value="{Binding IsShowing}"/>
+                                            <Setter Property="Command" Value="{Binding DataContext.EnableCommand,
+                                                    RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type MenuItem}}}"/>
+                                            <Setter Property="CommandParameter" Value="{Binding}" />
+                                        </Style>
+                                    </MenuItem.ItemContainerStyle>
+                                </MenuItem>
+                                <!--<MenuItem Name="remove" ItemsSource="{Binding Analyser.PlotInfoViewCollection}" Header="Remove">
+                                <MenuItem.Icon>
+                                <Image Source="pack://siteoforigin:,,,/Resources/delete.png" Width="20" Height="20" />
+                                </MenuItem.Icon>
+                                <MenuItem.ItemContainerStyle>
+                                <Style TargetType="MenuItem">
+                                <Setter Property="Icon">
+                                <Setter.Value>
+                                <Image Source="Resources/delete.png" />
+                                </Setter.Value>
+                                </Setter>
+                                <Setter Property="Header" Value="{Binding Import.Tag}" />
+                                <Setter Property="Command" 
+                                Value="{Binding DataContext.DeleteCommand,
+                                ElementName=remove}"/>
+                                <Setter Property="CommandParameter" Value="{Binding Channel}" />
+                                </Style>
+                                </MenuItem.ItemContainerStyle>
+                                </MenuItem>-->
+                                <!--<MenuItem Header="Remove" ItemsSource="{Binding PlotCollection}">
+                                <MenuItem.ItemContainerStyle>
+                                <Style TargetType="MenuItem">
+                                <Setter Property="Icon" >
+                                <Setter.Value>
+                                <Image Width="16" Height="16" Source="pack://siteoforigin:,,,/Resources/delete.png"/>
+                                </Setter.Value>
+                                </Setter>
+                                <Setter Property="Header" Value="{Binding Import.Tag}" />
+                                <Setter Property="Command" 
+                                Value="{Binding DataContext.RemoveCommand,
+                                RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type MenuItem}}}"/>
+                                <Setter Property="CommandParameter" Value="{Binding }" />
+                                </Style>
+                                </MenuItem.ItemContainerStyle>
+                                </MenuItem>-->
+                                <MenuItem Header="Cursors">
+                                    <MenuItem Header="H Bar" 
+                                              IsCheckable="True"
+                                              IsChecked="{Binding HCursorON}">
+                                    </MenuItem>
+                                    <MenuItem Header="V Bar" 
+                                              IsCheckable="True"
+                                              IsChecked="{Binding VCursorON}">
+                                    </MenuItem>
+                                    <MenuItem Header="OFF" Command="{Binding CursorSelectionCommand}" CommandParameter="OFF">
+                                        <MenuItem.Style>
+                                            <Style TargetType="MenuItem">
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding HCursorON}" Value="false" />
+                                                            <Condition Binding="{Binding VCursorON}" Value="false" />
+                                                        </MultiDataTrigger.Conditions>
+                                                        <MultiDataTrigger.Setters>
+                                                            <Setter Property="IsChecked" Value="true"/>
+                                                        </MultiDataTrigger.Setters>
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </MenuItem.Style>
+                                    </MenuItem>
+                                    <!--<MenuItem Header="MoveHCursor1Here" Click="MoveHCursor1Here_Click"/>
+                                    <MenuItem Header="MoveHCursor2Here" Click="MoveHCursor2Here_Click"/>
+                                    <MenuItem Header="MoveVCursor1Here" Click="MoveVCursor1Here_Click"/>
+                                    <MenuItem Header="MoveVCursor2Here" Click="MoveVCursor2Here_Click"/>-->
+                                </MenuItem>
+                                <MenuItem Header="Markers">
+                                    <MenuItem Header="Marker1ON" 
+                                              IsCheckable="True"                                                
+                                              IsChecked="{Binding MCursor1ON}"
+                                              Command="{Binding MarkerSelectionCommand}"
+                                              CommandParameter="{Binding PlotCollection[0]}" />
+                                    <MenuItem Header="Marker2ON"
+                                              IsCheckable="True"
+                                              IsChecked="{Binding MCursor2ON}" 
+                                              Command="{Binding MarkerSelectionCommand}"
+                                              CommandParameter="{Binding PlotCollection[0]}" />
+                                    <MenuItem Header="Marker3ON"
+                                              IsCheckable="True"
+                                              IsChecked="{Binding MCursor3ON}" 
+                                              Command="{Binding MarkerSelectionCommand}"
+                                              CommandParameter="{Binding PlotCollection[0]}" />
+                                    <MenuItem Header="Marker4ON"
+                                              IsCheckable="True"
+                                              IsChecked="{Binding MCursor4ON}" 
+                                              Command="{Binding MarkerSelectionCommand}"
+                                              CommandParameter="{Binding PlotCollection[0]}" />
+                                </MenuItem>
+                                <MenuItem Header="ZoomOff" Click="menu_ZoomOff_Click" />
+                            </ContextMenu>
+                        </View:PlotterView.ContextMenu>
+                    </View:PlotterView>
+                    <!--Trigger Marker to Show Trigger Position-->
+                    <View:TriggerMarkerView TriggerIndex="{Binding SelectedPlotView.DataContext.TriggerPosition,ElementName=plotter}"
+                                            SelectedPlotView="{Binding SelectedPlotView,ElementName=plotter}"
+                                            MarkerHeight="5"
+                                            MarkerWidth="5"/>
+                    <View:TimeAxisInfoView ItemCount="9" 
+                                           x:Name="timeAxis"
+                                           VerticalAlignment="Bottom" 
+                                           Visibility="Collapsed"
+                                           WfmShowingStartIndex="{Binding WfmShowingStartIndex}"
+                                           WfmShowingStopIndex="{Binding WfmShowingStopIndex}"
+                                           TriggerPosition="{Binding SelectedPlot.TriggerPosition}"
+                                           SampleRate="{Binding SelectedPlot.SampleRate}"
+                                           Foreground="White"
+                                           Height="25" />                   
+                    <StackPanel Width="200" HorizontalAlignment="Right">
+                        <View:CursorInfoView Width="Auto" 
+                                             Cursor1Position="{Binding VCursor1Position,Mode=TwoWay}"
+                                             Cursor2Position="{Binding VCursor2Position,Mode=TwoWay}"
+                                             TriggerPosition="{Binding SelectedPlot.TriggerPosition}"
+                                             SampleRate="{Binding SelectedPlot.SampleRate}"
+                                             CursorType="V_BAR"
+                                             Visibility="{Binding 
+                                             VCursorON,Converter={StaticResource boolToVisibilityConverter},
+                                             ConverterParameter=Collapsed}"
+                                             HorizontalAlignment="Right" 
+                                             VerticalAlignment="Top" 
+                                             Cursor1Label="T1"
+                                             Cursor2Label="T2"
+                                             CursorDeltaLabel="ΔT">
+                        </View:CursorInfoView>
+                        <View:CursorInfoView Width="Auto" 
+                                             Cursor1Position="{Binding HCursor1Position,Mode=TwoWay}"
+                                             Cursor2Position="{Binding HCursor2Position,Mode=TwoWay}"
+                                             TriggerPosition="{Binding SelectedPlot.TriggerPosition}"
+                                             SampleRate="{Binding SelectedPlot.SampleRate}"
+                                             Visibility="{Binding HCursorON,
+                                             Converter={StaticResource boolToVisibilityConverter},
+                                             ConverterParameter=Collapsed}"
+                                             CursorType="H_BAR"
+                                             HUnitLabel="V"
+                                             HorizontalAlignment="Right" 
+                                             VerticalAlignment="Top" 
+                                             Cursor1Label="V1"
+                                             Cursor2Label="V2"
+                                             CursorDeltaLabel="ΔV">
+                        </View:CursorInfoView>
+                    </StackPanel>
+                    <!--Cursors Added here See the Bindings-->
+                    <Grid SizeChanged="Grid_SizeChanged" ClipToBounds="True" >
+                        <View:CursorView Caption="V2" 
+                                         ForeColor="{DynamicResource Cursor2_ForeColor}" 
+                                         x:Name="HCursor2" 
+                                         HorizontalAlignment="Left" 
+                                         VerticalAlignment="Top" 
+                                         Visibility="{Binding HCursorON,Converter={StaticResource boolToVisibilityConverter},
+                                         ConverterParameter=Collapsed}"
+                                         Position="0.6"
+                                         SelectedPlotView="{Binding SelectedPlotView,ElementName=plotter}"
+                                         CursorPosition="{Binding HCursor2Position,Mode=TwoWay}"
+                                         CursorType="H_BAR"
+                                         BackColor="{DynamicResource Cursor2_BackColor}" Panel.ZIndex="1"/>
+                        <View:CursorView Caption="V1" 
+                                         ForeColor="{DynamicResource Cursor1_ForeColor}" 
+                                         BackColor="{DynamicResource Cursor1_BackColor}" 
+                                         x:Name="HCursor1"
+                                         Position="0.4"
+                                         SelectedPlotView="{Binding SelectedPlotView,ElementName=plotter}"
+                                         Visibility="{Binding HCursorON,Converter={StaticResource boolToVisibilityConverter},
+                                         ConverterParameter=Collapsed}"
+                                         CursorPosition="{Binding HCursor1Position,Mode=TwoWay}"
+                                         CursorType="H_BAR"
+                                         HorizontalAlignment="Left" 
+                                         VerticalAlignment="Top" 
+                                         Panel.ZIndex="1" />
+                        <View:CursorView Caption="T2" 
+                                         SelectedPlotView="{Binding SelectedPlotView,ElementName=plotter}"
+                                         ForeColor="{DynamicResource Cursor2_ForeColor}" 
+                                         x:Name="VCursor2"                       
+                                         HorizontalAlignment="Left" 
+                                         VerticalAlignment="Top" 
+                                         Height="366" 
+                                         Position="0.6"
+                                         Visibility="{Binding VCursorON,Converter={StaticResource boolToVisibilityConverter}
+                                         ,ConverterParameter=Collapsed}"
+                                         CursorPosition="{Binding VCursor2Position,Mode=TwoWay}"
+                                         CursorType="V_BAR"
+                                         BackColor="{DynamicResource Cursor2_BackColor}" Panel.ZIndex="2"/>
+                        <View:CursorView Caption="T1" 
+                                         ForeColor="{DynamicResource Cursor1_ForeColor}" 
+                                         BackColor="{DynamicResource Cursor1_BackColor}" 
+                                         x:Name="VCursor1"
+                                         Position="0.4"
+                                         SelectedPlotView="{Binding SelectedPlotView,ElementName=plotter}"
+                                         Visibility="{Binding VCursorON,Converter={StaticResource boolToVisibilityConverter}
+                                         ,ConverterParameter=Collapsed}"
+                                         CursorPosition="{Binding VCursor1Position,Mode=TwoWay}"
+                                         CursorType="V_BAR"
+                                         HorizontalAlignment="Left" 
+                                         VerticalAlignment="Top" 
+                                         Panel.ZIndex="2" />
+                    </Grid>
+                    <!--Marker Container-->
+                    <Grid SizeChanged="Grid_SizeChanged" ClipToBounds="True" >
+                        <View:CursorView Caption="M1" 
+                                         ForeColor="Black" 
+                                         HorizontalAlignment="Left" 
+                                         VerticalAlignment="Top" 
+                                         Visibility="{Binding MCursor1ON,Converter={StaticResource boolToVisibilityConverter},
+                                         ConverterParameter=Collapsed}"
+                                         Position="0.2"
+                                         SelectedPlotView="{Binding SelectedPlotView,ElementName=plotter}"
+                                         CursorPosition="{Binding MCursor1Position,Mode=TwoWay}"
+                                         CursorType="V_BAR"
+                                         BackColor="White" Panel.ZIndex="1"/>
+                        <View:CursorView Caption="M2" 
+                                         ForeColor="Black" 
+                                         BackColor="White" 
+                                         Position="0.4"
+                                         SelectedPlotView="{Binding SelectedPlotView,ElementName=plotter}"
+                                         Visibility="{Binding MCursor2ON,Converter={StaticResource boolToVisibilityConverter},
+                                         ConverterParameter=Collapsed}"
+                                         CursorPosition="{Binding MCursor2Position,Mode=TwoWay}"
+                                         CursorType="V_BAR"
+                                         HorizontalAlignment="Left" 
+                                         VerticalAlignment="Top" 
+                                         Panel.ZIndex="1" />
+                        <View:CursorView Caption="M3" 
+                                         SelectedPlotView="{Binding SelectedPlotView,ElementName=plotter}"
+                                         ForeColor="Black"                   
+                                         HorizontalAlignment="Left" 
+                                         VerticalAlignment="Top"  
+                                         Position="0.6"
+                                         Visibility="{Binding MCursor3ON,Converter={StaticResource boolToVisibilityConverter}
+                                         ,ConverterParameter=Collapsed}"
+                                         CursorPosition="{Binding MCursor3Position,Mode=TwoWay}"
+                                         CursorType="V_BAR"
+                                         BackColor="White" Panel.ZIndex="1"/>
+                        <View:CursorView Caption="M4" 
+                                         ForeColor="Black" 
+                                         BackColor="White" 
+                                         Position="0.8"
+                                         SelectedPlotView="{Binding SelectedPlotView,ElementName=plotter}"
+                                         Visibility="{Binding MCursor4ON,Converter={StaticResource boolToVisibilityConverter}
+                                         ,ConverterParameter=Collapsed}"
+                                         CursorPosition="{Binding MCursor4Position,Mode=TwoWay}"
+                                         CursorType="V_BAR"
+                                         HorizontalAlignment="Left" 
+                                         VerticalAlignment="Top" 
+                                         Panel.ZIndex="1" />
+                    </Grid>
+                </Grid>
+                <View:PositionerGrid Plotter="{Binding ElementName=plotter}"
+                                     Grid.Column="0"
+                                     DisplayMemberPath="Import.Tag"
+                                     ClipToBounds="False" 
+                                     Width="25"
+                                     HorizontalAlignment="Left"/>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</UserControl>
+ 

@@ -1,0 +1,1658 @@
+﻿<UserControl x:Class="PGYMiniCooper.CoreModule.View.TriggerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PGYMiniCooper.CoreModule.View"
+             xmlns:viewmodel="clr-namespace:PGYMiniCooper.DataModule;assembly=PGYMiniCooper.DataModule"
+             xmlns:custom="clr-namespace:PGYMiniCooper.CoreModule.View.CustomView"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:conv="clr-namespace:PGYMiniCooper.CoreModule.View.Converters"
+             xmlns:vm="clr-namespace:PGYMiniCooper.DataModule.Structure;assembly=PGYMiniCooper.DataModule"
+               xmlns:fTemplates="clr-namespace:ProdigyFramework.TemplateSelector;assembly=ProdigyFramework"
+              xmlns:viewmodel1="clr-namespace:PGYMiniCooper.CoreModule.ViewModel"
+             xmlns:tc="clr-namespace:PGYMiniCooper.DataModule.Model.Trigger_Config;assembly=PGYMiniCooper.DataModule"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance viewmodel1:AnalyzerViewModel, IsDesignTimeCreatable=False}">
+    <UserControl.Resources>
+
+        <Style x:Key="nonEditField" TargetType="{x:Type Label}">
+            <Setter Property="MinWidth" Value="40"/>
+            <Setter Property="Margin" Value="7 0 0 0"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="DarkSlateBlue"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <ControlTemplate x:Key="validationErrorTemplate">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                    <Grid Width="12" Height="12">
+                        <Ellipse Width="12" Height="12"  Fill="Red" HorizontalAlignment="Center"   VerticalAlignment="Center" ></Ellipse>
+                        <TextBlock Foreground="White" FontWeight="Heavy"  FontSize="8" HorizontalAlignment="Center"  VerticalAlignment="Center" TextAlignment="Center" 
+                                   ToolTip="{Binding ElementName=ErrorAdorner,Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">X</TextBlock>
+                    </Grid>
+                    <TextBlock Foreground="Red" FontWeight="SemiBold" Margin="2,0,0,0" 
+                   Text="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"></TextBlock>
+                </StackPanel>
+                <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
+            </DockPanel>
+        </ControlTemplate>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style TargetType="CheckBox">
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <ObjectDataProvider x:Key="ePatternFormat" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="viewmodel:ePatternFormat"></x:Type>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="eChannelList" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="viewmodel:eChannelList"></x:Type>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="eProtocolTypeList" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="viewmodel:eProtocolTypeList"></x:Type>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="eTransferType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="viewmodel:eTransferType"></x:Type>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider x:Key="eI2CTriggerAtList" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="viewmodel:eI2CTriggerAtList"></x:Type>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <conv:GetObjectTypeToBooleanConverter x:Key="getObjectTypeToBooleanConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <FrameworkElement x:Name="triggerWrapperDataProvider" DataContext="{Binding ConfigVM.Trigger}" Visibility="Collapsed"/>
+        <ScrollViewer Grid.Row="1" BorderThickness="1" BorderBrush="Black" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <GroupBox Grid.Row="0" BorderBrush="Orange" BorderThickness="2" HorizontalAlignment="Stretch" Margin="10,5,10,5">
+                    <GroupBox.Header>
+                        <Label Content="Trigger Type"  Style="{StaticResource blueLabel}" HorizontalAlignment="Left" FontWeight="SemiBold" Foreground="{StaticResource LinkButtonForeground}"/>
+                    </GroupBox.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Style="{StaticResource radiobuttonstyle}" Content="Auto" IsChecked="{Binding Path = ConfigVM.Trigger.TriggerType, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='Auto', Mode=TwoWay}" Margin="30,10,10,10"/>
+                        <RadioButton Style="{StaticResource radiobuttonstyle}" Content="Pattern" IsChecked="{Binding Path =ConfigVM.Trigger.TriggerType, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='Pattern', Mode=TwoWay}" Grid.Column="1" Margin="10"/>
+                        <RadioButton Content="Protocol Aware" IsChecked="{Binding Path = ConfigVM.Trigger.TriggerType, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='Protocol', Mode=TwoWay}" Grid.Column="2" HorizontalAlignment="Center" Margin="10">
+                            <RadioButton.Style>
+                                <Style TargetType="RadioButton" BasedOn="{StaticResource radiobuttonstyle}">
+                                    <Setter Property="IsEnabled" Value="True"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ConfigVM.Config.ConfigurationMode}" Value="LA_Mode">
+                                            <Setter Property="IsEnabled" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </RadioButton.Style>
+                        </RadioButton>
+                        <RadioButton Content="Timing Parameter" IsChecked="{Binding Path =  ConfigVM.Trigger.TriggerType, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='Timing', Mode=TwoWay}" Grid.Column="3" HorizontalAlignment="Right" Margin="10,10,30,10">
+                            <RadioButton.Style>
+                                <Style TargetType="RadioButton" BasedOn="{StaticResource radiobuttonstyle}">
+                                    <Setter Property="IsEnabled" Value="True"/>
+                                    <Style.Triggers>
+                                        <MultiDataTrigger>
+                                            <MultiDataTrigger.Conditions>
+                                                <Condition Binding="{Binding ConfigVM.Config.ConfigurationMode}" Value="LA_Mode" />
+                                                <Condition Binding="{Binding ConfigVM.Config.GeneralPurposeMode}" Value="State"/>
+                                            </MultiDataTrigger.Conditions>
+                                            <Setter Property="IsEnabled" Value="False" />
+                                        </MultiDataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </RadioButton.Style>
+                        </RadioButton>
+                    </Grid>
+                </GroupBox>
+                <!--<WrapPanel>
+                    <Label Content="Trigger Type" Margin="10"/>
+                    <ComboBox ItemsSource="{Binding TriggerVM.TriggerTypeList}" MinWidth="100" Margin="10" SelectedIndex="{Binding TriggerVM.TriggerTypeIndex}" Background="#607d8b"/>
+                </WrapPanel>-->
+                <GroupBox x:Name="AutoTriggerPanel" Grid.Row="1" Margin="10,2,10,5" BorderBrush="Orange" BorderThickness="2">
+                    <GroupBox.Header>
+                        <Label Content="Trigger - Auto Trigger"  Style="{StaticResource blueLabel}" HorizontalAlignment="Left" FontWeight="SemiBold" Foreground="{StaticResource LinkButtonForeground}"/>
+                    </GroupBox.Header>
+                    <!--<GroupBox.Background>
+                        <LinearGradientBrush EndPoint="0.5,1"
+                     StartPoint="0.5,0">
+                            <GradientStop Color="#5c6bc0" Offset="0.0" />
+                            <GradientStop Color="#8e99f3" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </GroupBox.Background>-->
+                    <GroupBox.Style>
+                        <Style TargetType="GroupBox">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding  ConfigVM.Trigger.TriggerType}" Value="Auto">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </GroupBox.Style>
+                    <StackPanel Orientation="Vertical">
+                        <WrapPanel Margin="30,10,10,10">
+                            <Label Content="If" Width="100" Margin="10"/>
+                            <Border CornerRadius="15" BorderThickness="1" BorderBrush="#03a9f4" Margin="10">
+                                <Label Content="Anything" Width="100" Foreground="#03a9f4" HorizontalContentAlignment="Center"/>
+                            </Border>
+                        </WrapPanel>
+                        <WrapPanel Margin="30,0,10,10">
+                            <Label Content="then" Width="100" Margin="10"/>
+                            <Border CornerRadius="15" BorderThickness="1" BorderBrush="#03a9f4" Margin="10">
+                                <Label Content="Trigger" Width="100" Foreground="#03a9f4" HorizontalContentAlignment="Center"/>
+                            </Border>
+                        </WrapPanel>
+                        <WrapPanel Margin="30,0,10,10" Visibility="Collapsed">
+                            <Label Content="Buffer Size" Width="100" Margin="10"/>
+                            <ComboBox ItemsSource="{Binding  ConfigVM.Trigger.BufferSizeList}" SelectedItem="{Binding  ConfigVM.Trigger.TriggerModel.BufferSize}" MinWidth="100" Margin="10" VerticalContentAlignment="Center" IsEnabled="False"/>
+                        </WrapPanel>
+                        <WrapPanel Margin="30,0,10,10" Visibility="Collapsed">
+                            <Label Content="Position" Width="100" Margin="10" Grid.Row="1"/>
+                            <WrapPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+                                <Slider Maximum="100" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" Name="TrValue" Width="250" Value="{Binding  ConfigVM.Trigger.TriggerModel.TriggerPosition}" Margin="10" Foreground="#03a9f4" IsEnabled="False"/>
+                                <TextBox Text="{Binding ElementName=TrValue, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Width="40" Margin="10,10,0,10" BorderThickness="0" Foreground="#03a9f4" FontWeight="SemiBold" FontSize="16" IsEnabled="False"/>
+                                <Label Content="%" Margin="0,10,10,10" Foreground="#03a9f4"/>
+                            </WrapPanel>
+                        </WrapPanel>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox x:Name="PatternTriggerPanel" Grid.Row="1" Margin="10,2,10,5" BorderBrush="Orange" BorderThickness="2">
+                    <GroupBox.Header>
+                        <Label Content="Trigger - Pattern Trigger" Style="{StaticResource blueLabel}" HorizontalAlignment="Left" FontWeight="SemiBold" Foreground="{StaticResource LinkButtonForeground}"/>
+                    </GroupBox.Header>
+                    <!--<GroupBox.Background>
+                        <LinearGradientBrush EndPoint="0.5,1"
+                     StartPoint="0.5,0">
+                            <GradientStop Color="#5c6bc0" Offset="0.0" />
+                            <GradientStop Color="#8e99f3" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </GroupBox.Background>-->
+                    <GroupBox.Style>
+                        <Style TargetType="GroupBox">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding  ConfigVM.Trigger.TriggerType}" Value="Pattern">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </GroupBox.Style>
+                    <StackPanel Orientation="Vertical">
+                        <custom:ChannelHeader Margin="155,0,0,0"/>
+                        <WrapPanel Margin="30,0,10,10">
+                            <Label Content="Pattern Type" Margin="10" Width="100"/>
+                            <TextBox x:Name="PatternTB" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Margin="10" MinWidth="150" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Left"  MaxLength="16">
+                                <Binding Path="ConfigVM.Trigger.TriggerModel.PatternText" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <conv:TriggerPatternValidator>
+                                            <conv:TriggerPatternValidator.Wrapper>
+                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="pattern" />
+                                            </conv:TriggerPatternValidator.Wrapper>
+                                        </conv:TriggerPatternValidator>
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox>
+                            <ComboBox ItemsSource="{Binding Source={StaticResource ePatternFormat}}" SelectedItem="{Binding  ConfigVM.Trigger.TriggerModel.PatternFormat}" Margin="30,10,10,10" Background="#607d8b" Width="80"/>
+                        </WrapPanel>
+                        <WrapPanel Margin="30,0,10,10" Visibility="Collapsed">
+                            <Label Content="Buffer Size" Width="100" Margin="10"/>
+                            <ComboBox ItemsSource="{Binding  ConfigVM.Trigger.BufferSizeList}" SelectedItem="{Binding  ConfigVM.Trigger.TriggerModel.BufferSize}" MinWidth="100" Margin="10" Grid.Column="1" VerticalContentAlignment="Center" IsEnabled="False"/>
+                        </WrapPanel>
+                        <WrapPanel Margin="30,0,10,10" Visibility="Collapsed">
+                            <Label Content="Position" Width="100" Margin="10" Grid.Row="1"/>
+                            <WrapPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+                                <Slider Maximum="100" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" Name="TrValue1" Width="250" Value="{Binding  ConfigVM.Trigger.TriggerModel.TriggerPosition}" Margin="10" Foreground="#03a9f4" IsEnabled="False"/>
+                                <TextBox Text="{Binding ElementName=TrValue1, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Width="40" Margin="10,10,0,10" BorderThickness="0" Foreground="#03a9f4" FontWeight="SemiBold" FontSize="16" IsEnabled="False"/>
+                                <Label Content="%" Margin="0,10,10,10" Foreground="#03a9f4"/>
+                            </WrapPanel>
+                        </WrapPanel>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox x:Name="ProtocolAwareTriggerPanel" BorderBrush="Orange" BorderThickness="2" Grid.Row="1" Margin="10,2,10,5">
+                    <GroupBox.Header>
+                        <Label Content="Trigger - Protocol Aware Trigger" Style="{StaticResource blueLabel}" HorizontalAlignment="Left" FontWeight="SemiBold" Foreground="{StaticResource LinkButtonForeground}"/>
+                    </GroupBox.Header>
+                    <!--<GroupBox.Background>
+                        <LinearGradientBrush EndPoint="0.5,1"
+                     StartPoint="0.5,0">
+                            <GradientStop Color="#5c6bc0" Offset="0.0" />
+                            <GradientStop Color="#8e99f3" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </GroupBox.Background>-->
+                    <GroupBox.Style>
+                        <Style TargetType="GroupBox">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="IsEnabled" Value="True"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding  ConfigVM.Trigger.TriggerType}" Value="Protocol">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding ConfigVM.ConfigurationMode}" Value="LA_Mode">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </GroupBox.Style>
+                    <StackPanel Orientation="Vertical">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="5"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                        </Grid>
+                        <WrapPanel Margin="30,10,10,10">
+                            <Label Content="Protocol Type" Margin="10"/>
+                            <ComboBox  ItemsSource="{Binding ConfigVM.ProtocolConfiguration}" SelectionChanged="ComboBox_SelectionChanged" DisplayMemberPath="Name" MinWidth="100" Margin="100,10,10,10" SelectedItem="{Binding  ConfigVM.Trigger.ProtocolSelection}"  />
+                        </WrapPanel>
+                        <GridSplitter x:Name="Prototype" Grid.Row="1" Visibility="Collapsed"  Height="2" HorizontalAlignment="Stretch" Background="Orange" Margin="40,0,20,0"/>
+
+
+                        <GroupBox x:Name="I2CTriggerPanel" Margin="10" Grid.Row="2" BorderThickness="0" >
+                            <GroupBox.Header>
+                                <Label Margin="20,10,10,10" FontWeight="SemiBold">I2C Trigger</Label>
+                            </GroupBox.Header>
+                            <GroupBox.Style>
+                                <Style TargetType="GroupBox">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding  ConfigVM.Trigger.SelectedTrigger, Converter={StaticResource getObjectTypeToBooleanConverter}, ConverterParameter={x:Type tc:TriggerConfig_I2C}}" Value="true">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </GroupBox.Style>
+
+                            <StackPanel>
+
+                                <WrapPanel Margin="20,10,10,10">
+                                    <Label Content="If" Width="80"/>
+                                    <Border BorderBrush="LightGray" BorderThickness="1">
+                                        <StackPanel Margin="20,10,10,10">
+                                            <WrapPanel>
+                                                <Label Content="Trigger at" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                                <ComboBox ItemsSource="{Binding Source={StaticResource eI2CTriggerAtList}}" SelectedItem="{Binding  ConfigVM.Trigger.SelectedTrigger.I2CTriggerAtSelected}" Grid.Column="1" MaxWidth="150" Margin="10">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+                                            </WrapPanel>
+                                            <WrapPanel Name="I2CAddressPanel">
+                                                <WrapPanel.Style>
+                                                    <Style TargetType="WrapPanel">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding  ConfigVM.Trigger.SelectedTrigger.I2CTriggerAtSelected}" Value="Address">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding  ConfigVM.Trigger.SelectedTrigger.I2CTriggerAtSelected}" Value="Address_Data">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </WrapPanel.Style>
+                                                <Label Content="Address" Margin="5,10,10,10" Width="100"/>
+                                                <ComboBox ItemsSource="{Binding  ConfigVM.Trigger.ComparisonList}" SelectedItem="{Binding  ConfigVM.Trigger.TriggerModel.AddressComparison,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+                                                <TextBox x:Name="I2CTriggerAddTB" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" MaxLength="8" MinWidth="200" Margin="5,10,10,10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                                    <Binding Path=" ConfigVM.Trigger.SelectedTrigger.AddressValue" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding.ValidationRules>
+                                                            <conv:TriggerPatternValidator>
+                                                                <conv:TriggerPatternValidator.Wrapper>
+                                                                    <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="address" />
+                                                                </conv:TriggerPatternValidator.Wrapper>
+                                                            </conv:TriggerPatternValidator>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox>
+                                                <ComboBox ItemsSource="{Binding Source={StaticResource ePatternFormat}}" SelectedItem="{Binding  ConfigVM.Trigger.SelectedTrigger.AddressPattern}" Margin="10"/>
+                                                <Label Content="Transfer Type" Margin="30,10,10,0" Width="85"/>
+                                                <ComboBox ItemsSource="{Binding  ConfigVM.Trigger.TransferTypesList}" SelectedItem="{Binding  ConfigVM.Trigger.SelectedTrigger.TransferType}" Margin="0,10,10,10"/>
+                                            </WrapPanel>
+                                            <WrapPanel Name="I2CDataPanel">
+                                                <WrapPanel.Style>
+                                                    <Style TargetType="WrapPanel">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding  ConfigVM.Trigger.SelectedTrigger.I2CTriggerAtSelected}" Value="Data">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding  ConfigVM.Trigger.SelectedTrigger.I2CTriggerAtSelected}" Value="Address_Data">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </WrapPanel.Style>
+                                                <Label Content="Data" Margin="5,10,10,10" Width="100"/>
+                                                <ComboBox ItemsSource="{Binding  ConfigVM.Trigger.ComparisonList}" SelectedItem="{Binding  ConfigVM.Trigger.TriggerModel.AddressComparison,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+                                                <TextBox x:Name="I2CTriggerDataTB" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" MinWidth="200" Margin="5,10,10,10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+                                                    <Binding Path=" ConfigVM.Trigger.SelectedTrigger.DataValue" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding.ValidationRules>
+                                                            <conv:TriggerPatternValidator>
+                                                                <conv:TriggerPatternValidator.Wrapper>
+                                                                    <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="data" />
+                                                                </conv:TriggerPatternValidator.Wrapper>
+                                                            </conv:TriggerPatternValidator>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox>
+                                                <ComboBox ItemsSource="{Binding Source={StaticResource ePatternFormat}}" SelectedItem="{Binding  ConfigVM.Trigger.SelectedTrigger.DataPattern}" Margin="10"/>
+                                            </WrapPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </WrapPanel>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox x:Name="SPITriggerPanel" Grid.Row="2" Margin="10" BorderThickness="0">
+                            <GroupBox.Header>
+                                <Label Margin="20,10,10,10" FontWeight="SemiBold">SPI Trigger</Label>
+                            </GroupBox.Header>
+                            <GroupBox.Style>
+                                <Style TargetType="GroupBox">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding  ConfigVM.Trigger.SelectedTrigger, Converter={StaticResource getObjectTypeToBooleanConverter}, ConverterParameter={x:Type tc:TriggerConfig_SPI}}" Value="true">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </GroupBox.Style>
+                            <Border BorderBrush="LightGray" BorderThickness="1" Margin="15,0,10,10" HorizontalAlignment="Left">
+                                <StackPanel Orientation="Vertical"  Margin="15,0,10,10">
+                                    <WrapPanel Margin="10,0,0,0" Visibility="Collapsed">
+                                        <Label Content="CS/WS" Margin="0,10,10,10" Width="120"/>
+                                        <WrapPanel Margin="10,10,10,10">
+                                            <RadioButton Style="{StaticResource radiobuttonstyle}" Content="Active Low" IsChecked="{Binding  ConfigVM.Trigger.TriggerModel.ActiveLowCS}" GroupName="CS" Margin="10" Width="100"/>
+                                            <Canvas x:Name="NegativeEdgeActive" Height="30" Width="30" Margin="10">
+                                                <Line X1="0" Y1="0"
+                                      X2="15" Y2="0"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                                <Line X1="15" Y1="0"
+                                      X2="15" Y2="30"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                                <Line X1="15" Y1="30"
+                                      X2="30" Y2="30"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            </Canvas>
+                                        </WrapPanel>
+                                        <WrapPanel Margin="30,10,10,10">
+                                            <RadioButton Style="{StaticResource radiobuttonstyle}" Content="Active High" IsChecked="{Binding  ConfigVM.Trigger.TriggerModel.ActiveHighCS}" GroupName="CS" Margin="10" Width="100"/>
+                                            <Canvas x:Name="PositiveEdgeActive" Height="30" Width="30" Margin="10">
+                                                <Line X1="0" Y1="30"
+                                      X2="15" Y2="30"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                                <Line X1="15" Y1="30"
+                                      X2="15" Y2="0"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                                <Line X1="15" Y1="0"
+                                      X2="30" Y2="0"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            </Canvas>
+                                        </WrapPanel>
+                                    </WrapPanel>
+                                    <WrapPanel Margin="10,10,0,0" Visibility="Collapsed">
+                                        <Label Content="Clock Data Latch" Grid.Row="1" Margin="0,10,10,10" Width="120"/>
+                                        <WrapPanel Margin="10,10,10,10">
+                                            <RadioButton Style="{StaticResource radiobuttonstyle}" Content="Rising Edge" IsChecked="{Binding  ConfigVM.Trigger.TriggerModel.RisingClock}" GroupName="Clock" Margin="10" Width="100"/>
+                                            <Canvas x:Name="PositiveEdge" Height="30" Width="30" Margin="10">
+                                                <Line X1="0" Y1="30"
+                                      X2="15" Y2="30"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                                <Line X1="15" Y1="30"
+                                      X2="15" Y2="0"
+                                     Stroke="Black"
+                                      StrokeThickness="2" />
+                                                <Line X1="15" Y1="0"
+                                      X2="30" Y2="0"
+                                     Stroke="Black"
+                                      StrokeThickness="2" />
+                                            </Canvas>
+                                        </WrapPanel>
+                                        <WrapPanel Margin="30,10,10,10">
+                                            <RadioButton Style="{StaticResource radiobuttonstyle}" Content="Falling Edge" IsChecked="{Binding  ConfigVM.Trigger.TriggerModel.FallingClock}" GroupName="Clock" Margin="10" Width="100"/>
+                                            <Canvas x:Name="NegativeEdge" Height="60" Width="45" Margin="10">
+                                                <Line X1="0" Y1="0"
+                                      X2="15" Y2="0"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                                <Line X1="15" Y1="0"
+                                      X2="15" Y2="30"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                                <Line X1="15" Y1="30"
+                                      X2="30" Y2="30"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            </Canvas>
+                                        </WrapPanel>
+                                    </WrapPanel>
+                                    <WrapPanel Margin="10,20,0,0">
+                                        <RadioButton Style="{StaticResource radiobuttonstyle}" Content="MOSI Data" Margin="0,0,10,10" IsChecked="{Binding ConfigVM.Trigger.SelectedTrigger.IsMOSIChecked}" GroupName="DataRB" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                                        <ComboBox ItemsSource="{Binding  ConfigVM.Trigger.ComparisonList}" SelectedItem="{Binding  ConfigVM.Trigger.SelectedTrigger.MOSIComparison}" Margin="32,10,10,10" IsEnabled="{Binding  ConfigVM.Trigger.TriggerModel.IsMOSIChecked}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <TextBox x:Name="SPITriggerMOSIDataTB" Margin="10" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" IsEnabled="{Binding  ConfigVM.Trigger.SelectedTrigger.IsMOSIChecked}" MinWidth="200"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                            <Binding Path=" ConfigVM.Trigger.SelectedTrigger.MOSIData" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <conv:TriggerPatternValidator>
+                                                        <conv:TriggerPatternValidator.Wrapper>
+                                                            <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="mosi" />
+                                                        </conv:TriggerPatternValidator.Wrapper>
+                                                    </conv:TriggerPatternValidator>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox>
+                                        <ComboBox ItemsSource="{Binding Source={StaticResource ePatternFormat}}" SelectedItem="{Binding  ConfigVM.Trigger.SelectedTrigger.MOSIPattern}" Margin="10"  IsEnabled="{Binding  ConfigVM.Trigger.TriggerModel.IsMOSIChecked}"/>
+                                    </WrapPanel>
+                                    <WrapPanel Margin="10,20,0,0">
+                                        <RadioButton Style="{StaticResource radiobuttonstyle}" Content="MISO Data" Margin="0,10,10,10" IsChecked="{Binding  ConfigVM.Trigger.SelectedTrigger.IsMISOChecked}" GroupName="DataRB" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+                                        <ComboBox ItemsSource="{Binding  ConfigVM.Trigger.ComparisonList}" SelectedItem="{Binding  ConfigVM.Trigger.SelectedTrigger.MISOComparison}" Margin="32,10,10,10" IsEnabled="{Binding  ConfigVM.Trigger.SelectedTrigger.IsMISOChecked}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <TextBox x:Name="SPITriggerMISODataTB" Margin="10" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" IsEnabled="{Binding  ConfigVM.Trigger.SelectedTrigger.IsMISOChecked}" MinWidth="200"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                            <Binding Path=" ConfigVM.Trigger.SelectedTrigger.MISOData" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <conv:TriggerPatternValidator>
+                                                        <conv:TriggerPatternValidator.Wrapper>
+                                                            <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="miso" />
+                                                        </conv:TriggerPatternValidator.Wrapper>
+                                                    </conv:TriggerPatternValidator>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox>
+                                        <ComboBox ItemsSource="{Binding Source={StaticResource ePatternFormat}}" SelectedItem="{Binding  ConfigVM.Trigger.SelectedTrigger.MISOPattern}" Margin="10" IsEnabled="{Binding  ConfigVM.Trigger.SelectedTrigger.IsMISOChecked}"/>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </Border>
+                        </GroupBox>
+                        <GroupBox x:Name="UARTTriggerPanel" Grid.Row="2" Margin="10" BorderThickness="0">
+                            <GroupBox.Header>
+                                <Label Margin="20,10,10,10" FontWeight="SemiBold">UART Trigger</Label>
+                            </GroupBox.Header>
+                            <GroupBox.Style>
+                                <Style TargetType="GroupBox">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding  ConfigVM.Trigger.SelectedTrigger, Converter={StaticResource getObjectTypeToBooleanConverter}, ConverterParameter={x:Type tc:TriggerConfig_UART}}" Value="true">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </GroupBox.Style>
+                            <Border BorderBrush="LightGray" BorderThickness="1" Margin="20,10,10,10" HorizontalAlignment="Left">
+                                <StackPanel Orientation="Vertical" Margin="20,10,10,10">
+                                    <!--<RadioButton Style="{StaticResource radiobuttonstyle}" Content="Auto Detect" Margin='10' IsChecked="{Binding TriggerVM.UARTAutoDetectSelected}" GroupName="UARTstart"/>-->
+                                    <WrapPanel Margin="0,10,0,0">
+                                        <RadioButton Style="{StaticResource radiobuttonstyle}" Content="Start" Margin='10,20,10,10' IsChecked="{Binding  ConfigVM.Trigger.SelectedTrigger.UARTStartFallingSelected}" GroupName="UARTstart" VerticalAlignment="Center"/>
+                                        <Canvas x:Name="NegativePulseStart" Height="60" Width="60" Margin="55,10,10,10">
+                                            <Line X1="0" Y1="10"
+                                      X2="20" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            <Line X1="20" Y1="10"
+                                      X2="20" Y2="40"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            <Line X1="20" Y1="40"
+                                      X2="40" Y2="40"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            <Line X1="40" Y1="40"
+                                      X2="40" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            <Line X1="40" Y1="10"
+                                      X2="60" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                        </Canvas>
+                                        <Label Margin="50,15,10,10" Content="Parity" VerticalAlignment="Center"/>
+                                        <Canvas x:Name="PositivePulseParity" Height="60" Width="60" Margin="55,10,10,10">
+                                            <Line X1="0" Y1="40"
+                                      X2="20" Y2="40"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            <Line X1="20" Y1="40"
+                                      X2="20" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            <Line X1="20" Y1="10"
+                                      X2="40" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            <Line X1="40" Y1="10"
+                                      X2="40" Y2="40"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            <Line X1="40" Y1="40"
+                                      X2="60" Y2="40"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                        </Canvas>
+                                    </WrapPanel>
+                                    <WrapPanel>
+                                        <RadioButton Style="{StaticResource radiobuttonstyle}" Content="Start" Margin='10,20,10,10' IsChecked="{Binding  ConfigVM.Trigger.SelectedTrigger.UARTStartRisingSelected}" GroupName="UARTstart" VerticalAlignment="Center"/>
+                                        <Canvas x:Name="NegativePulseStart1" Height="60" Width="60" Margin="55,10,10,10">
+                                            <Line X1="0" Y1="10"
+                                      X2="20" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            <Line X1="20" Y1="10"
+                                      X2="20" Y2="40"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            <Line X1="20" Y1="40"
+                                      X2="40" Y2="40"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            <Line X1="40" Y1="40"
+                                      X2="40" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            <Line X1="40" Y1="10"
+                                      X2="60" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                        </Canvas>
+                                        <!--<Canvas x:Name="PositivePulseStart" Height="60" Width="60" Margin="55,10,10,10">
+                                        <Line X1="0" Y1="40"
+                                      X2="20" Y2="40"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                        <Line X1="20" Y1="40"
+                                      X2="20" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                        <Line X1="20" Y1="10"
+                                      X2="40" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                        <Line X1="40" Y1="10"
+                                      X2="40" Y2="40"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                        <Line X1="40" Y1="40"
+                                      X2="60" Y2="40"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                    </Canvas>-->
+                                        <Label Margin="50,15,10,10" Content="Parity" VerticalAlignment="Center"/>
+                                        <Canvas x:Name="NegativePulseParity" Height="60" Width="60" Margin="55,10,10,10">
+                                            <Line X1="0" Y1="10"
+                                      X2="20" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            <Line X1="20" Y1="10"
+                                      X2="20" Y2="40"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            <Line X1="20" Y1="40"
+                                      X2="40" Y2="40"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            <Line X1="40" Y1="40"
+                                      X2="40" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                            <Line X1="40" Y1="10"
+                                      X2="60" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                        </Canvas>
+                                    </WrapPanel>
+                                    <WrapPanel Margin="5,10,0,0">
+                                        <CheckBox Content="Data" IsChecked="{Binding  ConfigVM.Trigger.SelectedTrigger.IsUARTDataChecked}" Margin="5,10,20,10" VerticalAlignment="Center"/>
+                                        <ComboBox ItemsSource="{Binding  ConfigVM.Trigger.ComparisonList}" SelectedItem="{Binding  ConfigVM.Trigger.SelectedTrigger.UARTDataComparison}" Margin="50,10,10,10" IsEnabled="{Binding  ConfigVM.Trigger.SelectedTrigger.IsUARTDataChecked}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+                                        <TextBox x:Name="UARTDataTB" Margin="10" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" MinWidth="150" IsEnabled="{Binding  ConfigVM.Trigger.SelectedTrigger.IsUARTDataChecked}"  VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                            <Binding Path=" ConfigVM.Trigger.SelectedTrigger.UARTDataValue" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                <Binding.ValidationRules>
+                                                    <conv:TriggerPatternValidator>
+                                                        <conv:TriggerPatternValidator.Wrapper>
+                                                            <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="uartdata" />
+                                                        </conv:TriggerPatternValidator.Wrapper>
+                                                    </conv:TriggerPatternValidator>
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox>
+                                        <ComboBox ItemsSource="{Binding Source={StaticResource ePatternFormat}}" SelectedItem="{Binding  ConfigVM.Trigger.SelectedTrigger.UARTDataPattern}" Margin="10" IsEnabled="{Binding  ConfigVM.Trigger.SelectedTrigger.IsUARTDataChecked}"/>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </Border>
+                        </GroupBox>
+                        <GroupBox x:Name="I3CTriggerPanel" Margin="10" Grid.Row="2" BorderThickness="0">
+                            <GroupBox.Header>
+                                <Label Margin="20,10,10,10" FontWeight="SemiBold">I3C Trigger</Label>
+                            </GroupBox.Header>
+                            <GroupBox.Style>
+                                <Style TargetType="GroupBox">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding  ConfigVM.Trigger.SelectedTrigger, Converter={StaticResource getObjectTypeToBooleanConverter}, ConverterParameter={x:Type tc:TriggerConfig_I3C}}" Value="true">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </GroupBox.Style>
+                            <StackPanel>
+                                <WrapPanel Margin="20,10,10,10">
+                                    <Border BorderBrush="LightGray" BorderThickness="1">
+                                        <Grid Margin="20,10,10,10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <WrapPanel Orientation="Horizontal" Grid.ColumnSpan="5" Margin="10">
+                                                <RadioButton Style="{StaticResource radiobuttonstyle}" Margin="5" Content="Broadcast" x:Name="brdcast" Click="brdcast_Checked" VerticalAlignment="Center"
+                                     IsChecked="{Binding  ConfigVM.Trigger.SelectedTrigger.SelI3CMessage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='Broadcast'}"/>
+                                                <RadioButton Style="{StaticResource radiobuttonstyle}" Margin="130,5,10,5" Content="Directed"  x:Name="directed" Click="directed_Checked" VerticalAlignment="Center"
+                                     IsChecked="{Binding  ConfigVM.Trigger.SelectedTrigger.SelI3CMessage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='Directed'}" Grid.Column="1"/>
+                                                <RadioButton Style="{StaticResource radiobuttonstyle}" Margin="130,5,10,5" Content="Private" x:Name="private" Click="private_Checked"  VerticalAlignment="Center"
+                                     IsChecked="{Binding  ConfigVM.Trigger.SelectedTrigger.SelI3CMessage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='Private'}" Grid.Column="2" HorizontalAlignment="Right"/>
+                                            </WrapPanel>
+
+                                            <Label Content="Start" Grid.Row="1" Grid.Column="0" MinWidth="30" Margin='5,10,10,10'/>
+                                            <Label Content="S/Sr" Grid.Row="2" Style="{StaticResource nonEditField}" Margin='0,10,0,10'/>
+
+                                            <Grid x:Name="grdCommon" HorizontalAlignment="Left" Grid.Row="1" Margin="0,0,0,0" Grid.RowSpan="2" Grid.Column="1">
+                                                <Grid.Style>
+                                                    <Style TargetType="{x:Type Grid}">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding  ConfigVM.Trigger.SelectedTrigger.SelI3CMessage}" Value="Private">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Grid.Style>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Content="Address" Grid.Row="0" Grid.Column="1"  Margin='5,10,10,10'/>
+                                                <Label Content="0x7E" Grid.Row="1" Grid.Column="1" Style="{StaticResource nonEditField}"/>
+
+                                                <Label Content="Transfer" Grid.Row="0" Grid.Column="2"  Margin='5,10,10,10'/>
+                                                <Label Content="W" Grid.Row="1" Grid.Column="2" Style="{StaticResource nonEditField}"/>
+
+                                                <Label Content="A/N" Grid.Row="0" Grid.Column="3"  Margin='10,10,10,10'/>
+                                                <ComboBox x:Name="cmb7EAck" Grid.Row="1" Grid.Column="3" ItemsSource="{Binding  ConfigVM.Trigger.I3CACKList}" SelectedItem="{Binding  ConfigVM.Trigger.SelectedTrigger.AckNckI3C}" SelectionChanged="cmb7EAck_SelectionChanged" MinWidth="35" Margin="10"/>
+
+                                                <Label Content="Broadcast CCC" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" Margin='5,10,10,10' Width="Auto">
+                                                    <Label.Style>
+                                                        <Style TargetType="Label">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding  ConfigVM.Trigger.SelectedTrigger.AckNckI3C}" Value="ACK" />
+                                                                        <Condition Binding="{Binding  ConfigVM.Trigger.SelectedTrigger.SelI3CMessage}" Value="Broadcast"/>
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </MultiDataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Label.Style>
+                                                </Label>
+                                                <ComboBox ItemsSource="{Binding  ConfigVM.Trigger.CommandBrd}" x:Name="cmbbroadcast" SelectionChanged="broadcast_SelectionChanged"  Grid.Row="1" Grid.Column="4" SelectedItem="{Binding ConfigVM.Trigger.SelectedTrigger.SelCommandBrd}" MaxWidth="150" Margin="10">
+                                                    <ComboBox.Style>
+                                                        <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource bluecomboStyle}">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding  ConfigVM.Trigger.SelectedTrigger.AckNckI3C}" Value="ACK" />
+                                                                        <Condition Binding="{Binding  ConfigVM.Trigger.SelectedTrigger.SelI3CMessage}" Value="Broadcast"/>
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </MultiDataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ComboBox.Style>
+                                                </ComboBox>
+
+                                                <Label Content="Directed CCC" Grid.Row="0" Grid.Column="5" HorizontalAlignment="Center" Margin='5,10,10,10' Width="Auto">
+                                                    <Label.Style>
+                                                        <Style TargetType="Label">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding  ConfigVM.Trigger.SelectedTrigger.AckNckI3C}" Value="ACK" />
+                                                                        <Condition Binding="{Binding  ConfigVM.Trigger.SelectedTrigger.SelI3CMessage}" Value="Directed"/>
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </MultiDataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Label.Style>
+                                                </Label>
+                                                <ComboBox ItemsSource="{Binding  ConfigVM.Trigger.CommandDir}" x:Name="cmbdirected" SelectionChanged="directed_SelectionChanged" OverridesDefaultStyle="False" Grid.Row="1" Grid.Column="5" SelectedItem="{Binding  ConfigVM.Trigger.SelectedTrigger.SelCommandDir}" MaxWidth="150" Margin="10">
+                                                    <ComboBox.Style>
+                                                        <Style TargetType="{x:Type ComboBox}"  BasedOn="{StaticResource bluecomboStyle}">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <MultiDataTrigger>
+                                                                    <MultiDataTrigger.Conditions>
+                                                                        <Condition Binding="{Binding  ConfigVM.Trigger.SelectedTrigger.AckNckI3C}" Value="ACK" />
+                                                                        <Condition Binding="{Binding  ConfigVM.Trigger.SelectedTrigger.SelI3CMessage}" Value="Directed"/>
+                                                                    </MultiDataTrigger.Conditions>
+                                                                    <Setter Property="Visibility" Value="Visible" />
+                                                                </MultiDataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ComboBox.Style>
+                                                </ComboBox>
+                                            </Grid>
+
+                                            <Grid x:Name="grdslave" Grid.Row="1" Grid.RowSpan="2" Grid.Column="2">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Content="Slave Address" x:Name="lbli3cslaveaddr" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                                <TextBox x:Name="i3cslaveaddr" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Grid.Row="1"  Grid.Column="0" MaxWidth="150" Margin="10">
+                                                    <Binding Path=" ConfigVM.Trigger.SelectedTrigger.I3CSlaveAddress" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                        <Binding.ValidationRules>
+                                                            <conv:TriggerPatternValidator>
+                                                                <conv:TriggerPatternValidator.Wrapper>
+                                                                    <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="i3cslaveaddr" />
+                                                                </conv:TriggerPatternValidator.Wrapper>
+                                                            </conv:TriggerPatternValidator>
+                                                        </Binding.ValidationRules>
+                                                    </Binding>
+                                                </TextBox>
+
+                                                <Label Content="Transfer" x:Name="lbli3cslavetransfer"  Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                                <ComboBox x:Name="cmbi3cslavetransfer" ItemsSource="{Binding  ConfigVM.Trigger.TransferTypesList}" SelectedItem="{Binding  ConfigVM.Trigger.SelectedTrigger.I3CSlaveTransfer}" Grid.Row="1"  Grid.Column="1" MaxWidth="150" Margin="10">
+                                                    <ComboBox.Style>
+                                                        <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource bluecomboStyle}">
+                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding  ConfigVM.Trigger.SelectedTrigger.SelI3CMessage}" Value="Private">
+                                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </ComboBox.Style>
+                                                </ComboBox>
+
+                                                <Label Content="A/N" x:Name="lbli3cslaveAck" Grid.Row="0" Grid.Column="2"  Margin='10,10,10,10'/>
+                                                <ComboBox x:Name="cmbi3cslaveAck" SelectionChanged="cmbi3cslaveAck_SelectionChanged" Grid.Row="1" Grid.Column="2" ItemsSource="{Binding  ConfigVM.Trigger.I3CACKList}" SelectedItem="{Binding  ConfigVM.Trigger.SelectedTrigger.I3CSlaveAck}" MinWidth="35" Margin="10"/>
+
+                                            </Grid>
+
+                                            <Label Content="Data" Visibility="Collapsed" x:Name="lbli3cdata" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <TextBox x:Name="i3cdata" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Visibility="Collapsed" Grid.Row="2"  Grid.Column="3" MaxWidth="150" Margin="10">
+                                                <Binding Path=" ConfigVM.Trigger.SelectedTrigger.I3CData" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="i3cdata" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+
+                                            <Label Content="HDR command" Visibility="Collapsed" x:Name="lbli3chdrcmd" Grid.Row="1" Grid.Column="4" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <TextBox x:Name="i3chdrcmd" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Visibility="Collapsed" Grid.Row="2"  Grid.Column="4" MaxWidth="150" Margin="10">
+                                                <Binding Path=" ConfigVM.Trigger.SelectedTrigger.HdrCommand" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="i3chdrcmd" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+
+                                            <Label Content="HDR Data" Visibility="Collapsed" x:Name="lbli3chdrdata" Grid.Row="1" Grid.Column="5" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <TextBox x:Name="i3chdrdata" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Visibility="Collapsed" Grid.Row="2"  Grid.Column="5" MaxWidth="150" Margin="10">
+                                                <Binding Path=" ConfigVM.Trigger.SelectedTrigger.HdrData" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="i3chdrdata" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+                                        </Grid>
+                                    </Border>
+                                </WrapPanel>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox x:Name="SPMITriggerPanel" Margin="10" Grid.Row="2" BorderThickness="0">
+                            <GroupBox.Header>
+                                <Label Margin="20,10,10,10" FontWeight="SemiBold">SPMI Trigger</Label>
+                            </GroupBox.Header>
+                            <GroupBox.Style>
+                                <Style TargetType="GroupBox">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding  ConfigVM.Trigger.SelectedTrigger, Converter={StaticResource getObjectTypeToBooleanConverter}, ConverterParameter={x:Type tc:TriggerConfig_SPMI}}" Value="true">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </GroupBox.Style>
+                            <StackPanel>
+                                <WrapPanel Margin="20,10,10,10">
+                                    <Border BorderBrush="LightGray" BorderThickness="1">
+                                        <Grid Margin="20,10,10,10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="Start Condition" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <Label Content="SSC" Style="{StaticResource nonEditField}" Grid.Row="1" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+
+                                            <Label Content="Command" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Margin='5,10,10,10' Width="100"/>
+                                            <ComboBox  x:Name="cmbCommand" ToolTip="Command" Grid.Row="1" Grid.Column="1" SelectionChanged="cmbCommand_SelectionChanged" ItemsSource="{Binding  ConfigVM.Trigger.SPMICommandList}" SelectedItem="{Binding  ConfigVM.Trigger.SelectedTrigger.SelSPMICommand}"  MaxWidth="150" Margin="10">
+                                            </ComboBox>
+
+                                            <Label x:Name="lblslaveaddr" Content="Slave/MID" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <TextBox x:Name="txtSlaveAddr" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Grid.Row="1" Grid.Column="2" Width="150"  Margin="10">
+                                                <Binding Path=" ConfigVM.Trigger.SelectedTrigger.SPMISlaveAddress" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="spmislaveaddr" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+
+                                            <Label x:Name="lblbytecount" Content="Byte Count" Grid.Row="0" Grid.Column="3"  HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <TextBox x:Name="txtByteCount" Grid.Row="1" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Width="150" Grid.Column="3"  Margin="10">
+                                                <Binding Path="ConfigVM.Trigger.SelectedTrigger.SPMIBytecount" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="spmibytecount" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+
+                                            <Label x:Name="lblregAddr" Content="Register Address" Grid.Row="0" Grid.Column="4"  HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <TextBox x:Name="txtregAddr" Grid.Row="1" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Width="150" Grid.Column="4"  Margin="10">
+                                                <Binding Path=" ConfigVM.Trigger.SelectedTrigger.SPMIregAddr" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="spmiregaddr" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+                                            <Label x:Name="lblData" Content="Data" Grid.Row="0" Grid.Column="5"  HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <TextBox x:Name="txtData" Grid.Row="1" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Width="150" Grid.Column="5"  Margin="10">
+                                                <Binding Path=" ConfigVM.Trigger.SelectedTrigger.SPMIData" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="spmidata" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+                                            <Label x:Name="lblack" Content="ACK/NACK" Grid.Row="0" Grid.Column="6"  HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <ComboBox x:Name="cmbAckNack" ItemsSource="{Binding  ConfigVM.Trigger.I3CACKList}" Grid.Row="1" Grid.Column="6"  SelectedItem="{Binding  ConfigVM.Trigger.SelectedTrigger.SPMISlaveAck}" MaxWidth="150" Margin="10">
+                                            </ComboBox>
+                                        </Grid>
+                                    </Border>
+                                </WrapPanel>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox x:Name="RFFETriggerPanel" Margin="10" Grid.Row="2" BorderThickness="0">
+                            <GroupBox.Header>
+                                <Label Margin="20,10,10,10" FontWeight="SemiBold">RFFE Trigger</Label>
+                            </GroupBox.Header>
+                            <GroupBox.Style>
+                                <Style TargetType="GroupBox">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding  ConfigVM.Trigger.SelectedTrigger, Converter={StaticResource getObjectTypeToBooleanConverter}, ConverterParameter={x:Type tc:TriggerConfig_RFFE}}" Value="true">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </GroupBox.Style>
+                            <StackPanel>
+                                <WrapPanel Margin="20,10,10,10">
+                                    <Border BorderBrush="LightGray" BorderThickness="1">
+                                        <Grid Margin="20,10,10,10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="Start Condition" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <Label Content="SSC" Style="{StaticResource nonEditField}" Grid.Row="1" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+
+                                            <Label Content="Command" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1" Margin='5,10,10,10' Width="100"/>
+                                            <ComboBox  x:Name="cmbCommandrffe" ToolTip="Command" Grid.Row="1" Grid.Column="1" SelectionChanged="cmbCommandrffe_SelectionChanged" ItemsSource="{Binding  ConfigVM.Trigger.RFFECommandList}" SelectedItem="{Binding   ConfigVM.Trigger.SelectedTrigger.SelRFFECommand}"  MaxWidth="150" Margin="10">
+                                            </ComboBox>
+
+                                            <Label x:Name="lblslaveaddrrffe" Content="Slave/MID" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <TextBox x:Name="txtSlaveAddrrffe" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Width="150" Grid.Row="1" Grid.Column="2"  MaxWidth="150" Margin="10">
+                                                <Binding Path="  ConfigVM.Trigger.SelectedTrigger.RFFESlaveAddress" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="rffeslaveaddr" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+
+                                            <Label x:Name="lblbytecountrffe" Content="Byte Count" Grid.Row="0" Grid.Column="3"  HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <TextBox x:Name="txtByteCountrffe" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Width="150" Grid.Row="1"  Grid.Column="3" MaxWidth="150" Margin="10">
+                                                <Binding Path="  ConfigVM.Trigger.SelectedTrigger.RFFEBytecount" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="rffebytecount" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+
+                                            <Label x:Name="lblregAddrrffe" Content="Register Address" Grid.Row="0" Grid.Column="4"  HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <TextBox x:Name="txtregAddrrffe" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Width="150" Grid.Row="1"  Grid.Column="4" MaxWidth="150" Margin="10">
+                                                <Binding Path="  ConfigVM.Trigger.SelectedTrigger.RFFEregAddr" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="rfferegaddr" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+
+                                            <Label x:Name="lblDataMaskrffe" Content="Data Mask" Grid.Row="0" Grid.Column="5"  HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <TextBox x:Name="txtDataMaskrffe" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Width="150" Grid.Row="1"  Grid.Column="5" MaxWidth="150" Margin="10">
+                                                <Binding Path="  ConfigVM.Trigger.SelectedTrigger.RFFEMaskData" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="rffemaskdata" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+
+                                            <Label x:Name="lblDatarffe" Content="Data" Grid.Row="0" Grid.Column="6"  HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <TextBox x:Name="txtDatarffe" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Width="150" Grid.Row="1"  Grid.Column="6" MaxWidth="150" Margin="10">
+                                                <Binding Path="  ConfigVM.Trigger.SelectedTrigger.RFFEData" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="rffedata" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+
+                                            <Label x:Name="lblackrffe" Content="ACK/N" Grid.Row="0" Grid.Column="7"  HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <ComboBox x:Name="cmbAckNackrffe" SelectionChanged="cmbAckNackrffe_SelectionChanged" ItemsSource="{Binding  ConfigVM.Trigger.I3CACKList}" Grid.Row="1" Grid.Column="7"  SelectedItem="{Binding   ConfigVM.Trigger.SelectedTrigger.RFFESlaveAck}" MaxWidth="150" Margin="10">
+                                            </ComboBox>
+
+                                            <Label x:Name="lblrxMIDffe" Content="Rx MID" Grid.Row="0" Grid.Column="8"  HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <TextBox x:Name="txtrxMIDrffe" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Width="150" Grid.Row="1"  Grid.Column="8" MaxWidth="150" Margin="10">
+                                                <Binding Path="  ConfigVM.Trigger.SelectedTrigger.RFFERxMID" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="rfferxmid" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+
+                                            <Label x:Name="lblinterrupts" Content="Interrupts" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="9" Margin='5,10,10,10' Width="100"/>
+                                            <WrapPanel x:Name="txtinterrrupt" Orientation="Horizontal" Grid.Row="1" Grid.Column="9" Margin="5,0,0,0">
+                                                <CheckBox Content="ISI" x:Name="IsiCheckbox" VerticalAlignment="Center" VerticalContentAlignment="Center" IsChecked="{Binding   ConfigVM.Trigger.SelectedTrigger.RFFEISIEnable}"/>
+                                                <ComboBox  ToolTip="Interrupts" IsEnabled="{Binding ElementName=IsiCheckbox, Path=IsChecked}" ItemsSource="{Binding  ConfigVM.Trigger.InterruptSlots}" SelectedItem="{Binding   ConfigVM.Trigger.SelectedTrigger.RFFEInterrupt}"  MaxWidth="150" Margin="10">
+                                                </ComboBox>
+                                            </WrapPanel>
+
+                                        </Grid>
+                                    </Border>
+                                </WrapPanel>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox x:Name="CANTriggerPanel" Margin="10" Grid.Row="2" BorderThickness="0">
+                            <GroupBox.Header>
+                                <Label Margin="20,10,10,10" FontWeight="SemiBold">CAN Trigger</Label>
+                            </GroupBox.Header>
+                            <GroupBox.Style>
+                                <Style TargetType="GroupBox">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding  ConfigVM.Trigger.SelectedTrigger, Converter={StaticResource getObjectTypeToBooleanConverter}, ConverterParameter={x:Type tc:TriggerConfig_CAN}}" Value="true">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </GroupBox.Style>
+                            <StackPanel>
+                                <WrapPanel Margin="20,10,10,10">
+                                    <Border BorderBrush="LightGray" BorderThickness="1">
+                                        <Grid Margin="20,10,10,10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Content="Start Condition" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <Label Content="SOF" Style="{StaticResource nonEditField}" Grid.Row="1" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+
+
+                                            <Label x:Name="labelCANID" Content="ID " Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <TextBox x:Name="txtCANID" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Width="150" Grid.Row="1" Grid.Column="2"  MaxWidth="150" Margin="10">
+                                                <Binding Path=" ConfigVM.Trigger.SelectedTrigger.CANID" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="txtCANID" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+
+
+
+
+                                            <Label x:Name="labelCANEXID" Content="EX-ID " Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <TextBox x:Name="txtCANEXID" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Width="150" Grid.Row="1" Grid.Column="3"  MaxWidth="150" Margin="10">
+                                                <Binding Path=" ConfigVM.Trigger.SelectedTrigger.CANEXID" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="txtCANEXID" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+
+                                        
+
+                                            <Label x:Name="lblCANDLC" Content="DLC" Grid.Row="0" Grid.Column="4"  HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <TextBox x:Name="txtCANDLC" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Width="150" Grid.Row="1"  Grid.Column="4" MaxWidth="150" Margin="10">
+                                                <Binding Path=" ConfigVM.Trigger.SelectedTrigger.CANDLC" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="txtCANDLC" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+
+                                        
+
+                                            <Label x:Name="lblCANdata" Content="Data" Grid.Row="0" Grid.Column="5"  HorizontalAlignment="Center" Margin='5,10,10,10' Width="100"/>
+                                            <TextBox x:Name="txtcanData" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Width="150" Grid.Row="1"  Grid.Column="5" MaxWidth="150" Margin="10">
+                                                <Binding Path=" ConfigVM.Trigger.SelectedTrigger.CANData" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="txtcanData" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+
+                                     
+
+                                        </Grid>
+                                    </Border>
+                                </WrapPanel>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox x:Name="QSPITriggerPanel" Margin="10" Grid.Row="2" BorderThickness="0">
+                            <GroupBox.Header>
+                                <Label Margin="20,10,10,10" FontWeight="SemiBold">QSPI Trigger</Label>
+                            </GroupBox.Header>
+                            <GroupBox.Style>
+                                <Style TargetType="GroupBox">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding  ConfigVM.Trigger.SelectedTrigger, Converter={StaticResource getObjectTypeToBooleanConverter}, ConverterParameter={x:Type tc:TriggerConfig_QSPI}}" Value="true">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+
+                            </GroupBox.Style>
+                            <StackPanel>
+                                <WrapPanel Margin="20,10,10,10">
+                                    <Border BorderBrush="LightGray" BorderThickness="1">
+                                        <Grid Margin="20,10,10,10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition></RowDefinition>
+                                                <RowDefinition></RowDefinition>
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                     
+                                            </Grid.ColumnDefinitions>
+
+
+
+                                            <Label x:Name="labelQSPICommand" Content="Command " Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100" />
+                                            <ComboBox x:Name="QSPICommand" ToolTip="Command" Grid.Row="1" Grid.Column="0" ItemsSource="{Binding ConfigVM.Trigger.QSPICommandList}" SelectedItem="{Binding ConfigVM.Trigger.SelectedTrigger.SelQSPICommand}" MaxWidth="150" Margin="10">
+                                            </ComboBox>
+
+
+                                            <Label x:Name="labelQSPIADDRESS" Content="Address" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Margin='5,10,10,10' Width="100" />
+                                      
+                                            <TextBox x:Name="txtQSPIAddress" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Width="150" Grid.Row="1"  Grid.Column="1" MaxWidth="150" Margin="10">
+                                                <Binding Path=" ConfigVM.Trigger.SelectedTrigger.QSPIAddressByte" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="txtqspiAddress" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                            </TextBox>
+
+
+                                            <Label x:Name="QSPIdata" Content="Data" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Margin='5,10,10,10' Width="50" />
+                                            <TextBox x:Name="txtQSPIData" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Width="150" Grid.Row="1"  Grid.Column="2" MaxWidth="150" Margin="10">
+                                                <Binding Path=" ConfigVM.Trigger.SelectedTrigger.QSPIData" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                                    <Binding.ValidationRules>
+                                                        <conv:TriggerPatternValidator>
+                                                            <conv:TriggerPatternValidator.Wrapper>
+                                                                <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="txtqspiData" />
+                                                            </conv:TriggerPatternValidator.Wrapper>
+                                                        </conv:TriggerPatternValidator>
+                                                    </Binding.ValidationRules>
+                                                </Binding>
+                                                <TextBox.Style>
+                                                    <Style TargetType="TextBox">
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding TriggerVM.TriggerModel.SelQSPICommand, Mode=OneWay}" Value="{x:Null}" />
+                                                                    <Condition Binding="{Binding TriggerVM.TriggerModel.QSPIAddressByte, Mode=OneWay}" Value=""/>
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="IsEnabled" Value="True" />
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                            </TextBox>
+                                            <!--<TextBox x:Name="txtQSPIData" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" Width="150" Grid.Row="3" Grid.Column="4" MaxWidth="100" Margin="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Text="{Binding TriggerVM.TriggerModel.QSPIData, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                                <TextBox.Style>
+                                                    <Style TargetType="TextBox">
+                                                        <Style.Triggers>
+                                                            <MultiDataTrigger>
+                                                                <MultiDataTrigger.Conditions>
+                                                                    <Condition Binding="{Binding TriggerVM.TriggerModel.SelQSPICommand, Mode=OneWay}" Value="{x:Null}" />
+                                                                    <Condition Binding="{Binding TriggerVM.TriggerModel.QSPIAddressByte, Mode=OneWay}" Value=""/>
+                                                                </MultiDataTrigger.Conditions>
+                                                                <Setter Property="IsEnabled" Value="True" />
+                                                            </MultiDataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBox.Style>
+                                            </TextBox>-->
+                                        </Grid>
+                                    </Border>
+                                </WrapPanel>
+                            </StackPanel>
+                        </GroupBox>
+                        <WrapPanel Margin="30,0,10,10" Grid.Row="3" Visibility="Collapsed">
+                            <Label Content="Buffer Size" Width="100" Margin="10"/>
+                            <ComboBox ItemsSource="{Binding  ConfigVM.Trigger.BufferSizeList}" SelectedItem="{Binding  ConfigVM.Trigger.TriggerModel.BufferSize}" MinWidth="100" Margin="10" Grid.Column="1" VerticalContentAlignment="Center" IsEnabled="False"/>
+                        </WrapPanel>
+                        <WrapPanel Margin="30,0,10,10" Grid.Row="3" Visibility="Collapsed">
+                            <Label Content="Position" Width="100" Margin="10" Grid.Row="1"/>
+                            <WrapPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+                                <Slider Maximum="100" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" Name="TrValue2" Width="250" Value="{Binding  ConfigVM.Trigger.TriggerModel.TriggerPosition}" Margin="10" Foreground="#03a9f4" IsEnabled="False"/>
+                                <TextBox Text="{Binding ElementName=TrValue2, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Width="40" Margin="10,10,0,10" BorderThickness="0" Foreground="#03a9f4" FontWeight="SemiBold" FontSize="16" IsEnabled="False"/>
+                                <Label Content="%" Margin="0,10,10,10" Foreground="#03a9f4"/>
+                            </WrapPanel>
+                        </WrapPanel>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox x:Name="TimingTriggerPanel" BorderBrush="Orange" BorderThickness="2" Grid.Row="1" Margin="10,2,10,5">
+                    <GroupBox.Header>
+                        <Label Content="Trigger - Timing Trigger"  Style="{StaticResource blueLabel}" HorizontalAlignment="Left" FontWeight="SemiBold" Foreground="{StaticResource LinkButtonForeground}"/>
+                    </GroupBox.Header>
+                    <!--<GroupBox.Background>
+                        <LinearGradientBrush EndPoint="0.5,1"
+                     StartPoint="0.5,0">
+                            <GradientStop Color="#5c6bc0" Offset="0.0" />
+                            <GradientStop Color="#8e99f3" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </GroupBox.Background>-->
+                    <GroupBox.Style>
+                        <Style TargetType="GroupBox">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Setter Property="IsEnabled" Value="True"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding  ConfigVM.Trigger.TriggerType}" Value="Timing">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding ConfigVM.Config.ConfigurationMode}" Value="LA_Mode" />
+                                        <Condition Binding="{Binding ConfigVM.Config.GeneralPurposeMode}" Value="State"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </GroupBox.Style>
+                    <StackPanel Margin="30,10,10,10">
+                        <WrapPanel>
+                            <Label Content="Timing  " Width="120" Margin='10'/>
+                            <ComboBox ItemsSource="{Binding  ConfigVM.Trigger.TimingTriggerTypeList}" SelectedItem="{Binding  ConfigVM.Trigger.TriggerModel.TimingTriggerTypeSelected}" Margin="30,10,10,10">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <WrapPanel>
+                                <WrapPanel.Style>
+                                    <Style TargetType="WrapPanel">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding  ConfigVM.Trigger.TriggerModel.TimingTriggerTypeSelected}" Value="Pulse_Width">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </WrapPanel.Style>
+                                <Label Content="Channel" Margin="50,10,10,10"/>
+                                <ComboBox ItemsSource="{Binding Source={StaticResource eChannelList}}" SelectedItem="{Binding  ConfigVM.Trigger.TriggerModel.PulseWidthChannel}" Margin="30,10,10,10"/>
+                            </WrapPanel>
+                        </WrapPanel>
+                        <StackPanel x:Name="pulseWidth" Margin="0,20,0,0">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding  ConfigVM.Trigger.TriggerModel.TimingTriggerTypeSelected}" Value="Pulse_Width">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <WrapPanel Height="50">
+                                <RadioButton Style="{StaticResource radiobuttonstyle}" VerticalAlignment="Bottom" Content="Positive Width" Margin="10" Width="120" GroupName="Width" IsChecked="{Binding  ConfigVM.Trigger.TriggerModel.TimingPulsePositiveSelected}"/>
+                                <Canvas x:Name="PositivePulse" Height="60" Width="60" Margin="30,10,10,10">
+                                    <Line X1="0" Y1="40"
+                                      X2="20" Y2="40"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="20" Y1="40"
+                                      X2="20" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="20" Y1="10"
+                                      X2="40" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="40" Y1="10"
+                                      X2="40" Y2="40"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="40" Y1="40"
+                                      X2="60" Y2="40"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                </Canvas>
+                            </WrapPanel>
+                            <WrapPanel Margin="0,20,0,0">
+                                <RadioButton Style="{StaticResource radiobuttonstyle}" VerticalAlignment="Center" Content="Negative Width" Margin="10" Width="120" GroupName="Width" IsChecked="{Binding  ConfigVM.Trigger.TriggerModel.TimingPulseNegativeSelected}"/>
+                                <Canvas x:Name="NegativePulse" Height="60" Width="60" Margin="30,10,10,10">
+                                    <Line X1="0" Y1="10"
+                                      X2="20" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="20" Y1="10"
+                                      X2="20" Y2="40"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="20" Y1="40"
+                                      X2="40" Y2="40"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="40" Y1="40"
+                                      X2="40" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="40" Y1="10"
+                                      X2="60" Y2="10"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                </Canvas>
+                            </WrapPanel>
+                            <WrapPanel Height="Auto" Margin="0,20,0,0">
+                                <Label Content="Pulse Width" Margin="10" Width="120"/>
+                                <ComboBox ItemsSource="{Binding  ConfigVM.Trigger.PulseComparisonList}" SelectedItem="{Binding  ConfigVM.Trigger.TriggerModel.PulseComparisonSelected}" Margin="30,10,10,10" HorizontalAlignment="Left">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <TextBox x:Name="PulseWidthTB" Margin="30,10,10,10" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" MaxLength="8" MinWidth="150" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                    <Binding Path=" ConfigVM.Trigger.TriggerModel.PulseWidthCount" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <conv:TriggerPatternValidator>
+                                                <conv:TriggerPatternValidator.Wrapper>
+                                                    <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="pulsewidth" />
+                                                </conv:TriggerPatternValidator.Wrapper>
+                                            </conv:TriggerPatternValidator>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox>
+                                <Label Content="ns" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="SemiBold"/>
+                            </WrapPanel>
+                        </StackPanel>
+                        <StackPanel x:Name="delay">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding  ConfigVM.Trigger.TriggerModel.TimingTriggerTypeSelected}" Value="Delay">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <WrapPanel>
+                                <Label Content="Channel" Margin="10" VerticalAlignment="Center" Width="120"/>
+                                <ComboBox ItemsSource="{Binding Source={StaticResource eChannelList}}" SelectedItem="{Binding  ConfigVM.Trigger.TriggerModel.DelayChannel1}" Margin="30,10,10,10" Height="25"/>
+                                <Canvas Height="80" Width="80" Margin="10">
+                                    <Line X1="0" Y1="60"
+                                      X2="20" Y2="60"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="20" Y1="60"
+                                      X2="20" Y2="20"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="20" Y1="20"
+                                      X2="40" Y2="20"
+                                     Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="40" Y1="20"
+                                      X2="40" Y2="60"
+                                     Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="40" Y1="60"
+                                      X2="60" Y2="60"
+                                     Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="15" Y1="70"
+                                          X2="20" Y2="75"
+                                          Stroke="SteelBlue"
+                                      StrokeThickness="2"/>
+                                    <Line X1="20" Y1="75"
+                                          X2="15" Y2="80"
+                                          Stroke="SteelBlue"
+                                      StrokeThickness="2"/>
+                                    <TextBlock Text="td" Margin="25,65,0,0"/>
+                                    <Line X1="20" Y1="0"
+                                      X2="20" Y2="80"
+                                      Stroke="Black"
+                                      StrokeThickness="1" StrokeDashArray="2 2"/>
+                                    <Line X1="45" Y1="70"
+                                          X2="40" Y2="75"
+                                          Stroke="SteelBlue"
+                                      StrokeThickness="2"/>
+                                    <Line X1="40" Y1="75"
+                                          X2="45" Y2="80"
+                                          Stroke="SteelBlue"
+                                      StrokeThickness="2"/>
+                                    <Line X1="40" Y1="0"
+                                      X2="40" Y2="80"
+                                      Stroke="Black"
+                                      StrokeThickness="1" StrokeDashArray="2 2"/>
+                                </Canvas>
+                            </WrapPanel>
+                            <WrapPanel Margin="0,0,0,0">
+                                <Label Content="Channel" Margin="10" VerticalAlignment="Center" Width="120"/>
+                                <ComboBox ItemsSource="{Binding Source={StaticResource eChannelList}}" SelectedItem="{Binding  ConfigVM.Trigger.TriggerModel.DelayChannel2}" Margin="30,10,10,10" Height="25"/>
+                                <Canvas Height="80" Width="80" Margin="30,10,10,10">
+                                    <Line X1="0" Y1="60"
+                                      X2="20" Y2="60"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="20" Y1="60"
+                                      X2="20" Y2="20"
+                                      Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="20" Y1="20"
+                                      X2="40" Y2="20"
+                                     Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="40" Y1="20"
+                                      X2="40" Y2="60"
+                                     Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="40" Y1="60"
+                                      X2="60" Y2="60"
+                                     Stroke="Black"
+                                      StrokeThickness="2" />
+                                    <Line X1="0" Y1="0"
+                                      X2="0" Y2="80"
+                                      Stroke="Black"
+                                      StrokeThickness="1" StrokeDashArray="2 2"/>
+                                    <Line X1="20" Y1="0"
+                                      X2="20" Y2="80"
+                                      Stroke="Black"
+                                      StrokeThickness="1" StrokeDashArray="2 2"/>
+                                </Canvas>
+                            </WrapPanel>
+                            <WrapPanel Height="Auto" Margin="0,20,0,0">
+                                <Label Content="Delay td" Margin="10" Width="120"/>
+                                <ComboBox ItemsSource="{Binding  ConfigVM.Trigger.PulseComparisonList}" SelectedItem="{Binding  ConfigVM.Trigger.TriggerModel.DelayComparisonSelected}" Margin="30,10,10,10">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <TextBox x:Name="DelayCountTB" Margin="30,10,10,10" MinWidth="150" Validation.ErrorTemplate="{StaticResource validationErrorTemplate}" MaxLength="8" VerticalContentAlignment="Center" HorizontalContentAlignment="Center">
+                                    <Binding Path=" ConfigVM.Trigger.TriggerModel.DelayCount" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <conv:TriggerPatternValidator>
+                                                <conv:TriggerPatternValidator.Wrapper>
+                                                    <conv:TriggerWrapper Trigger="{Binding DataContext, Source={x:Reference triggerWrapperDataProvider}, Mode=OneWay}" Format="delay" />
+                                                </conv:TriggerPatternValidator.Wrapper>
+                                            </conv:TriggerPatternValidator>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox>
+                                <Label Content="ns" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="SemiBold"/>
+                            </WrapPanel>
+                        </StackPanel>
+                        <WrapPanel Margin="0,20,0,0" Visibility="Collapsed">
+                            <Label Content="Buffer Size" Width="120" Margin="10"/>
+                            <ComboBox ItemsSource="{Binding  ConfigVM.Trigger.BufferSizeList}" SelectedItem="{Binding  ConfigVM.Trigger.TriggerModel.BufferSize}"  MinWidth="100" Margin="30,10,10,10" Grid.Column="1" VerticalContentAlignment="Center" IsEnabled="False"/>
+                        </WrapPanel>
+                        <WrapPanel Margin="0,20,0,0" Visibility="Collapsed">
+                            <Label Content="Position" Width="120" Margin="10" Grid.Row="1"/>
+                            <WrapPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+                                <Slider Maximum="100" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" Name="TrValue3" Width="250" Value="{Binding  ConfigVM.Trigger.TriggerModel.TriggerPosition}" Margin="30,10,10,10" Foreground="#03a9f4" IsEnabled="False"/>
+                                <TextBox Text="{Binding ElementName=TrValue3, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" Width="40" Margin="10,10,0,10" BorderThickness="0" Foreground="#03a9f4" FontWeight="SemiBold" FontSize="16" IsEnabled="False"/>
+                                <Label Content="%" Margin="0,10,10,10" Foreground="#03a9f4"/>
+                            </WrapPanel>
+                        </WrapPanel>
+                    </StackPanel>
+                </GroupBox>
+                <!--<Grid x:Name="BufferGrid" Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label Content="Buffer Size" Margin="10"/>
+                    <TextBox Width="auto" Margin="10" Grid.Column="1" VerticalContentAlignment="Center"/>
+                    <Label Content="Position" Margin="10" Grid.Row="1"/>
+                    <WrapPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+                        <Slider Maximum="100" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" Name="TrValue" Width="150" Value="{Binding TriggerVM.TriggerPosition}" Margin="5,10,10,10"/>
+                        <TextBox Text="{Binding ElementName=TrValue, Path=Value, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" VerticalContentAlignment="Center" Width="40" Margin="10"/>
+                        <Label Content="%" Margin="0,10,10,10"/>
+                    </WrapPanel>
+                </Grid>-->
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -1,0 +1,621 @@
+﻿<UserControl x:Class="PGYMiniCooper.CoreModule.View.Modes.LAModeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PGYMiniCooper.CoreModule.View.Modes"
+             xmlns:conv="clr-namespace:PGYMiniCooper.CoreModule.View.Converters"
+  xmlns:dm="clr-namespace:PGYMiniCooper.DataModule;assembly=PGYMiniCooper.DataModule"
+             xmlns:fconv="clr-namespace:ProdigyFramework.Converters;assembly=ProdigyFramework"
+             xmlns:vm="clr-namespace:PGYMiniCooper.CoreModule.ViewModel"
+          xmlns:customview="clr-namespace:PGYMiniCooper.CoreModule.View.CustomView"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" xmlns:dm1="clr-namespace:System;assembly=System.Runtime"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance Type=vm:ConfigurationViewModel, IsDesignTimeCreatable=False}"
+             d:DesignHeight="500" d:DesignWidth="700">
+    <!--<GroupBox Header="LA Mode">-->
+    <UserControl.Resources>
+        <conv:VoltageValidator x:Key="voltageValidator"/>
+        <ControlTemplate x:Key="validationErrorTemplate">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                    <Grid Width="12" Height="12">
+                        <Ellipse Width="12" Height="12"  Fill="Red" HorizontalAlignment="Center"   VerticalAlignment="Center" ></Ellipse>
+                        <TextBlock Foreground="White" FontWeight="Heavy"  FontSize="8" HorizontalAlignment="Center"  VerticalAlignment="Center" TextAlignment="Center" 
+                                   ToolTip="{Binding ElementName=ErrorAdorner,Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">X</TextBlock>
+                    </Grid>
+                    <TextBlock Foreground="Red" FontWeight="SemiBold" Margin="2,0,0,0" 
+                   Text="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"></TextBlock>
+                </StackPanel>
+                <AdornedElementPlaceholder x:Name="ErrorAdorner" ></AdornedElementPlaceholder>
+            </DockPanel>
+        </ControlTemplate>
+        <fconv:EnumToBooleanConverter x:Key="enumToBooleanConverter" />
+        <conv:EnumToBooleanReturnDefaultConverter x:Key="channelEnumToBooleanConverter" DefaultValueWhenFalse="{x:Static dm:eChannles.None}" />
+        <conv:MultiValueStringConverter x:Key="multiValueStringConverter" />
+        <Style x:Key="SampleRising" TargetType="RadioButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border Background="Transparent" MaxHeight="25" MaxWidth="25">
+                            <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Group 515.png"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="False">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="RadioButton">
+                                <Border Background="Transparent" MaxHeight="25" MaxWidth="25">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Group 515(1).png"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="SampleFalling" TargetType="RadioButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Border Background="Transparent" MaxHeight="25" MaxWidth="25">
+                            <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Group 516.png"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="RadioButton">
+                                <Border  MaxHeight="25" MaxWidth="25" Background="Transparent">
+                                    <Image Source="/PGYMiniCooper.CoreModule;component/Resources/Icons/Group 516(1).png"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+    <Grid Margin="5,2,5,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" BorderBrush="Orange" BorderThickness="2" HorizontalAlignment="Stretch" Margin="10,0,10,0">
+            <GroupBox.Header>
+                <Label Content="Setup - LA Mode - State Modes"  Style="{StaticResource blueLabel}" HorizontalAlignment="Left" FontWeight="SemiBold" Foreground="{StaticResource LinkButtonForeground}"/>
+            </GroupBox.Header>
+            <!--<GroupBox.Background>
+                <LinearGradientBrush 
+                     StartPoint="0,0">
+                    <GradientStop Color="#5c6bc0" Offset="0.0" />
+                    <GradientStop Color="#8e99f3" Offset="1.0" />
+                </LinearGradientBrush>
+            </GroupBox.Background>-->
+            <Grid Margin="30,0,5,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <RadioButton x:Name="rbState" Style="{StaticResource radiobuttonstyle}" Margin="5,5,15,5" Content="State / Synchronous"
+                                     IsChecked="{Binding GeneralPurposeMode, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='State'}"/>
+                <RadioButton x:Name="rbTiming" Style="{StaticResource radiobuttonstyle}" Margin="130,5,10,5" Content="Timing / Asynchronous"
+                                     IsChecked="{Binding GeneralPurposeMode, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='Timing'}" Grid.Column="1"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="1" BorderBrush="Orange" BorderThickness="2" HorizontalAlignment="Stretch" Margin="10,2,10,0">
+            <GroupBox.Style>
+                <Style TargetType="GroupBox">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding GeneralPurposeMode}" Value="Timing">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </GroupBox.Style>
+            <GroupBox.Header>
+                <Label Content="Setup - LA Mode - Clock Selection"  Style="{StaticResource blueLabel}" HorizontalAlignment="Left" FontWeight="SemiBold" Foreground="{StaticResource LinkButtonForeground}"/>
+            </GroupBox.Header>
+            <!--<GroupBox.Background>
+                <LinearGradientBrush 
+                     StartPoint="0,0">
+                    <GradientStop Color="#5c6bc0" Offset="0.0" />
+                    <GradientStop Color="#8e99f3" Offset="1.0" />
+                </LinearGradientBrush>
+            </GroupBox.Background>-->
+            <Grid Margin="5,0,5,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <Label Margin="30,2,10,2">Number of Clock Sources</Label>
+                    <!--<ListBox Margin="30,10,10,10" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="Transparent" ItemsSource="{Binding CycleList}" SelectedItem="{Binding Config.CycleCount}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                            <RadioButton Style="{StaticResource radiobuttonstyle}" Margin="30,5,5,5"  VerticalContentAlignment="Center" Content="{TemplateBinding Content}" IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsSelected}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.Template>
+                            <ControlTemplate TargetType="{x:Type ListBox}">
+                                <ScrollViewer x:Name="scrollviewer" HorizontalScrollBarVisibility="Hidden"  CanContentScroll="False">
+                                    <StackPanel IsItemsHost="True" Orientation="Horizontal" />
+                                </ScrollViewer>
+                            </ControlTemplateChannel
+                        </ListBox.Template>
+                    </ListBox>-->
+                    <ToggleButton Margin="20,2,10,2" Height="20" Width="50" Style="{StaticResource SwitchTypeToggleButton}" IsChecked="{Binding HasTwoClockSources}">
+                    </ToggleButton>
+                </StackPanel>
+
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label  Margin="30,2,10,2" Content="Clock Source1" VerticalAlignment="Center"></Label>
+                    <ComboBox SelectedIndex="0" Width="70" Height="25" Margin="10,2,10,2" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DisplayMemberPath="Channel"  ItemsSource="{Binding ChannelList}" 
+                              SelectedValuePath="Channel"
+                              SelectedValue="{Binding SelectedClock1,Mode=TwoWay}">
+                    </ComboBox>
+                    <Label Grid.Column="2"  Margin="70,2,10,2" VerticalAlignment="Center">Sample</Label>
+                    <!--<ToggleButton Style="{StaticResource toggleRadioButton}" IsChecked="{Binding Config.IsCLK1_RisingEdge}" Margin="0,5,5,5" Grid.Column="3"/>-->
+                    <WrapPanel Grid.Column="3" Margin="10,2,10,2">
+                        <RadioButton Style="{StaticResource SampleRising}" IsChecked="{Binding SampleEdgeClock1, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static dm:eEdgeType.RISING_EDGE}}"  Margin="0,5,5,5"/>
+                        <RadioButton Style="{StaticResource SampleFalling}" IsChecked="{Binding SampleEdgeClock1, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static dm:eEdgeType.FALLING_EDGE}}" Margin="5,5,5,5"/>
+                    </WrapPanel>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="16.304"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Label  Margin="30,2,10,2" Content="Clock Source2" VerticalAlignment="Center"></Label>
+                    <ComboBox SelectedIndex="0" Width="70" Height="25" Margin="10,2,10,2" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" DisplayMemberPath="Channel" ItemsSource="{Binding ChannelList}" IsEnabled="{Binding HasTwoClockSources}"
+                              SelectedValuePath="Channel"
+                              SelectedValue="{Binding SelectedClock2,Mode=TwoWay}"/>
+                    <Label Grid.Column="2"  Margin="70,2,10,2" VerticalAlignment="Center">Sample</Label>
+                    <WrapPanel Grid.Column="3" Grid.ColumnSpan="2" Margin="10,2,10,2">
+                        <WrapPanel.Style>
+                            <Style TargetType="{x:Type WrapPanel}">
+                                <Setter Property="IsEnabled" Value="False"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Config.CycleCount}" Value="2">
+                                        <Setter Property="IsEnabled" Value="True"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </WrapPanel.Style>
+                        <RadioButton Style="{StaticResource SampleRising}" IsChecked="{Binding SampleEdgeClock2, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static dm:eEdgeType.RISING_EDGE}}" Margin="0,0,5,0"/>
+                        <RadioButton Style="{StaticResource SampleFalling}" IsChecked="{Binding SampleEdgeClock2, Converter={StaticResource enumToBooleanConverter}, ConverterParameter={x:Static dm:eEdgeType.FALLING_EDGE}}" Margin="5,0,5,0"/>
+                    </WrapPanel>
+                </Grid>
+            </Grid>
+        </GroupBox>
+           <GroupBox  BorderBrush="Orange" BorderThickness="2" Grid.Row="2" HorizontalAlignment="Stretch" Margin="10,0,10,0">
+
+            <GroupBox.Header>
+                <Label Content="Threshold Settings"  Style="{StaticResource blueLabel}" HorizontalAlignment="Left" FontWeight="SemiBold" Foreground="{StaticResource LinkButtonForeground}"/>
+            </GroupBox.Header>
+            <Grid Grid.Column="2" Margin="5,0,5,5">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="Auto"/>
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="90"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="1" Grid.Row="0" BorderThickness="1" BorderBrush="#03a9f4" CornerRadius="11" Width="60" Height="23">
+                    <TextBlock Text="CH1/CH2" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#03a9f4" Margin="3"/>
+                </Border>
+                <Border Grid.Column="2" Grid.Row="0" BorderThickness="1" BorderBrush="#03a9f4" CornerRadius="11" Width="60" Height="23">
+                    <TextBlock Text="CH3/CH4" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#03a9f4" Margin="3"/>
+                </Border>
+                <Border Grid.Column="3" Grid.Row="0" BorderThickness="1" BorderBrush="#03a9f4" CornerRadius="11" Width="60" Height="23">
+                    <TextBlock Text="CH5/CH6" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#03a9f4" Margin="3"/>
+                </Border>
+                <Border Grid.Column="4" Grid.Row="0" BorderThickness="1" BorderBrush="#03a9f4" CornerRadius="11" Width="60" Height="23">
+                    <TextBlock Text="CH7/CH8" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#03a9f4" Margin="3"/>
+                </Border>
+
+                <Border Grid.Column="5" Grid.Row="0" BorderThickness="1" BorderBrush="#03a9f4" CornerRadius="11" Width="70" Height="23">
+                    <TextBlock Text="CH9/CH10" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#03a9f4" Margin="3"/>
+                </Border>
+                <Border Grid.Column="6" Grid.Row="0" BorderThickness="1" BorderBrush="#03a9f4" CornerRadius="11" Width="70" Height="23">
+                    <TextBlock Text="CH11/CH12" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#03a9f4" Margin="3"/>
+                </Border>
+                <Border Grid.Column="7" Grid.Row="0" BorderThickness="1" BorderBrush="#03a9f4" CornerRadius="11" Width="70" Height="23">
+                    <TextBlock Text="CH13/CH14" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#03a9f4" Margin="3"/>
+                </Border>
+                <Border Grid.Column="8" Grid.Row="0" BorderThickness="1" BorderBrush="#03a9f4" CornerRadius="11" Width="70" Height="23">
+                    <TextBlock Text="CH15/CH16" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="#03a9f4" Margin="3"/>
+                </Border>
+                <!--<Label Content="Voltage" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+                <Label Content="Voltage" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <ComboBox ItemsSource="{Binding VoltageList}" SelectedItem="{Binding Config.SignalAmpCh1_2}" Grid.Row="1" Grid.Column="1" Margin="5,0,5,5" Height="25" Width="50">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <ContentPresenter Content="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <ComboBox ItemsSource="{Binding VoltageList}" SelectedItem="{Binding Config.SignalAmpCh3_4}" Grid.Row="1" Grid.Column="2" Margin="5,0,5,5" Height="25" Width="50">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <ContentPresenter Content="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <ComboBox ItemsSource="{Binding VoltageList}" SelectedItem="{Binding Config.SignalAmpCh5_6}" Grid.Row="1" Grid.Column="3" Margin="5,0,5,5" Height="25" Width="50">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <ContentPresenter Content="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <ComboBox ItemsSource="{Binding VoltageList}" SelectedItem="{Binding Config.SignalAmpCh7_8}" Grid.Row="1" Grid.Column="4" Margin="5,0,5,5" Height="25" Width="50">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <ContentPresenter Content="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <ComboBox ItemsSource="{Binding VoltageList}" SelectedItem="{Binding Config.SignalAmpCh9_10}" Grid.Row="1" Grid.Column="5" Margin="5,0,5,5" Height="25" Width="50">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <ContentPresenter Content="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <ComboBox ItemsSource="{Binding VoltageList}" SelectedItem="{Binding Config.SignalAmpCh11_12}" Grid.Row="1" Grid.Column="6" Margin="5,0,5,5" Height="25" Width="50">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <ContentPresenter Content="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <ComboBox ItemsSource="{Binding VoltageList}" SelectedItem="{Binding Config.SignalAmpCh13_14}" Grid.Row="1" Grid.Column="7" Margin="5,0,5,5" Height="25" Width="50">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <ContentPresenter Content="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                <ComboBox ItemsSource="{Binding VoltageList}" SelectedItem="{Binding Config.SignalAmpCh15_16}" Grid.Row="1" Grid.Column="8" Margin="5,0,5,5" Height="25" Width="50">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <ContentPresenter Content="{Binding Converter={StaticResource enumToDescriptionConverter}}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="3" BorderBrush="Orange" BorderThickness="2" HorizontalAlignment="Stretch" Margin="10,2,10,0">
+            <GroupBox.Header>
+                <Label HorizontalAlignment="Left" FontWeight="SemiBold" Foreground="{StaticResource LinkButtonForeground}">
+                    <Label.Style>
+                        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource blueLabel}">
+                            <Setter Property="Content" Value="Setup - LA Mode - State / Synchronous - Channel Selection"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Config.GeneralPurposeMode}" Value="Timing">
+                                    <Setter Property="Content" Value="Setup - LA Mode - Timing / Asynchronous - Channel Selection"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Label.Style>
+                </Label>
+            </GroupBox.Header>
+            <!--<GroupBox.Background>
+                <LinearGradientBrush 
+                     StartPoint="0,0">
+                    <GradientStop Color="#5c6bc0" Offset="0.0" />
+                    <GradientStop Color="#8e99f3" Offset="1.0" />
+                </LinearGradientBrush>
+            </GroupBox.Background>-->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.4*"/>
+                    <ColumnDefinition Width="3"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Margin="5,0,5,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <!--<StackPanel Margin="30,5,10,5" Orientation="Horizontal" Grid.ColumnSpan="2">
+                        <StackPanel.Style>
+                            <Style TargetType="{x:Type StackPanel}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Config.GeneralPurposeMode}" Value="Timing">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <Label VerticalAlignment="Center" Margin="0,10,5,10" >Sampling Rate</Label>
+                        <RadioButton Style="{StaticResource radiobuttonstyle}" Margin="10,0,10,0" VerticalAlignment="Center" Content="125 MS/s" 
+                                     IsChecked="{Binding Config.SampleRateLA, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='SR_125'}"/>
+                        --><!--<RadioButton Style="{StaticResource radiobuttonstyle}" Margin="5,0,10,0" VerticalAlignment="Center" Content="142 MS/s" 
+                                     IsChecked="{Binding Config.SampleRateLA, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='SR_142'}"/>-->
+                        <!--<RadioButton Style="{StaticResource radiobuttonstyle}" Margin="5,0,10,0" VerticalAlignment="Center" Content="166 MS/s" 
+                                     IsChecked="{Binding Config.SampleRateLA, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='SR_166'}"/>
+                        <RadioButton Style="{StaticResource radiobuttonstyle}" Margin="5,0,10,0" VerticalAlignment="Center" Content="200 MS/s" 
+                                     IsChecked="{Binding Config.SampleRateLA, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='SR_200'}"/>--><!--
+                        <RadioButton Style="{StaticResource radiobuttonstyle}" Margin="5,0,10,0" VerticalAlignment="Center" Content="250 MS/s" 
+                                     IsChecked="{Binding Config.SampleRateLA, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='SR_250'}"/>
+                        --><!--<RadioButton Style="{StaticResource radiobuttonstyle}" Margin="5,0,10,0" VerticalAlignment="Center" Content="333 MS/s" 
+                                     IsChecked="{Binding Config.SampleRateLA, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='SR_333'}"/>--><!--
+                        <RadioButton Style="{StaticResource radiobuttonstyle}" Margin="5,0,10,0" VerticalAlignment="Center" Content="500 MS/s" 
+                                     IsChecked="{Binding Config.SampleRateLA, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='SR_500'}"/>
+                        <RadioButton Style="{StaticResource radiobuttonstyle}" Margin="5,0,0,0" VerticalAlignment="Center" Content="1000 MS/s" 
+                                     IsChecked="{Binding Config.SampleRateLA, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='SR_1000'}"/>
+                    </StackPanel>-->
+                    <Border Grid.Row="1" BorderThickness="0" BorderBrush="LightGray" CornerRadius="8" MinWidth="300" Grid.ColumnSpan="2" Margin="30,0,10,5">
+                        <!--<ListBox Margin="5,0,5,0" BorderBrush="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled"  ItemsSource="{Binding GroupTypeList}" SelectedItem="{Binding Config.GroupType}">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListBoxItem}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                <RadioButton Margin="10"  VerticalContentAlignment="Center" Content="{TemplateBinding Content}" IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsSelected}">
+                                                </RadioButton>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.Template>
+                                <ControlTemplate TargetType="{x:Type ListBox}">
+                                    <ScrollViewer x:Name="scrollviewer" HorizontalScrollBarVisibility="Hidden"  CanContentScroll="False">
+                                        <StackPanel IsItemsHost="True" Orientation="Horizontal" />
+                                    </ScrollViewer>
+                                </ControlTemplate>
+                            </ListBox.Template>
+                        </ListBox>-->
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                           
+                                <RadioButton Style="{StaticResource radiobuttonstyle}" Margin="10,5,0,5" HorizontalAlignment="Left" VerticalContentAlignment="Center" Content="Group" IsChecked="{Binding GroupType,
+                            Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='Group'}"
+                                         IsEnabled="{Binding IsChecked, ElementName=rbState}"/>
+                                <RadioButton Style="{StaticResource radiobuttonstyle}" Margin="30,5,10,5" HorizontalAlignment="Center" VerticalContentAlignment="Center" Content="Individual" IsChecked="{Binding GroupType,
+                            Converter={StaticResource EnumToBooleanConverter}, ConverterParameter='Individual'}" Grid.Column="1"/>
+
+                            <Grid.Style>
+                                <Style TargetType="Grid">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding GeneralPurposeMode}" Value="Timing">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                        </Grid>
+                    </Border>
+
+                    <StackPanel Orientation="Vertical" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                        <StackPanel.Style>
+                            <Style TargetType="{x:Type StackPanel}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding GroupType}" Value="Group">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <customview:ChannelHeader Margin="207,0,0,0"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Border BorderBrush="#03a9f4" Background="#03a9f4" CornerRadius="5" Height="92" Width="auto" Margin="20,5,10,5" VerticalAlignment="Center">
+                                <Label Foreground="White" FontWeight="SemiBold" FontSize="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="5,5,5,5">
+                                    <Label.Style>
+                                        <Style TargetType="Label">
+                                            <Setter Property="Content" Value="CLK 1 ASNMNT"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Config.GeneralPurposeMode, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='Timing'}" Value="True">
+                                                    <Setter Property="Content" Value="ASNMNT 1" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                    <Label.LayoutTransform>
+                                        <RotateTransform Angle="270"/>
+                                    </Label.LayoutTransform>
+                                </Label>
+                            </Border>
+                            <Border Margin="5" MinWidth="600" BorderBrush="#868f96" BorderThickness="0" CornerRadius="8">
+                                <WrapPanel Orientation="Vertical">
+                                    <customview:ChannelHeader x:Name="channelHeader" Margin="140,0,0,0" DataContext="{Binding ChannelList}" />
+                                    <WrapPanel Orientation="Horizontal">
+                                        <xctk:ColorPicker SelectedColor="{Binding Config.SelColorClk1Grp1}" MaxWidth="30" Margin="5"/>
+                                        <customview:MultiSelectListBox x:Name="Clk1Grp1"  Margin="0,0,10,0" VerticalAlignment="Center"
+                                                                       DataContext="{Binding ProtocolConfiguration[0]}"
+                                                                       ItemsSource="{Binding DataContext.ChannelListLA, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                                       Text="{Binding DataContext.Config.Clk1Grp1Text, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                                       TextBackground="{Binding DataContext.Config.Clk1Grp1Bgd, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                                       DefaultText="True" 
+                                                                       SelectedItems="{Binding DataContext.Config.SelectedCLK1_GRP1, RelativeSource={RelativeSource AncestorType=UserControl},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    </WrapPanel>
+                                    <WrapPanel Orientation="Horizontal">
+                                        <xctk:ColorPicker SelectedColor="{Binding Config.SelColorClk1Grp2}" MaxWidth="30" Margin="5"/>
+                                        <customview:MultiSelectListBox x:Name="Clk1Grp2" Margin="0,0,10,0" VerticalAlignment="Center"
+                                                                       DataContext="{Binding ProtocolConfiguration[1]}"
+                                                           ItemsSource="{Binding DataContext.ChannelListLA, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                                       Text="{Binding DataContext.Config.Clk1Grp2Text, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                                       TextBackground="{Binding DataContext.Config.Clk1Grp2Bgd, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                                       DefaultText="False" 
+                                                                       SelectedItems="{Binding DataContext.Config.SelectedCLK1_GRP2,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    </WrapPanel>
+                                    <WrapPanel Orientation="Horizontal">
+                                        <xctk:ColorPicker SelectedColor="{Binding Config.SelColorClk1Grp3}" MaxWidth="30" Margin="5"/>
+                                        <customview:MultiSelectListBox x:Name="Clk1Grp3" Margin="0,0,10,0" VerticalAlignment="Center"
+                                                                       DataContext="{Binding ProtocolConfiguration[2]}"
+                                                                       ItemsSource="{Binding DataContext.ChannelListLA, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                                       Text="{Binding DataContext.Config.Clk1Grp3Text, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                                       TextBackground="{Binding DataContext.Config.Clk1Grp3Bgd, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                                       DefaultText="False" 
+                                                                       SelectedItems="{Binding DataContext.Config.SelectedCLK1_GRP3,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    </WrapPanel>
+                                </WrapPanel>
+                            </Border>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,10,0,0">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Config.HasTwoClockSources}" Value="True">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Config.GeneralPurposeMode}" Value="Timing">
+                                            <Setter Property="IsEnabled" Value="True"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <Border BorderBrush="#03a9f4" Background="#03a9f4" CornerRadius="5" Height="92" Width="auto" Margin="20,5,10,5" VerticalAlignment="Center">
+                                <Label Foreground="White" FontWeight="SemiBold" FontSize="10" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="5,5,5,5">
+                                    <Label.Style>
+                                        <Style TargetType="Label">
+                                            <Setter Property="Content" Value="CLK 2 ASNMNT"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Config.GeneralPurposeMode, Converter={StaticResource EnumToBooleanConverter},ConverterParameter='Timing'}" Value="True">
+                                                    <Setter Property="Content" Value="ASNMNT 2" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Label.Style>
+                                    <Label.LayoutTransform>
+                                        <RotateTransform Angle="270"/>
+                                    </Label.LayoutTransform>
+                                </Label>
+                            </Border>
+                            <Border Margin="5"  MinWidth="600" BorderBrush="#868f96" BorderThickness="0" CornerRadius="8">
+                                <WrapPanel Orientation="Vertical">
+                                    <WrapPanel Orientation="Horizontal">
+                                        <xctk:ColorPicker SelectedColor="{Binding Config.SelColorClk2Grp1}" MaxWidth="30" Margin="5"/>
+                                        <customview:MultiSelectListBox x:Name="Clk2Grp1" Margin="0,0,10,0" VerticalAlignment="Center"
+                                                                       DataContext="{Binding ProtocolConfiguration[3]}"
+                                                                       ItemsSource="{Binding DataContext.ChannelListLA, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                                       Text="{Binding DataContext.Config.Clk2Grp1Text, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                                       TextBackground="{Binding DataContext.Config.Clk2Grp1Bgd, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                                       DefaultText="True" 
+                                                                       SelectedItems="{Binding DataContext.Config.SelectedCLK2_GRP1, RelativeSource={RelativeSource AncestorType=UserControl},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    </WrapPanel>
+                                    <WrapPanel Orientation="Horizontal">
+                                        <xctk:ColorPicker SelectedColor="{Binding Config.SelColorClk2Grp2}" MaxWidth="30" Margin="5"/>
+                                        <customview:MultiSelectListBox x:Name="Clk2Grp2" Margin="0,0,10,0" VerticalAlignment="Center"
+                                                                       DataContext="{Binding ProtocolConfiguration[4]}"
+                                                           ItemsSource="{Binding DataContext.ChannelListLA, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                                       Text="{Binding DataContext.Config.Clk2Grp2Text, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                                       TextBackground="{Binding DataContext.Config.Clk2Grp2Bgd, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                                       DefaultText="False" 
+                                                                       SelectedItems="{Binding DataContext.Config.SelectedCLK2_GRP2,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    </WrapPanel>
+                                    <WrapPanel Orientation="Horizontal">
+                                        <xctk:ColorPicker SelectedColor="{Binding Config.SelColorClk2Grp3}" MaxWidth="30" Margin="5"/>
+                                        <customview:MultiSelectListBox x:Name="Clk2Grp3" Margin="0,0,10,0" VerticalAlignment="Center"
+                                                                       DataContext="{Binding ProtocolConfiguration[5]}"
+                                                                       ItemsSource="{Binding DataContext.ChannelListLA, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                                       Text="{Binding DataContext.Config.Clk2Grp3Text, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                                       TextBackground="{Binding DataContext.Config.Clk2Grp3Bgd, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                                                       DefaultText="False" 
+                                                                       SelectedItems="{Binding DataContext.Config.SelectedCLK2_GRP3,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                    </WrapPanel>
+                                </WrapPanel>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                        <StackPanel.Style>
+                            <Style TargetType="{x:Type StackPanel}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding GroupType}" Value="Individual">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+                        <customview:ChannelHeader x:Name="channelHeader1" Margin="170,0,0,0" DataContext="{Binding ChannelList}" />
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Border BorderBrush="#03a9f4" Background="#03a9f4" CornerRadius="5" Visibility="Hidden" Height="80" Width="auto" Margin="20,5,10,5" VerticalAlignment="Center">
+                                <Label Foreground="White" Content="Individual" FontWeight="SemiBold" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="5,10,5,10">
+                                    <Label.LayoutTransform>
+                                        <RotateTransform Angle="270"/>
+                                    </Label.LayoutTransform>
+                                </Label>
+                            </Border>
+                            <Border Margin="5" MinWidth="600" BorderBrush="#868f96" BorderThickness="0" CornerRadius="8">
+                                <WrapPanel Orientation="Vertical">
+                                    <customview:MultiSelectListBox Margin="10,0,10,0" VerticalAlignment="Center"
+                                                                   DataContext="{Binding ProtocolConfiguration[0]}"
+                                                                   ItemsSource="{Binding DataContext.ChannelListLA, RelativeSource={RelativeSource AncestorType=UserControl}}" 
+                                                                   Text="Channels" DefaultText="True" 
+                                                                   SelectedItems="{Binding Config.SelectedIndividualChannels,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                  
+                                </WrapPanel>
+                            </Border>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+               
+            </Grid>
+        </GroupBox>
+    </Grid>
+    <!--</GroupBox>-->
+</UserControl>

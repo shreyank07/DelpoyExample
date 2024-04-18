@@ -1,0 +1,17 @@
+{
+  "version": 2,
+  "dgSpecHash": "rnAYqmgEQmd7oT8KmiizEeV6OiZN9WbCdtW05s51zzNDZF6476bAIneFym2LT8D1tVXuTbA4oKwlv4BCXqbWQQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Shreyank\\source\\repos\\Prodigy.UI.Monolith.Analyzer\\src\\Prodigy.Interfaces-v4.8\\Prodigy.Interfaces-v4.8.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Shreyank\\.nuget\\packages\\google.protobuf\\3.24.3\\google.protobuf.3.24.3.nupkg.sha512",
+    "C:\\Users\\Shreyank\\.nuget\\packages\\grpc.tools\\2.50.0\\grpc.tools.2.50.0.nupkg.sha512",
+    "C:\\Users\\Shreyank\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",
+    "C:\\Users\\Shreyank\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
+    "C:\\Users\\Shreyank\\.nuget\\packages\\system.data.datasetextensions\\4.6.0-preview3.19128.7\\system.data.datasetextensions.4.6.0-preview3.19128.7.nupkg.sha512",
+    "C:\\Users\\Shreyank\\.nuget\\packages\\system.memory\\4.5.5\\system.memory.4.5.5.nupkg.sha512",
+    "C:\\Users\\Shreyank\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
+    "C:\\Users\\Shreyank\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

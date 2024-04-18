@@ -1,0 +1,49 @@
+﻿<ResourceDictionary x:Class="ProdigyFramework.ResourceDictionary.Converters"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                    xmlns:converters="clr-namespace:ProdigyFramework.Converters"
+                    mc:Ignorable="d"
+                    >
+    <converters:DoubleToNumberConverter x:Key="doubleToNumberConverter"/>
+    <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>
+    <converters:BytesToHexConverter x:Key="BytesToHexConverter"/>
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    <converters:ProtocolValueConverter x:Key="protocolValueConverter"/>
+    <converters:ItemContainsCheckConverter x:Key="ItemContainsCheckConverter"/>
+    <converters:ValueCompareConverter x:Key="ValueCompareConverter" />
+    <converters:DebugDataBindingConverter x:Key="DebugDataBindingConverter"/>
+    <converters:CircularIndexConverter x:Key="CircularIndexConverter"/>
+    <converters:IndexerPropertyAccessConverter x:Key="IndexerPropertyAccessConverter"/>
+    <converters:StringToNumberConverter x:Key="StringToNumberConverter"/>
+    <converters:InvertBooleanConverter x:Key="InvertBooleanConverter"/>
+    <converters:EnumToBinaryConvert x:Key="EnumToBinaryConvert"/>
+    <converters:EnumTypeConverter x:Key="EnumTypeConverter"/>
+    <converters:TimestampConverter x:Key="timestampConverter"/>
+    <converters:TriggerComparerConverter x:Key="triggerComparerConverter"></converters:TriggerComparerConverter>
+    <converters:MultiValueCompareConverter x:Key="MultiValueCompareConverter"/>
+    <converters:Singletimingconverter x:Key="Singletimingconverter"/>
+    <converters:EventCheckerConverter x:Key="eventCheckerConverter"></converters:EventCheckerConverter>
+    <converters:DecimalToHexConverter x:Key="decimalToHexConverter"/>
+    <converters:DecimalTohexaCAN x:Key="decimalTohexaCAN"/>
+    <converters:BRSFreqConverter x:Key="brsfrequencyConverter"/>
+    <converters:FrequencyConverter x:Key="frequencyConverter"/>
+    <converters:EnumValueToDescriptionConverter x:Key="EnumValueToDescriptionConverter"/>
+    <converters:NumToEvenOddConverter x:Key="numToEvenOddConverter"/>
+    <converters:EnumValueToDescriptionConverter x:Key="enumValueToDescriptionConverter"/>
+    <converters:ObjectComparerConverter x:Key="objectComparerConverter"/>
+    <converters:DoubleToTimeConverter x:Key="doubleToTimeConverter"/>
+    <converters:MarkerIndexConverter x:Key="markerIndexConverter"/>
+    <converters:EnumToDescriptionConverter x:Key="enumToDescriptionConverter"/>
+    <converters:DataToStringConverter x:Key="dataToStringConverter"/>
+    <converters:CustomDataConverter x:Key="customDataConverter"/>
+    <converters:AddrAckConverter x:Key="addrAckConverter"/>
+    <converters:ToggleButtonEnumToBooleanConverter x:Key="toggleButtonEnumToBooleanConverter"/>
+    <converters:AddressConverter x:Key="addressConverter"/>
+    <converters:LongToTimeConverter x:Key="longToTimeConverter"/>
+    <converters:BytecountConverter x:Key="bytecountConverter"/>
+    <converters:ListContainsItemVisibilityConverter x:Key="listContainsItemVisibilityConverter" />
+
+</ResourceDictionary>
+    

@@ -1,0 +1,506 @@
+﻿<UserControl x:Class="PGYMiniCooper.CoreModule.View.L_View"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PGYMiniCooper.CoreModule.View"  
+             xmlns:behavior="clr-namespace:ProdigyFramework.Behavior;assembly=ProdigyFramework"
+             xmlns:converter="clr-namespace:PGYMiniCooper.CoreModule.View.Converters"
+             xmlns:dm ="clr-namespace:PGYMiniCooper.DataModule;assembly=PGYMiniCooper.DataModule"
+             mc:Ignorable="d" x:Name="lview"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converter:ChannelGroupValueConverter x:Key="channelGroupValueConverter"/>
+        <converter:ChannelValueConverter x:Key="channelValueConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <GroupBox BorderBrush="Orange" BorderThickness="2" HorizontalAlignment="Stretch" Margin="10,0,10,0">
+            <GroupBox.Header>
+                <Label Content="Waveform Listing"  Style="{StaticResource blueLabel}" HorizontalAlignment="Left" FontWeight="SemiBold" Foreground="{StaticResource LinkButtonForeground}"/>
+            </GroupBox.Header>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Border Width="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, Path=Width}"  Margin="20,0,20,0"
+                        BorderBrush="Black" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Markers" Foreground="#1e88e5"/>
+
+                        <!--<ComboBox ItemsSource="{Binding WaveformListingVM.WfmList.MarkerList}" SelectedItem="{Binding WaveformListingVM.WfmList.Marker1}" Margin="30,0,10,0"/>-->
+                        <ComboBox ItemsSource="{Binding WaveformListingVM.WfmList.MarkerList}" SelectedItem="{Binding WaveformListingVM.WfmList.Marker1}" Margin="30,0,10,0"/>
+                        <Label Content="To" Foreground="#1e88e5"/>
+                        <ComboBox ItemsSource="{Binding WaveformListingVM.WfmList.MarkerList}" SelectedItem="{Binding WaveformListingVM.WfmList.Marker2}" Margin="10,0,10,0"/>
+                        <TextBlock Text="{Binding WaveformListingVM.Difference1}" Margin="10,5,10,5"/>
+
+                        <ComboBox ItemsSource="{Binding WaveformListingVM.WfmList.MarkerList}" SelectedItem="{Binding WaveformListingVM.WfmList.Marker3}" Margin="50,0,10,0"/>
+                        <Label Content="To" Foreground="#1e88e5"/>
+                        <ComboBox ItemsSource="{Binding WaveformListingVM.WfmList.MarkerList}" SelectedItem="{Binding WaveformListingVM.WfmList.Marker4}" Margin="10,0,10,0"/>
+                        <TextBlock Text="{Binding WaveformListingVM.Difference2}" Margin="10,5,10,5"/>
+
+                        <ComboBox ItemsSource="{Binding WaveformListingVM.WfmList.MarkerList}" SelectedItem="{Binding WaveformListingVM.WfmList.Marker5}" Margin="50,0,10,0"/>
+                        <Label Content="To" Foreground="#1e88e5"/>
+                        <ComboBox ItemsSource="{Binding WaveformListingVM.WfmList.MarkerList}" SelectedItem="{Binding WaveformListingVM.WfmList.Marker6}" Margin="10,0,10,0"/>
+                        <TextBlock Text="{Binding WaveformListingVM.Difference3}" Margin="10,5,10,5"/>
+
+                        <Label Content="Data Format" Margin="50,0,10,0" Foreground="#1e88e5"/>
+                        <ComboBox ItemsSource="{Binding WaveformListingVM.WfmList.DataFormatList}" SelectedItem="{Binding DataContext.ConfigVM.Config.DataFormat, Source={x:Reference dummyElement},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10,0,10,0"/>
+                    </StackPanel>
+                </Border>
+                <FrameworkElement x:Name="dummyElement" Visibility="Collapsed" DataContextChanged="dummyElement_DataContextChanged"/>
+                <AdornerDecorator Grid.Row="1" Margin ="20,10,20,10" >
+                    <DataGrid x:Name="dg" Grid.Row="1" 
+                      ItemsSource="{Binding WaveformListingVM.WfmHolder.ASyncCollection,UpdateSourceTrigger=PropertyChanged}" 
+                          IsEnabled="{Binding WaveformListingVM.WfmHolder.ASyncCollection.ThreadsAvaliable}"
+                      SelectedIndex="{Binding WaveformListingVM.SelectedIndex}" SelectionMode="Single"
+                      SelectedItem="{Binding WaveformListingVM.SelectedFrame}"
+                      CanUserSortColumns="False" RowHeaderWidth="30"
+                      CanUserAddRows="False" CanUserDeleteRows="False"
+                      IsReadOnly="True" HorizontalGridLinesBrush="#E9E3E3" VerticalGridLinesBrush="#E9E3E3" 
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      ScrollViewer.IsDeferredScrollingEnabled="True"
+                      VirtualizingPanel.ScrollUnit="Item"
+                      VirtualizingPanel.VirtualizationMode="Recycling"
+                      VirtualizingPanel.CacheLengthUnit="Item"
+                      VirtualizingPanel.CacheLength="10,10"
+                      IsSynchronizedWithCurrentItem="True"  behavior:DataGridBehavior.AutoScrollIntoView="True"
+                      AutoGenerateColumns="False" HeadersVisibility="All" Height="Auto">
+                        <DataGrid.Resources>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#2A74D1"/>
+                            <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White"/>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="#FFEDF9FD" />
+                                <Setter Property="FontWeight" Value="Normal"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="Orange"/>
+                                        <Setter Property="Foreground" Value="Black"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="#3F66EC"/>
+                                        <Setter Property="Foreground" Value="White"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                            <Style TargetType="{x:Type ContextMenu}"></Style>
+                            <Style TargetType="{x:Type MenuItem}"></Style>
+                            <Style TargetType="DataGridRowHeader">
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                                <Style.Triggers>
+                                    <MultiDataTrigger>
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <MultiBinding  Converter="{StaticResource markerIndexConverter}">
+                                                    <Binding Path="DataContext.WaveformListingVM.WfmList.Markervalue" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}"/>
+                                                    <Binding Path="Index"/>
+                                                    <Binding Path="DataContext.WaveformListingVM.WfmList.EventMarker1" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}"/>
+                                                </MultiBinding>
+
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="HorizontalAlignment" Value="Left"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                        <Setter Property="Foreground" Value="#256B0E"/>
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Value="True">
+                                                <Condition.Binding>
+                                                    <MultiBinding Converter="{StaticResource objectComparerConverter}" >
+                                                        <Binding Path="DataContext.WaveformListingVM.WfmList.EventMarker2"  RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}"/>
+                                                        <Binding Path="Index" />
+                                                    </MultiBinding>
+                                                </Condition.Binding>
+                                            </Condition>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                                                    <Border Background="#1e88e5" CornerRadius="0,5,5,0">
+                                                        <TextBox Name="textrowheader"  Foreground="White" MaxLength="8" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                             IsReadOnly="{Binding Path=DataContext.WaveformListingVM.Markertextboxreadonly,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                             Background="{Binding Path=DataContextWaveformListingVM.Markertextboxcolor,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                             Text="{Binding Path=DataContext.WaveformListingVM.MarkerName1, UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                                        </TextBox>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Foreground" Value="#256B0E"/>
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Value="True">
+                                                <Condition.Binding>
+                                                    <MultiBinding Converter="{StaticResource objectComparerConverter}" >
+                                                        <Binding Path="DataContext.WaveformListingVM.EventMarker3"  RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}"/>
+                                                        <Binding Path="Index" />
+                                                    </MultiBinding>
+                                                </Condition.Binding>
+                                            </Condition>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                                                    <Border Background="#1e88e5" CornerRadius="0,5,5,0">
+                                                        <TextBox Name="textrowheader"  Foreground="White" MaxLength="8" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                             IsReadOnly="{Binding Path=DataContext.WaveformListingVM.WfmList.Markertextboxreadonly,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                             Background="{Binding Path=DataContext.WaveformListingVM.WfmList.Markertextboxcolor,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                             Text="{Binding Path=DataContext.WaveformListingVM.WfmList.MarkerName2, UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                                        </TextBox>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Foreground" Value="#256B0E"/>
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Value="True">
+                                                <Condition.Binding>
+                                                    <MultiBinding Converter="{StaticResource objectComparerConverter}" >
+                                                        <Binding Path="DataContext.WaveformListingVM.WfmList.EventMarker4"  RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}"/>
+                                                        <Binding Path="Index" />
+                                                    </MultiBinding>
+                                                </Condition.Binding>
+                                            </Condition>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                                                    <Border Background="#1e88e5" CornerRadius="0,5,5,0">
+                                                        <TextBox Name="textrowheader"  Foreground="White" MaxLength="8" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                             IsReadOnly="{Binding Path=DataContext.WaveformListingVM.WfmList.Markertextboxreadonly,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                             Background="{Binding Path=DataContext.WaveformListingVM.WfmList.Markertextboxcolor,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                             Text="{Binding Path=DataContext.WaveformListingVM.WfmList.MarkerName3, UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                                        </TextBox>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Foreground" Value="#256B0E"/>
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Value="True">
+                                                <Condition.Binding>
+                                                    <MultiBinding Converter="{StaticResource objectComparerConverter}" >
+                                                        <Binding Path="DataContext.WaveformListingVM.WfmList.EventMarker5"  RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}"/>
+                                                        <Binding Path="Index" />
+                                                    </MultiBinding>
+                                                </Condition.Binding>
+                                            </Condition>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                                                    <Border Background="#1e88e5" CornerRadius="0,5,5,0">
+                                                        <TextBox Name="textrowheader"  Foreground="White" MaxLength="8" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                             IsReadOnly="{Binding Path=DataContext.WaveformListingVM.WfmList.Markertextboxreadonly,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                             Background="{Binding Path=DataContext.WaveformListingVM.WfmList.Markertextboxcolor,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                             Text="{Binding Path=DataContext.WaveformListingVM.WfmList.MarkerName4, UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                                        </TextBox>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Foreground" Value="#256B0E"/>
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Value="True">
+                                                <Condition.Binding>
+                                                    <MultiBinding Converter="{StaticResource objectComparerConverter}" >
+                                                        <Binding Path="DataContext.WaveformListingVM.WfmList.EventMarker6"  RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}"/>
+                                                        <Binding Path="Index" />
+                                                    </MultiBinding>
+                                                </Condition.Binding>
+                                            </Condition>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                                                    <Border Background="#1e88e5" CornerRadius="0,5,5,0">
+                                                        <TextBox Name="textrowheader"  Foreground="White" MaxLength="8" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                             IsReadOnly="{Binding Path=DataContext.WaveformListingVM.WfmList.Markertextboxreadonly,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                             Background="{Binding Path=DataContext.WaveformListingVM.WfmList.Markertextboxcolor,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                             Text="{Binding Path=DataContext.WaveformListingVM.WfmList.MarkerName5, UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                                        </TextBox>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Foreground" Value="#256B0E"/>
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Value="True">
+                                                <Condition.Binding>
+                                                    <MultiBinding Converter="{StaticResource objectComparerConverter}" >
+                                                        <Binding Path="DataContext.WaveformListingVM.WfmList.EventMarker7"  RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}"/>
+                                                        <Binding Path="Index" />
+                                                    </MultiBinding>
+                                                </Condition.Binding>
+                                            </Condition>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type DataGridRowHeader}">
+                                                    <Border Background="#1e88e5" CornerRadius="0,5,5,0">
+                                                        <TextBox Name="textrowheader"  Foreground="White" MaxLength="8" HorizontalAlignment="Left" VerticalAlignment="Center"
+                                                             IsReadOnly="{Binding Path=DataContext.WaveformListingVM.WfmList.Markertextboxreadonly,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                             Background="{Binding Path=DataContext.WaveformListingVM.WfmList.Markertextboxcolor,UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}"
+                                                             Text="{Binding Path=DataContext.WaveformListingVM.WfmList.MarkerName6, UpdateSourceTrigger=PropertyChanged,RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}}">
+                                                        </TextBox>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Foreground" Value="#256B0E"/>
+                                    </MultiDataTrigger>
+                                    <MultiDataTrigger>
+                                        <MultiDataTrigger.Conditions>
+                                            <Condition Value="True">
+                                                <Condition.Binding>
+                                                    <MultiBinding Converter="{StaticResource objectComparerConverter}">
+                                                        <Binding Path="DataContext.WaveformListingVM.WfmHolder.TriggerPacket" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}"/>
+                                                        <Binding Path="Index"/>
+                                                    </MultiBinding>
+                                                </Condition.Binding>
+                                            </Condition>
+                                        </MultiDataTrigger.Conditions>
+                                        <Setter Property="Content" Value="T"/>
+                                        <Setter Property="Foreground" Value="#256B0E"/>
+                                    </MultiDataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Index}" Width="70">
+                                <DataGridTextColumn.Header>
+                                    <Label Content="Sample" Foreground="#1e88e5"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Width="150">
+                                <DataGridTextColumn.Header>
+                                    <Label Content="Timestamp" Foreground="#1e88e5"/>
+                                </DataGridTextColumn.Header>
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding Converter="{StaticResource timestampConverter}">
+                                        <Binding Path="Timestamp" />
+                                        <Binding Path="DataContext.WaveformListingVM.WfmHolder.TriggerTime" RelativeSource="{RelativeSource AncestorType={x:Type DataGrid}}" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                                <DataGridTextColumn.CellStyle>
+                                    <Style TargetType="DataGridCell">
+                                        <Setter Property="ToolTip" Value="{Binding Timestamp}" />
+                                    </Style>
+                                </DataGridTextColumn.CellStyle>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ChannelValues, Converter={StaticResource channelValueConverter}, ConverterParameter={x:Static dm:eChannles.CH16}}">
+                                <DataGridTextColumn.Visibility>
+                                    <MultiBinding Converter="{StaticResource listContainsItemVisibilityConverter}" >
+                                        <Binding Path="DataContext.WaveformListingVM.EnabledChannels" Source="{x:Reference dummyElement}" ConverterParameter="ChannelIndex" />
+                                        <Binding Source="{x:Static dm:eChannles.CH16}" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Visibility>
+                                <DataGridTextColumn.Header>
+                                    <Label Content="{Binding DataContext.WaveformListingVM.WfmList.Ch16Name, Source={x:Reference dummyElement}}" Background="{Binding DataContext.ConfigVM.Config.Ch16Fgd, Source={x:Reference dummyElement}}"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ChannelValues, Converter={StaticResource channelValueConverter}, ConverterParameter={x:Static dm:eChannles.CH15}}" >
+                                <DataGridTextColumn.Visibility>
+                                    <MultiBinding Converter="{StaticResource listContainsItemVisibilityConverter}">
+                                        <Binding Path="DataContext.WaveformListingVM.EnabledChannels" Source="{x:Reference dummyElement}" />
+                                        <Binding Source="{x:Static dm:eChannles.CH15}" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Visibility>
+                                <DataGridTextColumn.Header>
+                                    <Label Content="{Binding DataContext.WaveformListingVM.WfmList.Ch15Name, Source={x:Reference dummyElement}}" Background="{Binding DataContext.ConfigVM.Config.Ch15Fgd, Source={x:Reference dummyElement}}"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ChannelValues, Converter={StaticResource channelValueConverter}, ConverterParameter={x:Static dm:eChannles.CH14}}" >
+                                <DataGridTextColumn.Visibility>
+                                    <MultiBinding Converter="{StaticResource listContainsItemVisibilityConverter}">
+                                        <Binding Path="DataContext.WaveformListingVM.EnabledChannels" Source="{x:Reference dummyElement}" />
+                                        <Binding Source="{x:Static dm:eChannles.CH14}" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Visibility>
+                                <DataGridTextColumn.Header>
+                                    <Label Content="{Binding DataContext.WaveformListingVM.WfmList.Ch14Name, Source={x:Reference dummyElement}}" Background="{Binding DataContext.ConfigVM.Config.Ch14Fgd, Source={x:Reference dummyElement}}"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ChannelValues, Converter={StaticResource channelValueConverter}, ConverterParameter={x:Static dm:eChannles.CH13}}" >
+                                <DataGridTextColumn.Visibility>
+                                    <MultiBinding Converter="{StaticResource listContainsItemVisibilityConverter}">
+                                        <Binding Path="DataContext.WaveformListingVM.EnabledChannels" Source="{x:Reference dummyElement}" />
+                                        <Binding Source="{x:Static dm:eChannles.CH13}" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Visibility>
+                                <DataGridTextColumn.Header>
+                                    <Label Content="{Binding DataContext.WaveformListingVM.WfmList.Ch13Name, Source={x:Reference dummyElement}}" Background="{Binding DataContext.ConfigVM.Config.Ch13Fgd, Source={x:Reference dummyElement}}"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ChannelValues, Converter={StaticResource channelValueConverter}, ConverterParameter={x:Static dm:eChannles.CH12}}" >
+                                <DataGridTextColumn.Visibility>
+                                    <MultiBinding Converter="{StaticResource listContainsItemVisibilityConverter}">
+                                        <Binding Path="DataContext.WaveformListingVM.EnabledChannels" Source="{x:Reference dummyElement}" />
+                                        <Binding Source="{x:Static dm:eChannles.CH12}" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Visibility>
+                                <DataGridTextColumn.Header>
+                                    <Label Content="{Binding DataContext.WaveformListingVM.WfmList.Ch12Name, Source={x:Reference dummyElement}}" Background="{Binding DataContext.ConfigVM.Config.Ch12Fgd, Source={x:Reference dummyElement}}"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ChannelValues, Converter={StaticResource channelValueConverter}, ConverterParameter={x:Static dm:eChannles.CH11}}" >
+                                <DataGridTextColumn.Visibility>
+                                    <MultiBinding Converter="{StaticResource listContainsItemVisibilityConverter}">
+                                        <Binding Path="DataContext.WaveformListingVM.EnabledChannels" Source="{x:Reference dummyElement}" />
+                                        <Binding Source="{x:Static dm:eChannles.CH11}" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Visibility>
+                                <DataGridTextColumn.Header>
+                                    <Label Content="{Binding DataContext.WaveformListingVM.WfmList.Ch11Name, Source={x:Reference dummyElement}}" Background="{Binding DataContext.ConfigVM.Config.Ch11Fgd, Source={x:Reference dummyElement}}"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ChannelValues, Converter={StaticResource channelValueConverter}, ConverterParameter={x:Static dm:eChannles.CH10}}" >
+                                <DataGridTextColumn.Visibility>
+                                    <MultiBinding Converter="{StaticResource listContainsItemVisibilityConverter}">
+                                        <Binding Path="DataContext.WaveformListingVM.EnabledChannels" Source="{x:Reference dummyElement}" />
+                                        <Binding Source="{x:Static dm:eChannles.CH10}" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Visibility>
+                                <DataGridTextColumn.Header>
+                                    <Label Content="{Binding DataContext.WaveformListingVM.WfmList.Ch10Name, Source={x:Reference dummyElement}}" Background="{Binding DataContext.ConfigVM.Config.Ch10Fgd, Source={x:Reference dummyElement}}"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ChannelValues, Converter={StaticResource channelValueConverter}, ConverterParameter={x:Static dm:eChannles.CH9}}" >
+                                <DataGridTextColumn.Visibility>
+                                    <MultiBinding Converter="{StaticResource listContainsItemVisibilityConverter}">
+                                        <Binding Path="DataContext.WaveformListingVM.EnabledChannels" Source="{x:Reference dummyElement}" />
+                                        <Binding Source="{x:Static dm:eChannles.CH9}" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Visibility>
+                                <DataGridTextColumn.Header>
+                                    <Label Content="{Binding DataContext.WaveformListingVM.WfmList.Ch9Name, Source={x:Reference dummyElement}}" Background="{Binding DataContext.ConfigVM.Config.Ch9Fgd, Source={x:Reference dummyElement}}"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ChannelValues, Converter={StaticResource channelValueConverter}, ConverterParameter={x:Static dm:eChannles.CH8}}" >
+                                <DataGridTextColumn.Visibility>
+                                    <MultiBinding Converter="{StaticResource listContainsItemVisibilityConverter}">
+                                        <Binding Path="DataContext.WaveformListingVM.EnabledChannels" Source="{x:Reference dummyElement}" />
+                                        <Binding Source="{x:Static dm:eChannles.CH8}" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Visibility>
+                                <DataGridTextColumn.Header>
+                                    <Label Content="{Binding DataContext.WaveformListingVM.WfmList.Ch8Name, Source={x:Reference dummyElement}}" Background="{Binding DataContext.ConfigVM.Config.Ch8Fgd, Source={x:Reference dummyElement}}"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ChannelValues, Converter={StaticResource channelValueConverter}, ConverterParameter={x:Static dm:eChannles.CH7}}" >
+                                <DataGridTextColumn.Visibility>
+                                    <MultiBinding Converter="{StaticResource listContainsItemVisibilityConverter}">
+                                        <Binding Path="DataContext.WaveformListingVM.EnabledChannels" Source="{x:Reference dummyElement}" />
+                                        <Binding Source="{x:Static dm:eChannles.CH7}" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Visibility>
+                                <DataGridTextColumn.Header>
+                                    <Label Content="{Binding DataContext.WaveformListingVM.WfmList.Ch7Name, Source={x:Reference dummyElement}}" Background="{Binding DataContext.ConfigVM.Config.Ch7Fgd, Source={x:Reference dummyElement}}"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ChannelValues, Converter={StaticResource channelValueConverter}, ConverterParameter={x:Static dm:eChannles.CH6}}" >
+                                <DataGridTextColumn.Visibility>
+                                    <MultiBinding Converter="{StaticResource listContainsItemVisibilityConverter}">
+                                        <Binding Path="DataContext.WaveformListingVM.EnabledChannels" Source="{x:Reference dummyElement}" />
+                                        <Binding Source="{x:Static dm:eChannles.CH6}" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Visibility>
+                                <DataGridTextColumn.Header>
+                                    <Label Content="{Binding DataContext.WaveformListingVM.WfmList.Ch6Name, Source={x:Reference dummyElement}}" Background="{Binding DataContext.ConfigVM.Config.Ch6Fgd, Source={x:Reference dummyElement}}"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ChannelValues, Converter={StaticResource channelValueConverter}, ConverterParameter={x:Static dm:eChannles.CH5}}" >
+                                <DataGridTextColumn.Visibility>
+                                    <MultiBinding Converter="{StaticResource listContainsItemVisibilityConverter}">
+                                        <Binding Path="DataContext.WaveformListingVM.EnabledChannels" Source="{x:Reference dummyElement}" />
+                                        <Binding Source="{x:Static dm:eChannles.CH5}" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Visibility>
+                                <DataGridTextColumn.Header>
+                                    <Label Content="{Binding DataContext.WaveformListingVM.WfmList.Ch5Name, Source={x:Reference dummyElement}}" Background="{Binding DataContext.ConfigVM.Config.Ch5Fgd, Source={x:Reference dummyElement}}"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ChannelValues, Converter={StaticResource channelValueConverter}, ConverterParameter={x:Static dm:eChannles.CH4}}" >
+                                <DataGridTextColumn.Visibility>
+                                    <MultiBinding Converter="{StaticResource listContainsItemVisibilityConverter}">
+                                        <Binding Path="DataContext.WaveformListingVM.EnabledChannels" Source="{x:Reference dummyElement}" />
+                                        <Binding Source="{x:Static dm:eChannles.CH4}" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Visibility>
+                                <DataGridTextColumn.Header>
+                                    <Label Content="{Binding DataContext.WaveformListingVM.WfmList.Ch4Name, Source={x:Reference dummyElement}}" Background="{Binding DataContext.ConfigVM.Config.Ch4Fgd, Source={x:Reference dummyElement}}"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ChannelValues, Converter={StaticResource channelValueConverter}, ConverterParameter={x:Static dm:eChannles.CH3}}" >
+                                <DataGridTextColumn.Visibility>
+                                    <MultiBinding Converter="{StaticResource listContainsItemVisibilityConverter}">
+                                        <Binding Path="DataContext.WaveformListingVM.EnabledChannels" Source="{x:Reference dummyElement}" />
+                                        <Binding Source="{x:Static dm:eChannles.CH3}" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Visibility>
+                                <DataGridTextColumn.Header>
+                                    <Label Content="{Binding DataContext.WaveformListingVM.WfmList.Ch3Name, Source={x:Reference dummyElement}}" Background="{Binding DataContext.ConfigVM.Config.Ch3Fgd, Source={x:Reference dummyElement}}"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ChannelValues, Converter={StaticResource channelValueConverter}, ConverterParameter={x:Static dm:eChannles.CH2}}" >
+                                <DataGridTextColumn.Visibility>
+                                    <MultiBinding Converter="{StaticResource listContainsItemVisibilityConverter}">
+                                        <Binding Path="DataContext.WaveformListingVM.EnabledChannels" Source="{x:Reference dummyElement}" />
+                                        <Binding Source="{x:Static dm:eChannles.CH2}" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Visibility>
+                                <DataGridTextColumn.Header>
+                                    <Label Content="{Binding DataContext.WaveformListingVM.WfmList.Ch2Name, Source={x:Reference dummyElement}}" Background="{Binding DataContext.ConfigVM.Config.Ch2Fgd, Source={x:Reference dummyElement}}"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Binding="{Binding ChannelValues, Converter={StaticResource channelValueConverter}, ConverterParameter={x:Static dm:eChannles.CH1}}" >
+                                <DataGridTextColumn.Visibility>
+                                    <MultiBinding Converter="{StaticResource listContainsItemVisibilityConverter}">
+                                        <Binding Path="DataContext.WaveformListingVM.EnabledChannels" Source="{x:Reference dummyElement}" />
+                                        <Binding Source="{x:Static dm:eChannles.CH1}" />
+                                    </MultiBinding>
+                                </DataGridTextColumn.Visibility>
+                                <DataGridTextColumn.Header>
+                                    <Label Content="{Binding DataContext.WaveformListingVM.WfmList.Ch1Name, Source={x:Reference dummyElement}}" Background="{Binding DataContext.ConfigVM.Config.Ch1Fgd, Source={x:Reference dummyElement}}"/>
+                                </DataGridTextColumn.Header>
+                            </DataGridTextColumn>                            
+                        </DataGrid.Columns>
+                        <DataGrid.ContextMenu>
+                            <ContextMenu Name="MarkerPlacement" StaysOpen="True" >
+                                <MenuItem Name="MarkerMenuItem" Header="Set Marker" Command="{Binding WaveformListingVM.WfmList.SetMarker, Mode=OneWay}" >
+                                </MenuItem>
+                                <MenuItem Header="GoTo Marker" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Visible" ItemsSource="{Binding WaveformListingVM.Markervalue, UpdateSourceTrigger=PropertyChanged}" DisplayMemberPath="Markername" >
+                                    <MenuItem.ItemContainerStyle>
+                                        <Style TargetType="MenuItem">
+                                            <Setter Property="DisplayMemberPath" Value="Index"/>
+                                            <Setter Property="Command" Value="{Binding DataContext.WaveformListingVM.WfmList.GotoMarkers, RelativeSource={RelativeSource AncestorType=MenuItem}}"/>
+                                            <Setter Property="CommandParameter" Value="{Binding}"/>
+                                            <Setter Property="ScrollViewer.IsEnabled" Value="True"></Setter>
+                                            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+                                            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Visible"/>
+                                        </Style>
+                                    </MenuItem.ItemContainerStyle>
+                                </MenuItem>
+                                <!--<MenuItem Header="Rename Marker" Command="{Binding RenameMarker}"/>-->
+                                <MenuItem Header="Clear Marker" Command="{Binding WaveformListingVM.WfmList.ClearMarkerCommand}"/>
+                                <MenuItem Header="Clear All Markers" Command="{Binding WaveformListingVM.WfmList.ClearAllMarkerCommand}"/>
+                                <Separator/>
+                                <MenuItem Header="Goto Trigger position" Command="{Binding WaveformListingVM.WfmList.GotoTrigger}"/>
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
+                </AdornerDecorator>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

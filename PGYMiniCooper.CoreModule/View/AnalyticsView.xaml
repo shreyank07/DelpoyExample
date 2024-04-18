@@ -1,0 +1,1668 @@
+﻿<UserControl x:Class="PGYMiniCooper.CoreModule.View.AnalyticsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PGYMiniCooper.CoreModule.View"
+              xmlns:behavior="clr-namespace:ProdigyFramework.Behavior;assembly=ProdigyFramework"
+            
+              xmlns:materialDesign="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf" xmlns:viewmodel="clr-namespace:PGYMiniCooper.CoreModule.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:AnalyticsViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <GroupBox Margin='5,0,0,0' Grid.Row="2" BorderBrush="Orange" BorderThickness="2">
+            <GroupBox.Header>
+                <Label HorizontalAlignment="Left" Content="Analytics View" FontWeight="SemiBold" Foreground="{StaticResource LinkButtonForeground}">
+                    <Label.Style>
+                        <Style TargetType="{x:Type Label}" BasedOn="{StaticResource blueLabel}">
+                        </Style>
+                    </Label.Style>
+                </Label>
+            </GroupBox.Header>
+            <DockPanel>
+                <Grid>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="1" Grid.ColumnSpan="2" Margin="2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+<!--I2C-->
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Grid.Column="0" Margin="10,20,10,10">
+                            I2C
+                            </TextBlock>
+                            <Border Grid.Column="1" Margin="10,20,10,10" BorderThickness="1" BorderBrush="Black" CornerRadius="5">
+                                <WrapPanel>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                F
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.FrameCounter[0], Mode=TwoWay}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Frame Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Width="250" Margin="10" Background="DarkOrange">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="130"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                    D
+                                </Button>
+                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.DataPacket1[0], Mode=TwoWay}"/>
+                                <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Data Count
+                                </TextBlock>
+                            </Grid>
+                        </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                W
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.WritePacketCounter[0], Mode=TwoWay}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Frame Write Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                R
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.ReadPacketCounter[0], Mode=TwoWay}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Frame Read Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                E
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.ErrorPacket[0], Mode=TwoWay}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Error Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                </WrapPanel>
+                            </Border>
+<!--spi-->
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Grid.Column="0" Grid.Row="1" Margin="10,30,10,10">
+                            SPI
+                            </TextBlock>
+                            <Border Grid.Row="1" Grid.Column="1" Margin="10,20,10,10" BorderThickness="1" BorderBrush="Black" CornerRadius="5">
+                                <WrapPanel>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="1" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                F
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.FrameCounter[1]}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Frame Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="1" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                MO
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.DataPacket1[1]}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  MOSI Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="1" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                MI
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.DataPacket2[1]}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  MISO Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="1" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                E
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.ErrorPacket[1]}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Error Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                </WrapPanel>
+                            </Border>
+<!--Uart-->
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Grid.Column="0" Grid.Row="2" Margin="10,30,10,10">
+                            UART
+                            </TextBlock>
+                            <Border Grid.Row="2" Grid.Column="1" Margin="10,20,10,10" BorderThickness="1" BorderBrush="Black" CornerRadius="5">
+                                <WrapPanel>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                F
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.FrameCounter[2]}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Frame Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                               <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                R
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.DataPacket1[2]}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Rx Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                T
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.DataPacket2[2]}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Tx Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                E
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.ErrorPacket[2]}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Error Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                </WrapPanel>
+                            </Border>
+                            
+                            
+                            <!-- I3C-->
+
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Grid.Column="0" Grid.Row="3" Margin="10,10,10,10">
+                            I3C
+                            </TextBlock>
+                            <Border Grid.Row="3" Grid.Column="1" Margin="10,10,10,10" BorderThickness="1" BorderBrush="Black" CornerRadius="5">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <WrapPanel Grid.Row="0">
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="130"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                    F
+                                                </Button>
+                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.FrameCounter[3]}"/>
+                                                <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Frame Count
+                                                </TextBlock>
+                                            </Grid>
+                                        </materialDesign:Card>
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="130"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                    E
+                                                </Button>
+                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.ErrorPacket[3]}"/>
+                                                <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+												Error Count
+                                                </TextBlock>
+                                            </Grid>
+                                        </materialDesign:Card>
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="130"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                    A
+                                                </Button>
+                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.AddressPacket[3]}"/>
+                                                <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+												Address Count
+                                                </TextBlock>
+                                            </Grid>
+                                        </materialDesign:Card>
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="130"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                    D
+                                                </Button>
+                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.DataPacket1[3]}"/>
+                                                <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+												Data Count
+                                                </TextBlock>
+                                            </Grid>
+                                        </materialDesign:Card>
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="130"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                    HD
+                                                </Button>
+                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.DataPacket2[3]}"/>
+                                                <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+												HDR-Data Count
+                                                </TextBlock>
+                                            </Grid>
+                                        </materialDesign:Card>
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="130"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                    CRC
+                                                </Button>
+                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.CrcPacket[3]}"/>
+                                                <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+												HDR-CRC Count
+                                                </TextBlock>
+                                            </Grid>
+
+                                        </materialDesign:Card>
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="130"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                    Exit
+                                                </Button>
+                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.ExitPacketCount}"/>
+                                                <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+												HDR-Exit Count
+                                                </TextBlock>
+                                            </Grid>
+
+                                        </materialDesign:Card>
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="130"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                    Restart
+                                                </Button>
+                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.RestartPacketCount}"/>
+                                                <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+												HDR-Restart Count
+                                                </TextBlock>
+                                            </Grid>
+
+                                        </materialDesign:Card>
+                                    </WrapPanel>
+
+                                    <Grid Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Left">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"></ColumnDefinition >
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Background="DarkOrange"  Margin="10,5,10,20">
+                                            <Border Margin="5,5,5,2" CornerRadius="2"  BorderThickness="0.1"   VerticalAlignment="Top">
+                                                <TreeView    Background="DarkOrange" BorderThickness="0" Width="Auto" MinWidth="240" MinHeight="0"  x:Name="CommandTree" Grid.Column="0" Grid.Row="0" VerticalAlignment="Top" UseLayoutRounding="True" 
+											IsTextSearchEnabled="True" 	 >
+                                                    <TreeView.Resources>
+                                                        <Style TargetType="{x:Type TreeViewItem}" >
+                                                            <Setter Property="Background" Value="DarkOrange" />
+                                                            <Setter Property="Foreground" Value="Black"/>
+                                                            <Setter Property="FontWeight" Value="Regular"/>
+                                                            <Setter Property="FontSize" Value=" 13"/>
+                                                            <Setter Property="Margin" Value="3"/>
+
+                                                            <Style.Triggers>
+                                                                <Trigger  Property="IsMouseOver" Value="True">
+                                                                    <!--<Setter Property="Background" Value="#3F66B1"/>
+																<Setter Property="Foreground" Value="White"/>-->
+                                                                    <Setter  Property="FontWeight" Value="Bold" />
+                                                                </Trigger>
+                                                                <!--<Trigger Property="IsSelected" Value="True">
+																<Setter Property="Background" Value="#3F66B1"/>
+																<Setter Property="Foreground" Value="White"/>
+																<Setter Property="FontWeight" Value="Bold"/>
+																
+																
+															</Trigger>-->
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TreeView.Resources>
+                                                    <!--<TreeViewItem Selected="TreeViewItem_Expanded">
+
+										</TreeViewItem>-->
+                                                    <TreeViewItem  Uid="level1" Name="Commands" MouseDoubleClick="DataGridRemove"  Selected="TreeViewItem_Expanded">
+                                                        <TreeViewItem.Header>
+
+                                                            <StackPanel Orientation="Horizontal"  Background="DarkOrange" >
+                                                                <TextBlock Text="Commands" Width="100" FontWeight="Normal" Foreground="Black"></TextBlock>
+                                                                <TextBlock  Text="{Binding Statistics.AllCommandCount}" HorizontalAlignment="Right"></TextBlock>
+                                                            </StackPanel>
+
+                                                        </TreeViewItem.Header>
+
+                                                        <TreeViewItem Uid="level2" Name="SDR" Selected="TreeViewItem_Expanded">
+                                                            <TreeViewItem.Header>
+
+                                                                <StackPanel Orientation="Horizontal" >
+                                                                    <TextBlock Text="SDR" Width="100"></TextBlock>
+                                                                    <TextBlock  Text="{Binding Statistics.SDRCount}" HorizontalAlignment="Right"></TextBlock>
+                                                                </StackPanel>
+
+                                                            </TreeViewItem.Header>
+                                                        </TreeViewItem>
+                                                        <TreeViewItem  Uid="level2" Name="HDR_DDR"  Selected="TreeViewItem_Expanded">
+                                                            <TreeViewItem.Header>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="HDR_DDR" HorizontalAlignment="Left" Width="100"></TextBlock>
+                                                                    <TextBlock Text="{Binding Statistics.DDRCount}" HorizontalAlignment="Right"></TextBlock>
+                                                                </StackPanel>
+                                                            </TreeViewItem.Header>
+                                                        </TreeViewItem>
+                                                        <TreeViewItem  Uid="level2" Name="HDR_TSL"  Selected="TreeViewItem_Expanded">
+                                                            <TreeViewItem.Header>
+
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="HDR_TSL" HorizontalAlignment="Left" Width="100"></TextBlock>
+                                                                    <TextBlock Text="{Binding Statistics.TSLCount}" HorizontalAlignment="Right"></TextBlock>
+                                                                </StackPanel>
+
+                                                            </TreeViewItem.Header>
+                                                        </TreeViewItem>
+                                                        <TreeViewItem  Uid="level2" Name="HDR_TSP" Selected="TreeViewItem_Expanded">
+                                                            <TreeViewItem.Header >
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="HDR_TSP" HorizontalAlignment="Left" Width="100" ></TextBlock>
+                                                                    <TextBlock Text="{Binding Statistics.TSPCount}" HorizontalAlignment="Right"></TextBlock>
+                                                                </StackPanel>
+                                                            </TreeViewItem.Header>
+                                                        </TreeViewItem>
+                                                    </TreeViewItem>
+                                                </TreeView>
+                                            </Border>
+                                        </materialDesign:Card>
+                                        <Border x:Name="DataGridBorder" Visibility="Collapsed" BorderThickness="0 " BorderBrush="Black" Grid.Column="1" Grid.Row="0" Margin="10,6,10,10"  VerticalAlignment="Top">
+                                            <WrapPanel>
+                                                <DataGrid  x:Name="GridSDR" Visibility="Collapsed" Width="700" Padding="3"   BorderThickness="1.9 "  ItemsSource="{Binding Statistics.I3CSDRFrameType,IsAsync=True}"
+									      IsSynchronizedWithCurrentItem="True"
+										  AutoGenerateColumns="False" 
+										  CanUserSortColumns="False" HorizontalAlignment="Stretch"
+										  CanUserDeleteRows="False"
+                                          CanUserAddRows="False" HorizontalGridLinesBrush="#E9E3E3" VerticalGridLinesBrush="#E9E3E3"
+                                         IsReadOnly="True"  
+									      RowHeaderWidth="25"
+														  
+										 HeadersVisibility="Column"
+										  VirtualizingPanel.VirtualizationMode="Recycling"
+										  VirtualizingPanel.IsVirtualizing="True"
+										  VirtualizingPanel.ScrollUnit="Item"
+										  VirtualizingPanel.CacheLengthUnit="Item"
+										 VirtualizingPanel.CacheLength="10,10" 
+											  ScrollViewer.IsDeferredScrollingEnabled="True"
+										ScrollViewer.HorizontalScrollBarVisibility="Auto"
+									    behavior:DataGridBehavior.AutoScrollIntoView="True"
+										 >
+                                                    <DataGrid.Resources>
+                                                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#2A74D1"/>
+                                                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White"/>
+                                                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                                                            <Setter Property="Height" Value="25"/>
+                                                            <Setter Property="Background" Value="DarkOrange" />
+                                                            <Setter Property="Foreground" Value="White" />
+                                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                        </Style>
+                                                        <Style TargetType="{x:Type DataGridRow}">
+                                                            <Setter Property="Background" Value="#FFEDF9FD" />
+                                                            <Setter Property="FontWeight" Value="Normal"/>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Background" Value="#03a9f4"/>
+                                                                    <Setter Property="Foreground" Value="White"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsSelected" Value="True">
+                                                                    <Setter Property="Background" Value="#3F66EC"/>
+                                                                    <Setter Property="Foreground" Value="Black"/>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </DataGrid.Resources>
+
+                                                    <DataGrid.Columns>
+                                                        <DataGridTextColumn  MinWidth="10" Width="2*"   Header="SDR Command" Binding="{Binding Key}" CanUserResize="False"  CanUserSort="False" CanUserReorder="False" IsReadOnly="True"/>
+                                                        <DataGridTextColumn Width="2*" Header="Count" Binding="{Binding Value}"/>
+                                                    </DataGrid.Columns>
+
+                                                </DataGrid>
+                                                <DataGrid x:Name="GridHDR_DDR" Visibility="Collapsed" Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Statistics.I3CDDRFrameType,IsAsync=True}"
+									  AutoGenerateColumns="False"  CanUserAddRows="False"  Width="700" Padding="3"
+														  
+                                      IsSynchronizedWithCurrentItem="True"
+										    BorderThickness="1.9 " 
+										  CanUserSortColumns="False" HorizontalAlignment="Stretch"
+										  CanUserDeleteRows="False"
+                                          RowDetailsVisibilityMode="Collapsed"
+                                           HorizontalGridLinesBrush="#E9E3E3" VerticalGridLinesBrush="#E9E3E3"
+                                      
+										  IsReadOnly="True"  
+									      RowHeaderWidth="25"
+										 HeadersVisibility="Column"
+												  ScrollViewer.CanContentScroll="True"
+										  VirtualizingPanel.VirtualizationMode="Recycling"
+										  VirtualizingPanel.IsVirtualizing="True"
+										  VirtualizingPanel.ScrollUnit="Item"
+										  VirtualizingPanel.CacheLengthUnit="Item"
+										 VirtualizingPanel.CacheLength="10,10" 
+											  ScrollViewer.IsDeferredScrollingEnabled="True"
+										ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                                                    <DataGrid.Resources>
+                                                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#2A74D1"/>
+                                                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White"/>
+                                                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                                                            <Setter Property="Height" Value="25"/>
+                                                            <Setter Property="Background" Value="DarkOrange" />
+                                                            <Setter Property="Foreground" Value="White" />
+                                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                        </Style>
+                                                        <Style TargetType="{x:Type DataGridRow}">
+                                                            <Setter Property="Background" Value="#FFEDF9FD" />
+                                                            <Setter Property="FontWeight" Value="Normal"/>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Background" Value="#03a9f4"/>
+                                                                    <Setter Property="Foreground" Value="White"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsSelected" Value="True">
+                                                                    <Setter Property="Background" Value="#3F66EC"/>
+                                                                    <Setter Property="Foreground" Value="Black"/>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </DataGrid.Resources>
+                                                    <DataGrid.Columns>
+                                                        <DataGridTextColumn MinWidth="10" Width="2*" Header="HDR__DDR Command" Binding="{Binding Key}"/>
+                                                        <DataGridTextColumn  Width="2*" Header="count" Binding="{Binding Value}"/>
+                                                    </DataGrid.Columns>
+
+                                                </DataGrid>
+                                                <DataGrid x:Name="GridHDR_TSL" Visibility="Collapsed" Grid.Column="1" Grid.Row="0"  ItemsSource="{Binding Statistics.I3CTSLFrameType,IsAsync=True}"
+									  AutoGenerateColumns="False" CanUserAddRows="False" Width="700" Padding="3"
+										     HorizontalGridLinesBrush="#E9E3E3" VerticalGridLinesBrush="#E9E3E3"
+                                         IsReadOnly="True"    BorderThickness="1.9 " 
+									      RowHeaderWidth="25"
+										 HeadersVisibility="Column"
+										  VirtualizingPanel.VirtualizationMode="Recycling"
+										  VirtualizingPanel.IsVirtualizing="True"
+										  VirtualizingPanel.ScrollUnit="Item"
+										  VirtualizingPanel.CacheLengthUnit="Item"
+										 VirtualizingPanel.CacheLength="10,10" 
+											  ScrollViewer.IsDeferredScrollingEnabled="True"
+										ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                                                    <DataGrid.Resources>
+                                                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#2A74D1"/>
+                                                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White"/>
+                                                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                                                            <Setter Property="Height" Value="25"/>
+                                                            <Setter Property="Background" Value="DarkOrange" />
+                                                            <Setter Property="Foreground" Value="White" />
+                                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                        </Style>
+                                                        <Style TargetType="{x:Type DataGridRow}">
+                                                            <Setter Property="Background" Value="#FFEDF9FD" />
+                                                            <Setter Property="FontWeight" Value="Normal"/>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Background" Value="#03a9f4"/>
+                                                                    <Setter Property="Foreground" Value="White"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsSelected" Value="True">
+                                                                    <Setter Property="Background" Value="#3F66EC"/>
+                                                                    <Setter Property="Foreground" Value="Black"/>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </DataGrid.Resources>
+                                                    <DataGrid.Columns>
+                                                        <DataGridTextColumn MinWidth="10" Width="2*" Header="HDR__TSL Command" Binding="{Binding Key}"/>
+                                                        <DataGridTextColumn  Width="2*" Header="Count" Binding="{Binding Value}"/>
+                                                    </DataGrid.Columns>
+
+                                                </DataGrid>
+                                                <DataGrid x:Name="GridHDR_TSP" Visibility="Collapsed"  ItemsSource="{Binding Statistics.I3CTSPFrameType,IsAsync=True}"
+									  AutoGenerateColumns="False"    BorderThickness="1.9 " 
+										    CanUserAddRows="False" HorizontalGridLinesBrush="#E9E3E3" VerticalGridLinesBrush="#E9E3E3"
+                                         IsReadOnly="True"    Width="700" Padding="3"
+									      RowHeaderWidth="25"
+										 HeadersVisibility="Column"
+										  VirtualizingPanel.VirtualizationMode="Recycling"
+										  VirtualizingPanel.IsVirtualizing="True"
+										  VirtualizingPanel.ScrollUnit="Item"
+										  VirtualizingPanel.CacheLengthUnit="Item"
+										 VirtualizingPanel.CacheLength="10,10" 
+											  ScrollViewer.IsDeferredScrollingEnabled="True"
+										ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Center">
+                                                    <DataGrid.Resources>
+                                                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="#2A74D1"/>
+                                                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="White"/>
+                                                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                                                            <Setter Property="Height" Value="25"/>
+                                                            <Setter Property="Background" Value="DarkOrange" />
+                                                            <Setter Property="Foreground" Value="White" />
+                                                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                                                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                        </Style>
+                                                        <Style TargetType="{x:Type DataGridRow}">
+                                                            <Setter Property="Background" Value="#FFEDF9FD" />
+                                                            <Setter Property="FontWeight" Value="Normal"/>
+                                                            <Style.Triggers>
+                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                    <Setter Property="Background" Value="#03a9f4"/>
+                                                                    <Setter Property="Foreground" Value="White"/>
+                                                                </Trigger>
+                                                                <Trigger Property="IsSelected" Value="True">
+                                                                    <Setter Property="Background" Value="#3F66EC"/>
+                                                                    <Setter Property="Foreground" Value="Black"/>
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </DataGrid.Resources>
+                                                    <DataGrid.Columns>
+                                                        <DataGridTextColumn MinWidth="10" Width="2*" Header="HDR__TSP Command" Binding="{Binding Key}"/>
+                                                        <DataGridTextColumn  Width="2*" Header="Count" Binding="{Binding Value}"/>
+                                                    </DataGrid.Columns>
+
+                                                </DataGrid>
+                                            </WrapPanel>
+                                        </Border>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                            
+<!--RFFE-->
+                            
+                          <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Grid.Column="0" Grid.Row="4" Margin="10,20,10,10">
+                               RFFE
+                            </TextBlock>
+                            <Border Grid.Row="4"  Grid.Column="1" Margin="10,20,10,10" BorderThickness="1" BorderBrush="Black" CornerRadius="5">
+                                <WrapPanel>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                F
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.FrameCounter[5]}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Frame Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                C
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.CommandErrorPacket}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Command Error Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                A
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.AddrerrorPacket}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Address Error Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                D
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.DataErrorPacket}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Data Error Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                WD
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.writeCount}">
+                                             <TextBlock Text="kb"></TextBlock>
+                                            </TextBlock>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  WriteData Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                RD
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.ReadCount}">
+                                               <TextBlock Text="kb"></TextBlock>
+                                            </TextBlock>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  ReadData Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+
+
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                WD
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.WriteKBByte}">
+                                               <TextBlock Text="kb"></TextBlock>
+                                            </TextBlock>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Writedata In KB
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+
+
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                RD
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.ReadKBByte}">
+                                               <TextBlock Text="kb"></TextBlock>
+                                            </TextBlock>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Readdata In KB
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                C
+                                            </Button>
+
+
+
+                                            <TreeView Margin="0,10,0,0 " BorderThickness="0" Grid.Column="1" Grid.Row="1" Name="TreeView1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="250" Height="auto" Background="DarkOrange" >
+
+
+                                                <TreeViewItem Selected="all_click"  MouseDoubleClick="remove_click"  >
+                                                    <TreeViewItem.Header  >
+                                                        <StackPanel>
+                                                            <TextBlock   Text="Commands- "    >
+
+                                                                <TextBlock   Text="{Binding Statistics.AllPacketCounter[5]}"></TextBlock>
+                                                                   </TextBlock>
+                                                        </StackPanel>
+                                                    </TreeViewItem.Header>
+
+
+
+                                                    <TreeViewItem Selected="write_click"  >
+                                                        <TreeViewItem.Header  >
+                                                            <StackPanel>
+                                                                <TextBlock   Text="Write Command- ">
+
+                                                                <TextBlock   Text="{Binding Statistics.WritePacketCounter[5]}"></TextBlock>
+                                                                   </TextBlock>
+                                                            </StackPanel>
+                                                        </TreeViewItem.Header>
+                                                    </TreeViewItem>
+
+
+                                                    <TreeViewItem Selected="Read_Click">
+
+                                                        <TreeViewItem.Header  >
+                                                            <StackPanel>
+                                                                <TextBlock   Text="Read  Command- "  >
+
+                                                                <TextBlock   Text="{Binding Statistics.ReadPacketCounter[5]}"></TextBlock>
+                                                                   </TextBlock>
+                                                            </StackPanel>
+                                                        </TreeViewItem.Header>
+
+                                                    </TreeViewItem>
+
+                                                </TreeViewItem>
+                                            </TreeView>
+                                        </Grid> 
+                                    </materialDesign:Card>
+
+
+                                    <DataGrid   Visibility="Collapsed" Grid.Row="5" Grid.Column="2" Margin="20 20 20 20"
+                                                 AutoGenerateColumns="False"
+                ItemsSource="{Binding Statistics.RFFEFrameType}"
+                  IsSynchronizedWithCurrentItem="True"
+                  x:Name="rffegrid"  Width="Auto"  Height="Auto">
+                                        <DataGrid.Columns  >
+                                            <DataGridTextColumn  Header="Write Command  "  x:Name="first" Width="150" Binding="{Binding Key}"  >
+                                                <DataGridColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader">
+                                                        <Setter Property="Background" Value="Orange"/>
+                                                        <Setter Property="Foreground" Value="Black"/>
+                                                        <Setter Property="BorderThickness" Value="1"/>
+                                                        <Setter Property="FontWeight" Value="DemiBold"/>
+                                                    </Style>
+                                                </DataGridColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Count"  x:Name="sec" Width="70" Binding="{Binding Value}" >
+                                                <DataGridColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader">
+                                                        <Setter Property="Background" Value="DarkOrange"/>
+                                                        <Setter Property="Foreground" Value="Black"/>
+
+                                                        <Setter Property="FontWeight" Value="DemiBold"/>
+                                                    </Style>
+                                                </DataGridColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+
+                                    <DataGrid   Visibility="Collapsed" Margin="20 20 20 20"
+                                                 AutoGenerateColumns="False"
+                                                Grid.Row="5" Grid.Column="2"
+                ItemsSource="{Binding Statistics.RFFEFrameType1,IsAsync=True}"
+                  IsSynchronizedWithCurrentItem="True"
+                  x:Name="rffegrid1"  Width="auto"  Height="auto">
+                                        <DataGrid.Columns>
+
+
+                                            <DataGridTextColumn Header="Read Command  "  Width="150" Binding="{Binding Key}">
+                                                <DataGridColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader">
+                                                        <Setter Property="Background" Value="Orange"/>
+                                                        <Setter Property="Foreground" Value="Black"/>
+
+                                                        <Setter Property="FontWeight" Value="DemiBold"/>
+                                                    </Style>
+                                                </DataGridColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Count"  Width="70" Binding="{Binding Value }">
+                                                <DataGridColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader">
+                                                        <Setter Property="Background" Value="DarkOrange"/>
+                                                        <Setter Property="Foreground" Value="Black"/>
+
+                                                        <Setter Property="FontWeight" Value="DemiBold"/>
+                                                    </Style>
+                                                </DataGridColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+
+
+                                    <DataGrid   Visibility="Collapsed" Margin="20 20 20 20"
+                                                AutoGenerateColumns="False"
+                                                Grid.Row="3" Grid.Column="3"
+                ItemsSource="{Binding Statistics.RFFEFrameType2,IsAsync=True}"
+                  IsSynchronizedWithCurrentItem="True"
+                  x:Name="rffegrid2"  >
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="All Command  "   Width="150" Binding="{Binding Key }">
+                                                <DataGridColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader">
+                                                        <Setter Property="Background" Value="Orange"/>
+                                                        <Setter Property="Foreground" Value="Black"/>
+
+                                                        <Setter Property="FontWeight" Value="DemiBold"/>
+                                                    </Style>
+                                                </DataGridColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Count"  Width="70" Binding="{Binding Value }" >
+
+                                                <DataGridColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader">
+                                                        <Setter Property="Background" Value="DarkOrange"/>
+                                                        <Setter Property="Foreground" Value="Black"/>
+
+                                                        <Setter Property="FontWeight" Value="DemiBold"/>
+                                                    </Style>
+                                                </DataGridColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </WrapPanel>
+                            </Border>
+  <!--SPMI-->
+
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Grid.Column="0" Grid.Row="5" Margin="10,20,10,10">
+                             SPMI
+                            </TextBlock>
+                            <Border Grid.Row="5"  Grid.Column="1" Margin="10,20,10,10" BorderThickness="1" BorderBrush="Black" CornerRadius="5">
+                                <WrapPanel>
+
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                F
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.FrameCounter[4]}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Frame Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                C
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.CommandErrorPacket}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Command Error Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                A
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.AddrerrorPacket}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Address Error Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                D
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.DataErrorPacket}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Data Error Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                WC
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.writeCount1}">
+                                             <TextBlock Text="kb"></TextBlock>
+                                            </TextBlock>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  WriteData Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                RC
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.ReadCount1}">
+                                               <TextBlock Text="kb"></TextBlock>
+                                            </TextBlock>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  ReadData Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+
+
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                WB
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.WriteKBByte1}">
+                                               <TextBlock Text="kb"></TextBlock>
+                                            </TextBlock>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Writedata In KB
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+
+
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                RB
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.ReadKBByte1}">
+                                               <TextBlock Text="kb"></TextBlock>
+                                            </TextBlock>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Readdata In KB
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                C
+                                            </Button>
+
+
+
+                                            <TreeView Margin="0,10,0,0 " BorderThickness="0" Grid.Column="1" Grid.Row="1" Name="TreeView2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="250" Height="auto" Background="DarkOrange" >
+
+
+                                                <TreeViewItem Selected="all_click1"  MouseDoubleClick="remove_click1"  >
+                                                    <TreeViewItem.Header  >
+                                                        <StackPanel>
+                                                            <TextBlock   Text="Commands- "    >
+
+                                                                <TextBlock   Text="{Binding Statistics.AllPacketCounter[4]}"></TextBlock>
+                                                                   </TextBlock>
+                                                        </StackPanel>
+                                                    </TreeViewItem.Header>
+
+
+
+                                                    <TreeViewItem Selected="write_click1"  >
+                                                        <TreeViewItem.Header  >
+                                                            <StackPanel>
+                                                                <TextBlock   Text="Write Command- ">
+
+                                                                <TextBlock   Text="{Binding Statistics.WritePacketCounter[4]}"></TextBlock>
+                                                                   </TextBlock>
+                                                            </StackPanel>
+                                                        </TreeViewItem.Header>
+                                                    </TreeViewItem>
+
+
+                                                    <TreeViewItem Selected="Read_Click1">
+
+                                                        <TreeViewItem.Header  >
+                                                            <StackPanel>
+                                                                <TextBlock   Text="Read  Command- "  >
+
+                                                                <TextBlock   Text="{Binding Statistics.ReadPacketCounter[4]}"></TextBlock>
+                                                                   </TextBlock>
+                                                            </StackPanel>
+                                                        </TreeViewItem.Header>
+
+                                                    </TreeViewItem>
+
+                                                </TreeViewItem>
+                                            </TreeView>
+                                        </Grid>
+                                    </materialDesign:Card>
+
+
+                                    <DataGrid   Visibility="Collapsed" Grid.Row="5" Grid.Column="2" Margin="20 20 20 20"
+                                                 AutoGenerateColumns="False"
+                ItemsSource="{Binding Statistics.SPMIFrameType3}"
+                  IsSynchronizedWithCurrentItem="True"
+                  x:Name="spmigrid"  Width="Auto"  Height="Auto">
+                                        <DataGrid.Columns  >
+                                            <DataGridTextColumn  Header="Write Command "   Width="150" Binding="{Binding Key}"  >
+                                                <DataGridColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader">
+                                                        <Setter Property="Background" Value="Orange"/>
+                                                        <Setter Property="Foreground" Value="Black"/>
+                                                        <Setter Property="BorderThickness" Value="1"/>
+                                                        <Setter Property="FontWeight" Value="DemiBold"/>
+                                                    </Style>
+                                                </DataGridColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Count"   Width="70" Binding="{Binding Value}" >
+                                                <DataGridColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader">
+                                                        <Setter Property="Background" Value="DarkOrange"/>
+                                                        <Setter Property="Foreground" Value="Black"/>
+
+                                                        <Setter Property="FontWeight" Value="DemiBold"/>
+                                                    </Style>
+                                                </DataGridColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+
+                                    <DataGrid   Visibility="Collapsed" Margin="20 20 20 20"
+                                                 AutoGenerateColumns="False"
+                                                Grid.Row="5" Grid.Column="2"
+                ItemsSource="{Binding Statistics.SPMIFrameType1,IsAsync=True}"
+                  IsSynchronizedWithCurrentItem="True"
+                  x:Name="spmigrid1"  Width="auto"  Height="auto">
+                                        <DataGrid.Columns>
+
+
+                                            <DataGridTextColumn Header="Read Command "  Width="150" Binding="{Binding Key}">
+                                                <DataGridColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader">
+                                                        <Setter Property="Background" Value="Orange"/>
+                                                        <Setter Property="Foreground" Value="Black"/>
+
+                                                        <Setter Property="FontWeight" Value="DemiBold"/>
+                                                    </Style>
+                                                </DataGridColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Count"  Width="70" Binding="{Binding Value }">
+                                                <DataGridColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader">
+                                                        <Setter Property="Background" Value="DarkOrange"/>
+                                                        <Setter Property="Foreground" Value="Black"/>
+
+                                                        <Setter Property="FontWeight" Value="DemiBold"/>
+                                                    </Style>
+                                                </DataGridColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+
+
+                                    <DataGrid   Visibility="Collapsed" Margin="20 20 20 20"
+                                                AutoGenerateColumns="False"
+                                                Grid.Row="3" Grid.Column="3"
+                ItemsSource="{Binding Statistics.SPMIFrameType2,IsAsync=True}"
+                  IsSynchronizedWithCurrentItem="True"
+                  x:Name="spmigrid2"  >
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="All Command "   Width="150" Binding="{Binding Key }">
+                                                <DataGridColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader">
+                                                        <Setter Property="Background" Value="Orange"/>
+                                                        <Setter Property="Foreground" Value="Black"/>
+
+                                                        <Setter Property="FontWeight" Value="DemiBold"/>
+                                                    </Style>
+                                                </DataGridColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Count"  Width="70" Binding="{Binding Value }" >
+
+                                                <DataGridColumn.HeaderStyle>
+                                                    <Style TargetType="DataGridColumnHeader">
+                                                        <Setter Property="Background" Value="DarkOrange"/>
+                                                        <Setter Property="Foreground" Value="Black"/>
+
+                                                        <Setter Property="FontWeight" Value="DemiBold"/>
+                                                    </Style>
+                                                </DataGridColumn.HeaderStyle>
+                                            </DataGridTextColumn>
+
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+
+                                </WrapPanel>
+                            </Border>
+
+
+<!--CAN-->
+
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Grid.Column="0" Grid.Row="6" Margin="10,20,10,10">
+                             CAN
+                            </TextBlock>
+                            <Border Grid.Row="6"  Grid.Column="1" Margin="10,20,10,10" BorderThickness="1" BorderBrush="Black" CornerRadius="5">
+                                <WrapPanel>
+
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                F
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.FrameCounter[6]}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Frame Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                DF
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.DataPacket1[6], Mode=TwoWay}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Data Frame Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                RF
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.RemoteFrame[6]}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+Remote Frame Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                OF
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.OverloadFrame[6]}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Overload Frame Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+
+                                    <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Width="250" Margin="10" Background="DarkOrange">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="80"/>
+                                                <ColumnDefinition Width="130"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                E
+                                            </Button>
+                                            <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.ErrorPacket[6], Mode=TwoWay}"/>
+                                            <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Error Frame Count
+                                            </TextBlock>
+                                        </Grid>
+                                    </materialDesign:Card>
+
+
+                                </WrapPanel>
+                            </Border>
+
+   <!--QSPI-->
+                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Grid.Column="0" Grid.Row="7" Margin="10,10,10,10">
+                            QSPI
+                            </TextBlock>
+
+
+                            <Border Grid.Row="7" Grid.Column="1" Margin="10,10,10,10" BorderThickness="1" BorderBrush="Black" CornerRadius="5">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+
+                                    <WrapPanel Grid.Row="0">
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="130"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                    F
+                                                </Button>
+                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.FrameCounter[7]}"/>
+                                                <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Frame Count
+                                                </TextBlock>
+                                            </Grid>
+                                        </materialDesign:Card>
+
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="130"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                    C
+                                                </Button>
+                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.Commandcounter[7]}"/>
+                                                <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+                                               Command Count
+                                                </TextBlock>
+                                            </Grid>
+                                        </materialDesign:Card>
+
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="130"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                    A
+                                                </Button>
+                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.Addresscounter[7]}"/>
+                                                <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+												Address Count
+                                                </TextBlock>
+                                            </Grid>
+                                        </materialDesign:Card>
+
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Grid.Row="2" Width="250" Margin="10" Background="DarkOrange">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="130"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                    D
+                                                </Button>
+                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.DataPacket1[7]}"/>
+                                                <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+												Data Count
+                                                </TextBlock>
+                                            </Grid>
+                                        </materialDesign:Card>
+
+                                        <materialDesign:Card materialDesign:ShadowAssist.ShadowDepth="Depth3" Width="250" Margin="10" Background="DarkOrange">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="80"/>
+                                                    <ColumnDefinition Width="130"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Button Background="DarkOrange" Foreground="White" Grid.RowSpan="2">
+                                                    E
+                                                </Button>
+                                                <TextBlock Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Statistics.ErrorPacket[7], Mode=TwoWay}"/>
+                                                <TextBlock  HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1">
+  Error Count
+                                                </TextBlock>
+                                            </Grid>
+                                        </materialDesign:Card>
+                                    </WrapPanel>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                </ScrollViewer>
+                </Grid>
+            </DockPanel>
+        </GroupBox>
+    </Grid>
+</UserControl>
