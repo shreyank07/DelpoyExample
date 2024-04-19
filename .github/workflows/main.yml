@@ -3,10 +3,10 @@ name: "Deploy Class Commands"
 on:
   push:
     tags:
-      - "class-commands/v*"
+      - "deploy-example/v*"
 
 env:
-  PROJECT_PATH: ClassCommands/ClassCommands.csproj
+  PROJECT_PATH: PGYMiniCooper/PGYMiniCooper.csproj
 
 jobs:
   deploy:
@@ -16,7 +16,7 @@ jobs:
 
       - uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.x
+          dotnet-version: 4.8.x
 
       - run: dotnet restore ${{ env.PROJECT_PATH }}
 
@@ -35,5 +35,5 @@ jobs:
       - uses: csexton/release-asset-action@v2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          pattern: ClassCommands/bin/Release/netcoreapp3.1/win-x64/publish/*.exe
+          pattern: Prodigy.UI.Monolith.Analyzer/src/Output/net48/publish/*.exe
           release-url: ${{ steps.create_release.outputs.upload_url }}
