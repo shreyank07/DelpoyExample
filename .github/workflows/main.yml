@@ -8,7 +8,7 @@ on:
 
 env:
   PROJECT_PATH: PGYMiniCooper/PGYMiniCooper.csproj
-  PROJECT_LOCATE: Prodigy.UI.Monolith.Analyzer.sln
+  PROJECT_LOCATE: src/Prodigy.UI.Monolith.Analyzer.sln
 
 jobs:
   deploy:
