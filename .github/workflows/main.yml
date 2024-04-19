@@ -8,6 +8,7 @@ on:
 
 env:
   PROJECT_PATH: PGYMiniCooper/PGYMiniCooper.csproj
+  PROJECT_LOCATE: Prodigy.UI.Monolith.Analyzer.sln
 
 jobs:
   deploy:
@@ -21,7 +22,7 @@ jobs:
 
       - run: dotnet restore ${{ env.PROJECT_PATH }}
 
-      - run: dotnet build -c Release --no-restore ${{Prodigy.UI.Monolith.Analyzer.sln}}
+      - run: dotnet build -c Release --no-restore ${{ env.PROJECT_LOCATE }}
 
       - run: dotnet publish ${{ env.PROJECT_PATH }} -c Release --self-contained -r win-x64 -p:PublishSingleFile=true --no-build
 
