@@ -20,7 +20,7 @@ jobs:
         with:
           dotnet-version: 6.0.x
 
-      - run: dotnet restore --disable-parallel ./Prodigy.UI.Monolith.Analyzer.sln
+      - run: dotnet restore --disable-parallel PGYMiniCooper/PGYMiniCooper.csproj
 
       - run: dotnet build ./Prodigy.UI.Monolith.Analyzer.sln --configuration Release --no-restore
 
